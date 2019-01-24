@@ -1,7 +1,8 @@
 from collections import deque
-
-class TuringCondition(str):
-    pass
+import string
+from itertools import product
+import sys
+digit_letters = string.ascii_lowercase + string.digits
 
 class TuringTape():
     def __init__(self, start_vals, index = 0, default = ''):
@@ -88,6 +89,84 @@ class TuringTape():
         self.forward(val)
         
     current = property(_get_cur, _set_cur)
+
+class TuringMachine(TuringTape):
+    MAIN_OUTPUT = sys.stdout
     
-class TuringMachine:
-    pass
+    def __init__(self, start_vals, start_condition, index = 0, default = ''):
+        super().__init__(start_vals, index, default)
+        self.condition = start_condition
+        self._rules = {}
+        self._log = ''
+    def set_rule(self, val, condition, next_val, next_condition, move_func):
+        """
+        For example:
+            set_rule('1', 'q43', '0', 'q44', TuringMachine.forward) is equivalent to
+            1 q43 --> 0 q44 R
+        """
+        val, condition, next_val, next_condition = str(val), str(condition), str(next_val), str(next_condition)
+        self._rules[(val, condition)] = (next_val, next_condition, move_func)
+        
+    def rule_str(self, format_string, delimiter = ' '):
+        val, cond, _, next_val, next_cond, move = format_string.split(delimiter)
+        if val =='DEL': val = self._default
+        
+        if move == 'R': move_func = self.forward
+        elif move == 'L': move_func = self.back
+        elif move == 'S': move_func = self.stop
+        else: raise ValueError("wrong move character, must be either 'R','L' or 'S'")
+        
+        self.set_rule(val, cond, next_val, next_cond, move_func)
+    def move(self, log_func = None):
+        if log_func is None: log_func = self.main_log
+        
+        next_val, next_cond, move_func = self._rules[(self.current, self.condition)]
+        self._log += log_func(self.current, self.condition, next_val, next_cond, move_func) + '\n'
+        
+        self.condition = next_cond
+        
+        return move_func(next_val)
+    def run(self, log_func = None):
+        if log_func is None: log_func = self.main_log
+        
+        while self.move(log_func) is not None:#untill stop function called
+            pass
+    def main_log(self, val, condition, next_val, next_condition, move_func, delimiter = ' ', file = MAIN_OUTPUT):
+        if move_func == self.forward: move = 'R'
+        elif move_func == self.back: move = 'L'
+        elif move_func == self.stop: move = 'S'
+        else: move = '"' + move_func.__name__ + '"'
+        
+        s = delimiter.join([val, condition, '-->', next_val, next_condition, move])
+        if file is not None: print(s, file = file)
+        
+        return s
+    def __str__(self):
+        s = 'Tape:\n'
+        s += super().__str__() +' Index: ' + str(self._index) + ' Condition: ' + str(self.condition)
+        s += "\nRules:\n"
+        for key, val in self._rules.items():
+            s += self.main_log(key[0], key[1], val[0], val[1], val[2]) + '\n'
+        return s
+    def __repr__(self):#TODO
+        s = str()
+        """s += 'TuringMachine(\n'
+        temp = str(self)
+        s += temp[temp.find('Rules\n') + 5:] + '\n)'"""
+        return s
+    
+class TuringAlphabet:
+    def __init__(self, alphabet):
+        self.alphabet = alphabet
+        self.it = self.get_letters()
+    def get_letter(self):
+        for i in range(1, len(self.alphabet)):
+            for elem in filter(lambda x: x[0] not in string.digits,
+                               product(self.alphabet, repeat = i)):
+                yield elem
+    def pop(self):
+        return next(self.it)
+    
+        
+    
+        
