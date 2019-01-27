@@ -1,9 +1,9 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name='TuringMachine',
+    name='turingmachine',
     version='0.1',
-    packages=['turing'],
+    packages=find_packages(),
     url='https://github.com/B1Z0N/turingmachine',
     license='MIT',
     author='b1zon',
