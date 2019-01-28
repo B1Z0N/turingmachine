@@ -2,12 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_all.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/turing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/turing.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/setup.py" beforeDir="false" afterPath="$PROJECT_DIR$/setup.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_all.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/turing/__init__.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -18,41 +15,37 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turing/__init__.py">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_all.py">
+        <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+            <state relative-caret-position="31">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/requirements.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turing/machine.py">
+        <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1116">
-              <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
+            <state relative-caret-position="-285">
+              <caret line="186" column="62" selection-start-line="186" selection-start-column="62" selection-end-line="186" selection-end-column="62" />
+              <folding>
+                <element signature="e#0#972#1" expanded="true" />
+                <element signature="e#925#954#0" expanded="true" />
+                <element signature="e#1113#1203#1" expanded="true" />
+                <element signature="e#1383#1621#1" expanded="true" />
+                <element signature="e#2235#2446#1" expanded="true" />
+                <element signature="e#4833#5086#1" expanded="true" />
+                <element signature="e#5506#5795#1" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turing/macro.py">
+        <entry file="file://$PROJECT_DIR$/tests/test_all.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-              <folding>
-                <element signature="e#91#107#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="186">
+              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -87,9 +80,12 @@
         <option value="$PROJECT_DIR$/turing/macro/turingmachinemacro.py" />
         <option value="$PROJECT_DIR$/turing/machine/__init__.py" />
         <option value="$PROJECT_DIR$/turing/macro/__init__.py" />
-        <option value="$PROJECT_DIR$/turing/__init__.py" />
         <option value="$PROJECT_DIR$/turing/macro.py" />
+        <option value="$PROJECT_DIR$/turing/__init__.py" />
+        <option value="$PROJECT_DIR$/turingmachine/__init__.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/tests/test_all.py" />
+        <option value="$PROJECT_DIR$/turingmachine/machine.py" />
       </list>
     </option>
   </component>
@@ -107,6 +103,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -114,18 +111,27 @@
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
               <item name="turing" type="462c0819:PsiDirectoryNode" />
             </path>
+            <path>
+              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="turing" type="462c0819:PsiDirectoryNode" />
+              <item name="tests" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
+              <item name="turing" type="462c0819:PsiDirectoryNode" />
+              <item name="turingmachine" type="462c0819:PsiDirectoryNode" />
+            </path>
           </expand>
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/test_all.py" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="PyConsoleConfigurable.Python Console" />
+    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -162,7 +168,7 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
@@ -204,7 +210,14 @@
       <option name="project" value="LOCAL" />
       <updated>1548611714072</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Reordered modules and folders. Added venv, requirements.txt, dist">
+      <created>1548632235694</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1548632235694</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView">
@@ -219,20 +232,21 @@
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.1836518" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.06655844" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3292232" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32808718" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.39951575" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.064164646" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.5205811" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" visible="true" weight="0.41767555" />
+      <window_info anchor="bottom" id="Terminal" order="8" weight="0.55690074" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32808718" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.3292978" />
+      <window_info anchor="bottom" id="Python Console" order="10" weight="0.064164646" />
+      <window_info active="true" anchor="right" x="0" y="0" width="430" height="843" id="Documentation" side_tool="true" visible="true" weight="0.33549783" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" show_stripe_button="false" weight="0.25" />
@@ -300,7 +314,19 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Organised folders and code" />
     <MESSAGE value="Added setup.py and LICENSE" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added setup.py and LICENSE" />
+    <MESSAGE value="Reordered modules and folders. Added venv, requirements.txt, dist" />
+    <option name="LAST_COMMIT_MESSAGE" value="Reordered modules and folders. Added venv, requirements.txt, dist" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/tests/test_all.py</url>
+          <line>4</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/-1247971763/builtins.py">
@@ -316,80 +342,14 @@
     <entry file="file://$PROJECT_DIR$/turing/GUI/turing_machine_gui.py" />
     <entry file="file://$PROJECT_DIR$/turing/macrosses/turing_macross.py" />
     <entry file="file://$PROJECT_DIR$/turing/machine/turing.py" />
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="15" column="70" selection-start-line="15" selection-start-column="70" selection-end-line="15" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/macrosses/turingmachinemacro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/GUI/turingmachine_gui.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/GUI/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/macro/turingmachinemacro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="868">
-          <caret line="28" column="20" selection-start-line="28" selection-start-column="20" selection-end-line="28" selection-end-column="20" />
-          <folding>
-            <element signature="e#91#107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/gui/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/machine/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/machine/turingmachine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="6" column="54" selection-start-line="6" selection-start-column="54" selection-end-line="6" selection-end-column="54" />
-          <folding>
-            <element signature="e#44#73#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/setup.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/macro/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/__init__.py">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1116">
-          <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/turing/macrosses/turingmachinemacro.py" />
+    <entry file="file://$PROJECT_DIR$/turing/GUI/turingmachine_gui.py" />
+    <entry file="file://$PROJECT_DIR$/turing/GUI/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/turing/macro/turingmachinemacro.py" />
+    <entry file="file://$PROJECT_DIR$/turing/gui/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/turing/machine/__init__.py" />
+    <entry file="file://$PROJECT_DIR$/turing/machine/turingmachine.py" />
+    <entry file="file://$PROJECT_DIR$/turing/macro/__init__.py" />
     <entry file="file://$PROJECT_DIR$/turing/macro.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="155">
@@ -400,15 +360,80 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_all.py">
+    <entry file="file://$PROJECT_DIR$/turing/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="10" column="13" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        <state relative-caret-position="1116">
+          <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/requirements.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="8" column="8" selection-start-line="8" selection-start-column="8" selection-end-line="8" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="465">
+          <caret line="15" column="70" selection-start-line="15" selection-start-column="70" selection-end-line="15" selection-end-column="70" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turing/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="38" selection-start-column="38" selection-end-column="38" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/setup.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="217">
+          <caret line="7" column="18" selection-start-line="7" selection-start-column="18" selection-end-line="7" selection-end-column="18" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/gui.py">
       <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_all.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="186">
+          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-285">
+          <caret line="186" column="62" selection-start-line="186" selection-start-column="62" selection-end-line="186" selection-end-column="62" />
+          <folding>
+            <element signature="e#0#972#1" expanded="true" />
+            <element signature="e#925#954#0" expanded="true" />
+            <element signature="e#1113#1203#1" expanded="true" />
+            <element signature="e#1383#1621#1" expanded="true" />
+            <element signature="e#2235#2446#1" expanded="true" />
+            <element signature="e#4833#5086#1" expanded="true" />
+            <element signature="e#5506#5795#1" expanded="true" />
+          </folding>
+        </state>
+      </provider>
     </entry>
   </component>
 </project>
