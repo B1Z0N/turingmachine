@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
+    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_all.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turing/__init__.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -14,38 +12,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-285">
-              <caret line="186" column="62" selection-start-line="186" selection-start-column="62" selection-end-line="186" selection-end-column="62" />
+            <state relative-caret-position="335">
+              <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
               <folding>
-                <element signature="e#0#972#1" expanded="true" />
-                <element signature="e#925#954#0" expanded="true" />
-                <element signature="e#1113#1203#1" expanded="true" />
-                <element signature="e#1383#1621#1" expanded="true" />
-                <element signature="e#2235#2446#1" expanded="true" />
-                <element signature="e#4833#5086#1" expanded="true" />
-                <element signature="e#5506#5795#1" expanded="true" />
+                <element signature="e#0#916#1" expanded="true" />
+                <element signature="e#975#1004#0" expanded="true" />
+                <element signature="e#1113#1200#1" expanded="true" />
+                <element signature="e#2184#2512#1" expanded="true" />
+                <element signature="e#3134#3366#1" expanded="true" />
+                <element signature="e#4040#4110#1" expanded="true" />
+                <element signature="e#4861#4921#1" expanded="true" />
+                <element signature="e#5112#5377#1" expanded="true" />
+                <element signature="e#5805#6089#1" expanded="true" />
+                <element signature="e#7107#7205#1" expanded="true" />
+                <element signature="e#7470#7596#1" expanded="true" />
+                <element signature="e#7869#7962#1" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_all.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
             </state>
           </provider>
         </entry>
@@ -131,7 +116,7 @@
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
-    <property name="settings.editor.selected.configurable" value="configurable.group.editor" />
+    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -217,7 +202,14 @@
       <option name="project" value="LOCAL" />
       <updated>1548632235694</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings.">
+      <created>1548699989291</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1548699989291</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -232,12 +224,12 @@
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.06655844" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.22619048" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3292232" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.064164646" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32808718" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.61864406" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.5205811" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -245,11 +237,11 @@
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.55690074" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" weight="0.32808718" />
-      <window_info anchor="bottom" id="Python Console" order="10" weight="0.064164646" />
-      <window_info active="true" anchor="right" x="0" y="0" width="430" height="843" id="Documentation" side_tool="true" visible="true" weight="0.33549783" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="10" visible="true" weight="0.21428572" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" show_stripe_button="false" weight="0.25" />
+      <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.33549783" />
     </layout>
     <layout-to-restore>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.18046708" />
@@ -315,7 +307,8 @@
     <MESSAGE value="Organised folders and code" />
     <MESSAGE value="Added setup.py and LICENSE" />
     <MESSAGE value="Reordered modules and folders. Added venv, requirements.txt, dist" />
-    <option name="LAST_COMMIT_MESSAGE" value="Reordered modules and folders. Added venv, requirements.txt, dist" />
+    <MESSAGE value="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings." />
+    <option name="LAST_COMMIT_MESSAGE" value="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -350,23 +343,8 @@
     <entry file="file://$PROJECT_DIR$/turing/machine/__init__.py" />
     <entry file="file://$PROJECT_DIR$/turing/machine/turingmachine.py" />
     <entry file="file://$PROJECT_DIR$/turing/macro/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/turing/macro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="5" column="40" selection-start-line="5" selection-start-column="40" selection-end-line="5" selection-end-column="40" />
-          <folding>
-            <element signature="e#91#107#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turing/machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1116">
-          <caret line="104" column="31" selection-start-line="104" selection-start-column="31" selection-end-line="104" selection-end-column="31" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/turing/macro.py" />
+    <entry file="file://$PROJECT_DIR$/turing/machine.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="248">
@@ -381,13 +359,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turing/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret column="38" selection-start-column="38" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/turing/__init__.py" />
     <entry file="file://$PROJECT_DIR$/setup.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="217">
@@ -415,22 +387,27 @@
     <entry file="file://$PROJECT_DIR$/tests/test_all.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="186">
-          <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-285">
-          <caret line="186" column="62" selection-start-line="186" selection-start-column="62" selection-end-line="186" selection-end-column="62" />
+        <state relative-caret-position="335">
+          <caret line="307" column="42" selection-start-line="307" selection-start-column="42" selection-end-line="307" selection-end-column="42" />
           <folding>
-            <element signature="e#0#972#1" expanded="true" />
-            <element signature="e#925#954#0" expanded="true" />
-            <element signature="e#1113#1203#1" expanded="true" />
-            <element signature="e#1383#1621#1" expanded="true" />
-            <element signature="e#2235#2446#1" expanded="true" />
-            <element signature="e#4833#5086#1" expanded="true" />
-            <element signature="e#5506#5795#1" expanded="true" />
+            <element signature="e#0#916#1" expanded="true" />
+            <element signature="e#975#1004#0" expanded="true" />
+            <element signature="e#1113#1200#1" expanded="true" />
+            <element signature="e#2184#2512#1" expanded="true" />
+            <element signature="e#3134#3366#1" expanded="true" />
+            <element signature="e#4040#4110#1" expanded="true" />
+            <element signature="e#4861#4921#1" expanded="true" />
+            <element signature="e#5112#5377#1" expanded="true" />
+            <element signature="e#5805#6089#1" expanded="true" />
+            <element signature="e#7107#7205#1" expanded="true" />
+            <element signature="e#7470#7596#1" expanded="true" />
+            <element signature="e#7869#7962#1" expanded="true" />
           </folding>
         </state>
       </provider>
