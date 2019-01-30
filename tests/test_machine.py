@@ -1,5 +1,7 @@
-from turingmachine.machine import TuringMachine, RuleNotFoundError
 import copy
+
+from turingmachine.machine import TuringMachine, RuleNotFoundError
+
 
 class TestTuringMachine:
     def setup_class(self):
@@ -44,9 +46,9 @@ class TestTuringMachine:
         self.tm2.move()
 
     def test_run(self):
-        self.run_to_end = TuringMachine.from_str("1,2,3::q1:1 q1 -> 0 q1 L,DEF q1 -> 2 q2 S",
-            #  to stop on the fst element
-            self.log_func
+        self.run_to_end = TuringMachine.from_str(
+            "1,2,3:::q1:1 q1 -> 0 q1 L,DEF q1 -> 2 q2 S",  # to stop on the fst element
+            log_func=self.log_func
             )
         self.finish_with_exception = copy.deepcopy(self.tm)
         self.run_to_end.run()
@@ -56,14 +58,15 @@ class TestTuringMachine:
             print(e)
 
     def test_from_str(self):
-        self.tm3 = TuringMachine.from_str('1,2,3::q1:1 q1 -> 0 q1 L,DEF q1 -> 1 q1 R,0 q1 -> 1 q1 R', self.log_func)
+        self.tm3 = TuringMachine.from_str(
+            '1,2,3:::q1:1 q1 -> 0 q1 L,DEF q1 -> 1 q1 R,0 q1 -> 1 q1 R',
+            log_func=self.log_func
+            )
         self.tm3.move()  # to be similar to tm and tm2
-
-
 
     def test_from_file(self):
         self.file_name = 'machine_test_file'
-        self.tm4 = TuringMachine.from_file(self.file_name, self.log_func)
+        self.tm4 = TuringMachine.from_file(self.file_name, log_func=self.log_func)
         self.tm4.move() # to be similar to tm, tm2, tm3
 
     def test_forward(self):
