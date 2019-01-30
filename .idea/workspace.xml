@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/tests/test_machine.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/turing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/turing.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_all.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_all.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_all.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,36 +13,13 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="177" column="80" lean-forward="true" selection-start-line="177" selection-start-column="80" selection-end-line="177" selection-end-column="80" />
+            <state relative-caret-position="350">
+              <caret line="345" column="35" lean-forward="true" selection-start-line="345" selection-start-column="35" selection-end-line="345" selection-end-column="35" />
               <folding>
-                <element signature="e#2464#2784#1" expanded="true" />
-                <element signature="e#5507#5836#1" expanded="true" />
-                <element signature="e#6256#6617#1" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/test_all.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="93">
-              <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="428">
-              <caret line="82" column="29" lean-forward="true" selection-start-line="82" selection-start-column="29" selection-end-line="82" selection-end-column="29" />
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
+                <element signature="e#1141#1154#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -105,8 +79,8 @@
         <option value="$PROJECT_DIR$/tests/test_turingMachine.py" />
         <option value="$PROJECT_DIR$/tests/test_all.py" />
         <option value="$PROJECT_DIR$/tests/machine_test_file" />
-        <option value="$PROJECT_DIR$/turingmachine/machine.py" />
         <option value="$PROJECT_DIR$/tests/test_machine.py" />
+        <option value="$PROJECT_DIR$/turingmachine/machine.py" />
       </list>
     </option>
   </component>
@@ -275,7 +249,14 @@
       <option name="project" value="LOCAL" />
       <updated>1548720221083</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Wrote some tests for machine module&#10;Added exceptions to this class, like RuleNotFoundError&#10;Deleted default empty cell argument in __init__ function&#10;Rethinked the way of adding rules to the class and provided more convenient way by using simple R, L, S in set_rule instead of using functions">
+      <created>1548875114226</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1548875114227</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TodoView">
@@ -291,7 +272,7 @@
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.23484848" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.23460722" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -376,7 +357,8 @@
     <MESSAGE value="Reordered modules and folders. Added venv, requirements.txt, dist" />
     <MESSAGE value="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings." />
     <MESSAGE value="Added full documentation of machine module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added full documentation of machine module" />
+    <MESSAGE value="Wrote some tests for machine module&#10;Added exceptions to this class, like RuleNotFoundError&#10;Deleted default empty cell argument in __init__ function&#10;Rethinked the way of adding rules to the class and provided more convenient way by using simple R, L, S in set_rule instead of using functions" />
+    <option name="LAST_COMMIT_MESSAGE" value="Wrote some tests for machine module&#10;Added exceptions to this class, like RuleNotFoundError&#10;Deleted default empty cell argument in __init__ function&#10;Rethinked the way of adding rules to the class and provided more convenient way by using simple R, L, S in set_rule instead of using functions" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$USER_HOME$/.PyCharmCE2018.3/system/python_stubs/-1247971763/builtins.py">
@@ -444,56 +426,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/test_turingMachine.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/test_turingMachine.py" />
+    <entry file="file://$PROJECT_DIR$/turingmachine/test_TuringMachine.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_turingMachine.py" />
+    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+        <state relative-caret-position="-2068">
+          <caret line="3" column="24" lean-forward="true" selection-start-line="3" selection-start-column="24" selection-end-line="3" selection-end-column="24" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/test_TuringMachine.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_all.py" />
+    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="3" column="6" selection-start-line="3" selection-start-column="6" selection-end-line="3" selection-end-column="6" />
+        <state relative-caret-position="350">
+          <caret line="345" column="35" lean-forward="true" selection-start-line="345" selection-start-column="35" selection-end-line="345" selection-end-column="35" />
+          <folding>
+            <element signature="e#1141#1154#0" expanded="true" />
+          </folding>
         </state>
       </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_turingMachine.py">
-      <provider selected="true" editor-type-id="text-editor" />
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/machine_test_file">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="62">
           <caret line="2" column="16" selection-start-line="2" selection-start-column="16" selection-end-line="2" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_all.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="3" column="9" selection-start-line="3" selection-start-column="9" selection-end-line="3" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="177" column="80" lean-forward="true" selection-start-line="177" selection-start-column="80" selection-end-line="177" selection-end-column="80" />
-          <folding>
-            <element signature="e#2464#2784#1" expanded="true" />
-            <element signature="e#5507#5836#1" expanded="true" />
-            <element signature="e#6256#6617#1" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="428">
-          <caret line="82" column="29" lean-forward="true" selection-start-line="82" selection-start-column="29" selection-end-line="82" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
