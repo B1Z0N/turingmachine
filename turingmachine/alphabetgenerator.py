@@ -90,9 +90,12 @@ class AlphabetGenerator:
         """
 
         for i in range(1, len(self.alphabet)):
-            for elem in filter(
-                    lambda x: x[0] not in string.digits,
-                    itertools.product(self.alphabet, repeat=i)
+            for elem in map(
+                    lambda x: ''.join(x),
+                    filter(
+                        lambda x: x[0] not in string.digits,
+                        itertools.product(self.alphabet, repeat=i)
+                        )
                     ):
                 yield elem
 
