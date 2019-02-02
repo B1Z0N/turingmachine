@@ -1,4 +1,5 @@
-from turingmachine.macro import *
+from turingmachine.machine import TuringMachine
+from turingmachine.macro import TuringMachineMacro
 
 
 class TestTuringMachineMacro:
