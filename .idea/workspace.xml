@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/tests/loltest.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,21 +16,23 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="177">
-              <caret line="77" column="34" lean-forward="true" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
+            <state relative-caret-position="76">
+              <caret line="55" selection-start-line="55" selection-end-line="55" />
               <folding>
-                <element signature="e#0#91#1" expanded="true" />
                 <element signature="e#141#174#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="155">
-              <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+            <state relative-caret-position="114">
+              <caret line="390" selection-start-line="390" selection-end-line="390" />
+              <folding>
+                <element signature="e#1141#1151#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -39,21 +40,35 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/alphabetgenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="372">
-              <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+            <state relative-caret-position="114">
+              <caret line="71" selection-start-line="71" selection-end-line="71" />
               <folding>
                 <element signature="e#65#81#0" expanded="true" />
-                <element signature="e#1590#1701#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/tests/test_turingmachinemacro.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="248">
+              <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
+        <entry file="file://$PROJECT_DIR$/tests/loltest.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="310">
+              <caret line="10" selection-start-line="10" selection-end-line="10" />
+              <folding>
+                <element signature="e#0#50#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -110,12 +125,14 @@
         <option value="$PROJECT_DIR$/turingmachine/test_turingMachineMacro.py" />
         <option value="$PROJECT_DIR$/turingmachine/__init__.py" />
         <option value="$PROJECT_DIR$/tests/test_turingMachineMacro.py" />
-        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/test_alphabetgeneratormodule.py" />
         <option value="$PROJECT_DIR$/turingmachine/test_alphabetGenerator.py" />
         <option value="$PROJECT_DIR$/tests/test_alphabetgenerator.py" />
-        <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
         <option value="$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py" />
+        <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
+        <option value="$PROJECT_DIR$/tests/loltest.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
+        <option value="$PROJECT_DIR$/tests/test_turingmachinemacro.py" />
       </list>
     </option>
   </component>
@@ -159,7 +176,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="full.screen.before.presentation.mode" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/tests/loltest.py" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyIntegratedToolsModulesConfigurable" />
   </component>
@@ -205,7 +222,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/test_machine.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/tests/loltest.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -333,7 +350,14 @@
       <option name="project" value="LOCAL" />
       <updated>1549125798688</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="Written tests to alphabetgenerator module">
+      <created>1549131352597</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1549131352598</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TodoView">
@@ -354,13 +378,34 @@
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32808718" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.29418886" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.6210654" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.064164646" />
+      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
+      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.2457627" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.3292978" />
+      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" show_stripe_button="false" weight="0.25" />
+      <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.33549783" />
+    </layout>
+    <layout-to-restore>
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.19534633" />
+      <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
+      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32808718" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.7106538" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.5205811" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.21791768" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.22154963" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.2409201" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.3292978" />
@@ -368,7 +413,7 @@
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" show_stripe_button="false" weight="0.25" />
       <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.33549783" />
-    </layout>
+    </layout-to-restore>
   </component>
   <component name="UpdateCopyrightCheckinHandler">
     <option name="UPDATE_COPYRIGHT" value="true" />
@@ -428,7 +473,8 @@
     <MESSAGE value="Written first function and test to it" />
     <MESSAGE value="1. Added NameTemplate class for generating new condition names based on given name&#10;2. Upgraded TuringAlphabet class, so that now it can take several templates and switch between them, also&#10;it can generate a name without a template&#10;3. Written some exceptions for new code support&#10;4. Split move_cursor function to two move_by_pos and move_by_val, so that first uses the second to move,&#10;also first can generate names with a given template condition" />
     <MESSAGE value="Splitted macro module to two modules:&#10;1. macro - where all macro computation is being written&#10;2. alphabetgenerator - where all classes and exceptions for generating names for a turing machine conditions are kept" />
-    <option name="LAST_COMMIT_MESSAGE" value="Splitted macro module to two modules:&#10;1. macro - where all macro computation is being written&#10;2. alphabetgenerator - where all classes and exceptions for generating names for a turing machine conditions are kept" />
+    <MESSAGE value="Written tests to alphabetgenerator module" />
+    <option name="LAST_COMMIT_MESSAGE" value="Written tests to alphabetgenerator module" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -487,16 +533,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="249">
-          <caret line="361" column="33" selection-start-line="361" selection-start-column="33" selection-end-line="361" selection-end-column="33" />
-          <folding>
-            <element signature="e#1141#1151#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2573">
@@ -534,13 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/test_alphabetGenerator.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="93">
@@ -565,32 +594,67 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="177">
-          <caret line="77" column="34" lean-forward="true" selection-start-line="77" selection-start-column="34" selection-end-line="77" selection-end-column="34" />
+        <state relative-caret-position="155">
+          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/__init__.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="31">
+          <caret line="6" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="114">
+          <caret line="390" selection-start-line="390" selection-end-line="390" />
           <folding>
-            <element signature="e#0#91#1" expanded="true" />
-            <element signature="e#141#174#0" expanded="true" />
+            <element signature="e#1141#1151#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/alphabetgenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="372">
-          <caret line="98" column="22" lean-forward="true" selection-start-line="98" selection-start-column="22" selection-end-line="98" selection-end-column="22" />
+        <state relative-caret-position="114">
+          <caret line="71" selection-start-line="71" selection-end-line="71" />
           <folding>
             <element signature="e#65#81#0" expanded="true" />
-            <element signature="e#1590#1701#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="155">
-          <caret line="5" column="23" lean-forward="true" selection-start-line="5" selection-start-column="23" selection-end-line="5" selection-end-column="23" />
+        <state relative-caret-position="76">
+          <caret line="55" selection-start-line="55" selection-end-line="55" />
+          <folding>
+            <element signature="e#141#174#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/loltest.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="310">
+          <caret line="10" selection-start-line="10" selection-end-line="10" />
+          <folding>
+            <element signature="e#0#50#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_turingmachinemacro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="248">
+          <caret line="8" column="27" selection-start-line="8" selection-start-column="27" selection-end-line="8" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
