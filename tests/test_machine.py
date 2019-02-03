@@ -18,6 +18,10 @@ class TestTuringMachine:
             index=self.index, log_func=self.log_func
             )
         self.tm_for_move = copy.deepcopy(self.tm)
+        self.tm5 = TuringMachine(
+            self.start_vals, self.start_condition,
+            index=self.index, log_func=self.log_func
+            )
 
     def test_set_rule(self):
         self.tm.set_rule(
@@ -37,8 +41,7 @@ class TestTuringMachine:
             )
 
     def test_rule_str(self):
-        self.tm2.rule_str('1 q1 -> 0 q1 L')
-        self.tm2.rule_str('DEF q1 -> 1 q1 R')
+        self.tm2.rule_str('1 q1 -> 0 q1 L,B q1 -> 1 q1 R')
         self.tm2.rule_str('0 q1 -> 1 q1 R')
 
     def test_move(self):
@@ -59,15 +62,18 @@ class TestTuringMachine:
 
     def test_from_str(self):
         self.tm3 = TuringMachine.from_str(
-            '1,2,3:::q1:1 q1 -> 0 q1 L,DEF q1 -> 1 q1 R,0 q1 -> 1 q1 R',
+            '1,2,3:::q1:1 q1 -> 0 q1 L,B q1 -> 1 q1 R,0 q1 -> 1 q1 R',
             log_func=self.log_func
             )
         self.tm3.move()  # to be similar to tm and tm2
 
     def test_from_file(self):
-        self.file_name = 'machine_test_file'
+        self.file_name = 'machine_test_from_file'
         self.tm4 = TuringMachine.from_file(self.file_name, log_func=self.log_func)
         self.tm4.move() # to be similar to tm, tm2, tm3
+
+    def test_rule_file(self):
+        self.tm5.rule_file('machine_test_rule_file')
 
     def test_forward(self):
         self.tm_for_move.forward('kek')
@@ -112,5 +118,6 @@ class TestTuringMachine:
         s2 = str(self.tm2)
         s3 = str(self.tm3)
         s4 = str(self.tm4)
+        s5 = str(self.tm5)
         print(s1, s2, s3, s4)
-        assert s1 == s2 == s3 == s4
+        assert s1 == s2 == s3 == s4 == s5

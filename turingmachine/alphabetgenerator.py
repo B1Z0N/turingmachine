@@ -64,6 +64,7 @@ class AlphabetGenerator:
 
         self.it = self.get_letter()
         self.templates = {}
+        self.reserved = set()
 
     def set_template(self, name):
         """Set a new template, or continue if
@@ -97,7 +98,11 @@ class AlphabetGenerator:
                         itertools.product(self.alphabet, repeat=i)
                         )
                     ):
-                yield elem
+                if elem in self.reserved:
+                    continue
+                else:
+                    self.reserved.add(elem)
+                    yield elem
 
     def pop(self):
         return next(self.it)
