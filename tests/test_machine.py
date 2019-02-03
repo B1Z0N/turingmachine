@@ -1,6 +1,6 @@
 import copy
 
-from turingmachine.machine import TuringMachine, RuleNotFoundError
+from turingmachine.machine import TuringMachine, RuleNotFoundError, TuringMachineStop
 
 
 class TestTuringMachine:
@@ -47,7 +47,7 @@ class TestTuringMachine:
 
     def test_run(self):
         self.run_to_end = TuringMachine.from_str(
-            "1,2,3:::q1:1 q1 -> 0 q1 L,DEF q1 -> 2 q2 S",  # to stop on the fst element
+            "1,2,3:::q1:1 q1 -> 0 q1 L,B q1 -> 2 q2 STOP",  # to stop on the fst element
             log_func=self.log_func
             )
         self.finish_with_exception = copy.deepcopy(self.tm)
@@ -76,7 +76,13 @@ class TestTuringMachine:
         self.tm_for_move.back('lol')
 
     def test_stop(self):
-        self.tm_for_move.stop('stop')
+        self.tm_for_move.stay('stay')
+
+    def test_stay(self):
+        try:
+            self.tm_for_move.stay('stop')
+        except TuringMachineStop:
+            pass
 
     def test__prepare_index(self):
         tm = TuringMachine.from_str('1,2,3:::q1:')
