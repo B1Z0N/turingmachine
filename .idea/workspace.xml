@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="Added temporary files support&#10;Fixed repr of a machine&#10;Refactored some code&#10;TODO: find the way to write paths(os module maybe)">
-      <change afterPath="$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt" afterDir="false" />
+    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/macro_func_by_vector.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/macro_func_by_vector.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/test_machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_machine.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -17,17 +18,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="430" column="35" lean-forward="true" selection-start-line="430" selection-start-column="35" selection-end-line="430" selection-end-column="35" />
+            <state relative-caret-position="306">
+              <caret line="209" column="29" lean-forward="true" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+              <folding>
+                <element signature="e#1142#1152#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="124">
-              <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+            <state relative-caret-position="248">
+              <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
               <folding>
                 <element signature="e#0#53#0" expanded="true" />
               </folding>
@@ -35,11 +39,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="146" column="32" lean-forward="true" selection-start-line="146" selection-start-column="32" selection-end-line="146" selection-end-column="32" />
+            <state relative-caret-position="-1277">
+              <caret line="92" selection-start-line="92" selection-end-line="92" />
               <folding>
                 <element signature="e#141#174#0" expanded="true" />
               </folding>
@@ -49,32 +53,9 @@
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/macro_func_by_vector.txt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file:///usr/lib/python3.6/tempfile.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="126">
-              <caret line="623" selection-start-line="623" selection-end-line="623" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/tests/temp.txt">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1922">
-              <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
+            <state relative-caret-position="496">
+              <caret line="102" column="38" selection-start-line="102" selection-start-column="38" selection-end-line="102" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -113,6 +94,8 @@
       <find>q6</find>
       <find>c q6</find>
       <find>print</find>
+      <find>{23}</find>
+      <find>pau</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -148,16 +131,17 @@
         <option value="$PROJECT_DIR$/tests/test_alphabetgeneratormodule.py" />
         <option value="$PROJECT_DIR$/tests/loltest.py" />
         <option value="$PROJECT_DIR$/tests/test_turingmachinemacro.py" />
-        <option value="$PROJECT_DIR$/tests/test_machine.py" />
         <option value="$PROJECT_DIR$/tests/machine_test_rule_file" />
         <option value="$PROJECT_DIR$/tests/vector" />
         <option value="$PROJECT_DIR$/turingmachine/macro_func_by_vector.txt" />
         <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
         <option value="$PROJECT_DIR$/tests/temp.txt" />
-        <option value="$PROJECT_DIR$/tests/macro_func_by_vector.txt" />
+        <option value="$PROJECT_DIR$/tests/test_machine.py" />
+        <option value="$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt" />
         <option value="$PROJECT_DIR$/turingmachine/machine.py" />
-        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
+        <option value="$PROJECT_DIR$/tests/macro_func_by_vector.txt" />
         <option value="$PROJECT_DIR$/tests/test.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
       </list>
     </option>
   </component>
@@ -411,7 +395,14 @@
       <option name="project" value="LOCAL" />
       <updated>1549226616334</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Added temporary files support&#10;Fixed repr of a machine&#10;Refactored some code&#10;TODO: find the way to write paths(os module maybe)">
+      <created>1549234145508</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1549234145508</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TodoView">
@@ -425,20 +416,19 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.18683651" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.2680467" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.527845" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.12348668" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.5605327" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49893844" visible="true" weight="0.12711865" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.064164646" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.17191283" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.15859564" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.49273607" />
       <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.3292978" />
@@ -536,6 +526,17 @@
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <default-breakpoints>
+        <breakpoint type="python-exception">
+          <properties notifyOnTerminate="true" exception="BaseException">
+            <option name="notifyOnTerminate" value="true" />
+          </properties>
+        </breakpoint>
+      </default-breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/turing.py" />
@@ -647,18 +648,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt" />
     <entry file="file://$PROJECT_DIR$/tests/vector" />
-    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="247">
-          <caret line="64" column="19" selection-start-line="64" selection-start-column="19" selection-end-line="64" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/machine_test_from_file">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -672,13 +662,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/temp.txt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1922">
-          <caret line="62" column="10" selection-start-line="62" selection-start-column="10" selection-end-line="62" selection-end-column="10" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///usr/lib/python3.6/tempfile.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="126">
@@ -686,39 +669,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/temp.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="50" column="14" lean-forward="true" selection-end-line="103" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="51">
-          <caret line="62" column="14" selection-start-line="62" selection-start-column="14" selection-end-line="62" selection-end-column="14" />
+        <state relative-caret-position="2046">
+          <caret line="66" column="18" lean-forward="true" selection-end-line="103" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="502">
+          <caret line="64" column="70" lean-forward="true" selection-start-line="64" selection-start-column="70" selection-end-line="64" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$APPLICATION_HOME_DIR$/helpers/pydev/pydevd.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="27">
+          <caret line="1734" selection-start-line="1734" selection-end-line="1734" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="209" column="29" lean-forward="true" selection-start-line="209" selection-start-column="29" selection-end-line="209" selection-end-column="29" />
+          <folding>
+            <element signature="e#1142#1152#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/macro_func_by_vector.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="430" column="35" lean-forward="true" selection-start-line="430" selection-start-column="35" selection-end-line="430" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="146" column="32" lean-forward="true" selection-start-line="146" selection-start-column="32" selection-end-line="146" selection-end-column="32" />
-          <folding>
-            <element signature="e#141#174#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="496">
+          <caret line="102" column="38" selection-start-line="102" selection-start-column="38" selection-end-line="102" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="124">
-          <caret line="4" column="15" selection-start-line="4" selection-start-column="15" selection-end-line="4" selection-end-column="15" />
+        <state relative-caret-position="248">
+          <caret line="8" column="41" selection-start-line="8" selection-start-column="41" selection-end-line="8" selection-end-column="41" />
           <folding>
             <element signature="e#0#53#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1277">
+          <caret line="92" selection-start-line="92" selection-end-line="92" />
+          <folding>
+            <element signature="e#141#174#0" expanded="true" />
           </folding>
         </state>
       </provider>

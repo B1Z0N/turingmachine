@@ -50,7 +50,7 @@ class TestTuringMachine:
 
     def test_run(self):
         self.run_to_end = TuringMachine.from_str(
-            "1,2,3:::q1:1 q1 -> 0 q1 L,B q1 -> 2 q2 STOP",  # to stop on the fst element
+            "1,2,3:::q1:1 q1 -> 0 q1 L,B q1 -> 2 STOP",  # to stop on the fst element
             log_func=self.log_func
             )
         self.finish_with_exception = copy.deepcopy(self.tm)
