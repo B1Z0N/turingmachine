@@ -48,8 +48,8 @@ class NameTemplate:
 
     def iterate(self):
         while True:
-            yield self.letter + str(self.counter)
             self.counter += 1
+            yield self.letter + str(self.counter)
 
     def get_resrved(self):
         for i in range(self.counter):
