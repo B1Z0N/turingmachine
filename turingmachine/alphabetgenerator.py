@@ -48,23 +48,33 @@ class NameTemplate:
 
     def iterate(self):
         while True:
-            self.counter += 1
             yield self.letter + str(self.counter)
+            self.counter += 1
+
+    def get_resrved(self):
+        for i in range(self.counter):
+            yield self.letter + str(i)
+        yield self.letter
 
 
 class AlphabetGenerator:
     """Class for generating short, unique condition strings
     to work with in a TuringMachineMacro"""
 
-    def __init__(self, alphabet=None):
+    def __init__(self, alphabet=None, gen=None):
         if alphabet is None:
             self.alphabet = string.ascii_lowercase + string.digits
         else:
             self.alphabet = alphabet
 
-        self.it = self.get_letter()
+        self.it = self._get_letter()
+
         self.templates = {}
         self.reserved = set()
+        if gen is not None:
+            self.set_template(gen)
+        else:
+            self.it = self._get_letter()
 
     def set_template(self, name):
         """Set a new template, or continue if
@@ -77,20 +87,21 @@ class AlphabetGenerator:
             self.templates[name] = temp
 
         self.it = self.templates[name].iterate()
+        self.reserved.update(set(temp.get_resrved()))
 
     def del_template(self):
         """Set template to default generator"""
 
-        self.it = self.get_letter()
+        self.it = self._get_letter()
 
     cur_template = property(None, set_template, del_template)
 
-    def get_letter(self):
+    def _get_letter(self):
         """Generate all possible products of all possible symbols,
         that doesn't start with a number
         """
 
-        for i in range(1, len(self.alphabet)):
+        for i in range(1, len(self.alphabet)):  # error with the same names
             for elem in map(
                     lambda x: ''.join(x),
                     filter(
@@ -98,11 +109,11 @@ class AlphabetGenerator:
                         itertools.product(self.alphabet, repeat=i)
                         )
                     ):
-                if elem in self.reserved:
-                    continue
-                else:
-                    self.reserved.add(elem)
                     yield elem
 
     def pop(self):
-        return next(self.it)
+        while True:
+            res = next(self.it)
+            if res not in self.reserved:
+                self.reserved.add(res)
+                return res
