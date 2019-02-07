@@ -1,0 +1,10 @@
+README.md
+setup.py
+turing/__init__.py
+turing/gui.py
+turing/machine.py
+turing/macro.py
+turingmachine.egg-info/PKG-INFO
+turingmachine.egg-info/SOURCES.txt
+turingmachine.egg-info/dependency_links.txt
+turingmachine.egg-info/top_level.txt

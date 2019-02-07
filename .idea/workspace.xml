@@ -1,15 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="BookmarkManager">
-    <bookmark url="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py" description="        test('a,b,_,_,_,c:::q1:', 'a,b,_,_,_,a:5::..." line="27" />
+    <bookmark url="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py" description="        test('a,b,_,_,_,c:::q1:', 'a,b,_,_,_,a:5::..." line="28" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/macro_func_by_vector.txt" beforeDir="false" afterPath="$PROJECT_DIR$/tests/macro_func_by_vector.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_machine.py" afterDir="false" />
-    </list>
+    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="Commented functionality, ran all tests" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,11 +13,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="403">
-              <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+              <caret line="156" column="67" selection-start-line="156" selection-start-column="67" selection-end-line="156" selection-end-column="67" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -57,11 +52,27 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="292">
-              <caret line="319" selection-start-line="319" selection-end-line="319" />
+            <state relative-caret-position="230">
+              <caret line="362" column="48" lean-forward="true" selection-start-line="362" selection-start-column="48" selection-end-line="362" selection-end-column="48" />
               <folding>
                 <element signature="e#140#155#0" expanded="true" />
+                <element signature="e#1882#1990#1" expanded="true" />
+                <element signature="e#2255#2342#1" expanded="true" />
+                <element signature="e#2624#2648#1" expanded="true" />
+                <element signature="e#3541#3664#1" expanded="true" />
+                <element signature="e#5436#5537#1" expanded="true" />
+                <element signature="e#9675#9769#1" expanded="true" />
+                <element signature="e#8915#9519#1" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="496">
+              <caret line="16" column="64" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
             </state>
           </provider>
         </entry>
@@ -165,9 +176,9 @@
         <option value="$PROJECT_DIR$/turingmachine/functions/macro_func_by_vector.txt" />
         <option value="$PROJECT_DIR$/tests/test.py" />
         <option value="$PROJECT_DIR$/turingmachine/machine.py" />
-        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/tests/macro_func_by_vector.txt" />
         <option value="$PROJECT_DIR$/tests/test_turingMachineMacro.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
       </list>
     </option>
   </component>
@@ -192,11 +203,6 @@
             <path>
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
               <item name="turing" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="turing" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
@@ -470,7 +476,14 @@
       <option name="project" value="LOCAL" />
       <updated>1549540020227</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Written all tests for current functionality of macro">
+      <created>1549561870943</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1549561870943</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TodoView">
@@ -486,18 +499,18 @@
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.25865802" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.25865802" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3983051" />
-      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.098062955" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" visible="true" weight="0.064164646" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.15375303" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.064164646" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.15738499" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.46125907" />
       <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.3292978" />
@@ -597,7 +610,8 @@
     <MESSAGE value="Added copy range function, it is still kind of messy" />
     <MESSAGE value="Written copy_range function&#10;TODO: fix some bugs on current test" />
     <MESSAGE value="Fixed bugs in copy_range function&#10;Added move_range function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed bugs in copy_range function&#10;Added move_range function" />
+    <MESSAGE value="Written all tests for current functionality of macro" />
+    <option name="LAST_COMMIT_MESSAGE" value="Written all tests for current functionality of macro" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -628,13 +642,6 @@
     <entry file="file://$PROJECT_DIR$/turing/macro/__init__.py" />
     <entry file="file://$PROJECT_DIR$/turing/macro.py" />
     <entry file="file://$PROJECT_DIR$/turing/machine.py" />
-    <entry file="file://$PROJECT_DIR$/LICENSE">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="15" column="70" selection-start-line="15" selection-start-column="70" selection-end-line="15" selection-end-column="70" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/turing/__init__.py" />
     <entry file="file://$PROJECT_DIR$/turingmachine/gui.py">
       <provider selected="true" editor-type-id="text-editor" />
@@ -804,23 +811,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="292">
-          <caret line="319" selection-start-line="319" selection-end-line="319" />
+        <state relative-caret-position="403">
+          <caret line="156" column="67" selection-start-line="156" selection-start-column="67" selection-end-line="156" selection-end-column="67" />
           <folding>
-            <element signature="e#140#155#0" expanded="true" />
+            <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="403">
-          <caret line="23" column="29" selection-start-line="23" selection-start-column="29" selection-end-line="23" selection-end-column="29" />
+        <state relative-caret-position="230">
+          <caret line="362" column="48" lean-forward="true" selection-start-line="362" selection-start-column="48" selection-end-line="362" selection-end-column="48" />
           <folding>
-            <element signature="e#0#47#0" expanded="true" />
+            <element signature="e#140#155#0" expanded="true" />
+            <element signature="e#1882#1990#1" expanded="true" />
+            <element signature="e#2255#2342#1" expanded="true" />
+            <element signature="e#2624#2648#1" expanded="true" />
+            <element signature="e#3541#3664#1" expanded="true" />
+            <element signature="e#5436#5537#1" expanded="true" />
+            <element signature="e#9675#9769#1" expanded="true" />
+            <element signature="e#8915#9519#1" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="16" column="64" selection-start-line="16" selection-start-column="64" selection-end-line="16" selection-end-column="64" />
         </state>
       </provider>
     </entry>
