@@ -97,20 +97,20 @@ class TestTuringMachine:
         print(tm)
 
         index1 = tm._prepare_index(-1)
-        print(index1, tm._tape[index1])
-        assert tm._tape[index1] == '1' and index1 == 0
+        print(index1, tm.tape[index1])
+        assert tm.tape[index1] == '1' and index1 == 0
 
         index2 = tm._prepare_index(1)
-        print(index2, tm._tape[index2])
-        assert tm._tape[index2] == '3' and index2 == 2
+        print(index2, tm.tape[index2])
+        assert tm.tape[index2] == '3' and index2 == 2
 
         index3 = tm._prepare_index(4)
-        print(index3, tm._tape[index3])
-        assert tm._tape[index3] == '' and index3 == 5
+        print(index3, tm.tape[index3])
+        assert tm.tape[index3] == '' and index3 == 5
 
         index4 = tm._prepare_index(-5)
-        print(index4, tm._tape[index4])
-        assert tm._tape[index4] == '' and index4 == 0
+        print(index4, tm.tape[index4])
+        assert tm.tape[index4] == '' and index4 == 0
 
 
     def tear_down(self):

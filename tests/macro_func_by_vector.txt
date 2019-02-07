@@ -94,11 +94,10 @@ B {21} -> 1 {22} R
 B {22} -> {end_answ} {23} L
 {one2} {23} -> 1 {23} L
 {zero2} {23} -> 0 {23} L
-= {23} -> = {23} L
 {end_arg} {23} -> {end_arg} {23} L
 {one1} {23} -> 0 {23} L
 {zero1} {23} -> 1 {23} L
 0 {23} -> 0 {23} L
 1 {23} -> 1 {23} L
-{start_arg} {23} -> {start_arg} {24} S
+{start_arg} {23} -> {start_arg} STOP
 {end_func} {23} -> {end_func} {23} L
