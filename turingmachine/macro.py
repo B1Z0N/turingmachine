@@ -3,7 +3,10 @@ writing programs with TuringMachine class,
 main class in this module is TuringMachineMacro"""
 
 import tempfile
+from collections import namedtuple
 from collections.abc import Iterable
+
+import anytree
 
 from turingmachine import alphabetgenerator
 from turingmachine import machine
@@ -43,10 +46,88 @@ class InvalidRegionError(TuringMachineMacroError):
             )
 
 
+BinaryFunctionVector = namedtuple("BinaryFunctionVector", "name start end")
+
+
 class TuringMachineMacro:
     """Class for writing rules to Turing Machine to perform
     some well known functions
     """
+
+    def set_rule(self, next_val, next_cond, direction, suppose_val=None):
+        if suppose_val is None:
+            suppose_val = next_val
+
+        self.tm.set_rule(
+            self.stick_val, self.stick_cond,
+            next_val, next_cond, direction
+            )
+        self.stick_val = suppose_val
+        self.stick_cond = next_cond
+
+    def gen_func_vec(
+            self,
+            func_tree: anytree.Node
+            ):
+        def get_func_and_args(tree):
+            args = set()
+            funcs = set()
+            for elem in anytree.PostOrderIter(tree):
+                if elem.is_leaf:
+                    args.add(elem)
+                else:
+                    funcs.add(elem)
+
+            return funcs, args
+
+        funcs, args = get_func_and_args(func_tree)
+
+        for function in funcs:
+            self.val_alpha.reserved.add({function.start, function.end})
+
+        symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
+        symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
+
+        between_bin = {'0', '1'}
+        empty = [self.tm.default]
+        between_all = {val for pair in funcs for val in (pair.start, pair.end)}
+        between_all = between_all.union(between_bin, empty)
+
+        def set_funcs(node, remember=False):
+            nonlocal self, between_all, empty
+            nonlocal symbols_for_args, symbols_for_funcs
+
+            if node.is_leaf:
+                next_cond = self.cond_alpha.pop()
+                self.tm.set_rule(self.tm.default, self.stick_cond, symbols_for_args[node.name], next_cond, 'L')
+                self.stick_cond = next_cond
+                self.stick_val = self.tm.default
+            else:
+                if remember:
+                    pass
+                else:
+                    conds = [self.cond_alpha.pop() for _ in range(3)]
+                    end_val = self.val_alpha.pop()
+
+                    between_all.add(end_val)
+                    self.set_rule(self.tm.default, conds[0], 'L')
+                    self.set_rule(self.tm.default, conds[1], 'L')
+                    self.set_rule(end_val, conds[2], 'S')
+
+                    self.move_by_val(node.end, between_all, 'R')
+                    ret = self.copy_range(
+                        node.end, between_bin,
+                        node.start, between_all,
+                        self.tm.default, empty,
+                        'L'
+                        )
+                    between_all = between_all.union({ret.start, ret.end})
+                    self.move_by_val(ret.start, between_all, 'L')
+
+                    for child in node.children:
+                        set_funcs(child, remember=True)
+
+                    self.set_rule(self.val_alpha.pop(), self.cond_alpha.pop(), 'S')
 
     def __init__(self, tm: machine.TuringMachine):
         self.tm = tm
@@ -103,23 +184,16 @@ class TuringMachineMacro:
             direction
             )
 
-        new_cond = self.cond_alpha.pop()
-        self.tm.set_rule(
-            to, self.stick_cond,
-            val, new_cond, 'S'
-            )
-
-        self.stick_cond = new_cond
-        self.stick_val = val
+        self.set_rule(val,
+                      self.cond_alpha.pop(),
+                      'S'
+                      )
 
     def clean_one(self):
         """Set current cell to TuringMachine default value"""
         new_cond = self.cond_alpha.pop()
 
-        self.tm.set_rule(
-            self.stick_val, self.stick_cond,
-            self.tm.default, new_cond,
-            'S')
+        self.set_rule(self.tm.default, new_cond, 'S')
 
         self.stick_val = self.tm.default
         self.stick_cond = new_cond
@@ -145,10 +219,7 @@ class TuringMachineMacro:
         on_way_vals = on_way_vals.union({start})
 
         new_cond = self.cond_alpha.pop()
-        self.tm.set_rule(
-            start, self.stick_cond,
-            self.tm.default, new_cond,
-            direction)
+        self.set_rule(self.tm.default, new_cond, direction)
         for val in on_way_vals:
             self.tm.set_rule(
                 val, new_cond,
@@ -216,7 +287,7 @@ class TuringMachineMacro:
         stop_vals = {key: self.val_alpha.pop() for key in between1}
 
         """Setting up the stop sign after start2"""
-        self.tm.set_rule(self.stick_val, self.stick_cond, self.stick_val, main[0], 'S')
+        self.set_rule(self.stick_val, main[0], 'S')
         tempset = between1.union(between12, {start1, end1})
         for val in tempset:
             self.tm.set_rule(val, main[0], val, main[0], direction)
@@ -282,10 +353,7 @@ class TuringMachineMacro:
         on_way_vals = on_way_vals.difference(set(val))
         on_way_vals = on_way_vals.union(set(self.stick_val))
 
-        self.tm.set_rule(
-            self.stick_val, self.stick_cond,
-            self.stick_val, new_cond, direction
-            )
+        self.set_rule(self.stick_val, new_cond, direction)
 
         for oval in on_way_vals:
             self.tm.set_rule(
@@ -303,10 +371,8 @@ class TuringMachineMacro:
         Finish macro machine execution, every command after this function
         will be useless
         """
-        self.tm.set_rule(
-            self.stick_val, self.stick_cond,
-            self.stick_val, self.stick_cond,
-            'STOP')
+        print(self.stick_val, self.stick_cond)
+        self.set_rule(self.stick_val, self.stick_cond, 'STOP')
 
     def bin_func(
             self,
@@ -335,9 +401,7 @@ class TuringMachineMacro:
         one2 = self.val_alpha.pop()
 
         cond_names = tuple(self.cond_alpha.pop() for _ in range(25))
-        self.tm.set_rule(self.stick_val, self.stick_cond,
-                         self.stick_val, cond_names[0], 'S'
-                         )
+        self.set_rule(self.stick_val, cond_names[0], 'S')
 
         file = self._parse_file(
             self.FUNC_BY_VECTOR_FILE,
@@ -375,7 +439,6 @@ class TuringMachineMacro:
         temp.seek(0)
 
         return temp
-
 # TODO: add two binary numbers
 # TODO: mul two binary numbers
 # TODO: negation of a binary number
