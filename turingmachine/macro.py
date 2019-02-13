@@ -91,19 +91,23 @@ class TuringMachineMacro:
         between_bin = {'0', '1'}
         empty = [self.tm.default]
         blank = self.val_alpha.pop()
-        between_all = {val for pair in funcs for val in (pair.start, pair.end)}
-        between_all = between_all.union(between_bin, {blank})
+        before_vecs = set(blank)
+        # between_all = {val for pair in funcs for val in (pair.start, pair.end)}
+        between_all = set(blank).union(between_bin)
 
         def set_funcs(node, remember=False):
-            nonlocal self, between_all, empty
+            nonlocal self, between_all, before_vecs, empty
             nonlocal symbols_for_args, symbols_for_funcs
 
             if node.is_leaf:
                 next_cond = self.cond_alpha.pop()
                 self.set_rule(symbols_for_args[node.name], next_cond, 'L')
-                between_all.add(symbols_for_args[node.name])
+
                 self.stick_cond = next_cond
                 self.stick_val = self.tm.default
+
+                between_all.add(symbols_for_args[node.name])
+                before_vecs.add(symbols_for_args[node.name])
             else:
                 vec = node.name
                 if remember:
@@ -112,20 +116,23 @@ class TuringMachineMacro:
                     conds = [self.cond_alpha.pop() for _ in range(4)]
                     end_val = self.val_alpha.pop()
 
-                    between_all.add(end_val)
+                    before_vecs.add(end_val)
+                    between_all = between_all.union({end_val, vec.start, vec.end})
+
                     self.set_rule(self.stick_val, conds[0], 'L', suppose_val=self.tm.default)
                     self.set_rule(blank, conds[1], 'L', suppose_val=self.tm.default)
                     self.set_rule(blank, conds[2], 'L', suppose_val=self.tm.default)
                     self.set_rule(end_val, conds[3], 'S')
 
-                    self.move_by_val(vec.end, between_all, 'R')
+                    self.move_by_val(vec.end, between_all.union(between_bin), 'R')
                     ret = self.copy_range(
                         vec.end, between_bin,
-                        vec.start, [blank],
+                        vec.start, before_vecs,
                         end_val, [self.tm.default],
                         'L'
                         )
-                    between_all = between_all.union({ret.start, ret.end})
+                    before_vecs = before_vecs.union({ret.start, ret.end})
+                    between_all = between_all.union(before_vecs)
                     self.move_by_val(ret.start, between_all, 'L')
                     self.set_rule(ret.start, self.cond_alpha.pop(), 'S')
 
@@ -136,9 +143,10 @@ class TuringMachineMacro:
                     self.set_rule(new_val, self.stick_cond, 'S')
                     between_all.add(new_val)
                     # print(self.tm)
-                    self.set_all_on_way(blank, self.tm.default, between_all,
-                                        vec.start, 'R'
-                                        )
+                    self.set_all_on_way(
+                        blank, self.tm.default, between_all,
+                        vec.start, 'R'
+                        )
                     self.set_rule(self.val_alpha.pop(), self.cond_alpha.pop(), 'S')
 
         set_funcs(func_tree)
