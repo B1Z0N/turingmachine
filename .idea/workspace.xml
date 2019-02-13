@@ -4,10 +4,8 @@
     <bookmark url="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py" description="        test('a,b,_,_,_,c:::q1:', 'a,b,_,_,_,a:5::..." line="29" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="Commented functionality, ran all tests">
+    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_turingMachineMacro.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_turingMachineMacro.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turingmachine/macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macro.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +19,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="893">
+            <state relative-caret-position="5394">
               <caret line="177" column="14" selection-start-line="177" selection-start-column="14" selection-end-line="177" selection-end-column="14" />
             </state>
           </provider>
@@ -30,11 +28,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="314">
-              <caret line="16" selection-start-line="16" selection-end-line="16" />
-              <folding>
-                <element signature="e#0#47#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="403">
+              <caret line="18" selection-start-line="18" selection-end-line="18" />
             </state>
           </provider>
         </entry>
@@ -42,10 +37,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="129" column="70" selection-start-line="129" selection-start-column="70" selection-end-line="129" selection-end-column="70" />
+            <state relative-caret-position="389">
+              <caret line="76" column="32" lean-forward="true" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
               <folding>
-                <element signature="e#4876#5013#1" expanded="true" />
+                <element signature="e#140#155#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -54,7 +49,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
+            <state relative-caret-position="4588">
               <caret line="238" selection-start-line="238" selection-end-line="238" />
               <folding>
                 <element signature="e#0#1139#1" expanded="true" />
@@ -488,7 +483,21 @@
       <option name="project" value="LOCAL" />
       <updated>1550007745826</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Fixed some bugs&#10;Rethinked economy of stick vals and conds&#10;Economed movements to start in various functions like move_range, copy_range&#10;Developed arrangement to take &quot;clean&quot; and ready to use stick vals but give them out prepared">
+      <created>1550064103590</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1550064103591</updated>
+    </task>
+    <task id="LOCAL-00028" summary="Developed gen_func function a little bit">
+      <created>1550066404911</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1550066404911</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TodoView">
@@ -502,19 +511,20 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.25796178" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3983051" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49893844" visible="true" weight="0.3874092" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.29782084" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.064164646" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.63680387" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.15738499" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.071428575" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.46125907" />
       <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.46004844" />
@@ -591,8 +601,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Added setup.py and LICENSE" />
-    <MESSAGE value="Reordered modules and folders. Added venv, requirements.txt, dist" />
     <MESSAGE value="Added from_str and from_file alternative constructors. &#10;Commented some code with docstrings." />
     <MESSAGE value="Added full documentation of machine module" />
     <MESSAGE value="Wrote some tests for machine module&#10;Added exceptions to this class, like RuleNotFoundError&#10;Deleted default empty cell argument in __init__ function&#10;Rethinked the way of adding rules to the class and provided more convenient way by using simple R, L, S in set_rule instead of using functions" />
@@ -616,7 +624,9 @@
     <MESSAGE value="Written all tests for current functionality of macro" />
     <MESSAGE value="Commented functionality, ran all tests" />
     <MESSAGE value="Started implementation of gen_func_vector function, kind of the hardest one.&#10;Added set_rule macro functionality, helps a lot. &#10;Passed all tests." />
-    <option name="LAST_COMMIT_MESSAGE" value="Started implementation of gen_func_vector function, kind of the hardest one.&#10;Added set_rule macro functionality, helps a lot. &#10;Passed all tests." />
+    <MESSAGE value="Fixed some bugs&#10;Rethinked economy of stick vals and conds&#10;Economed movements to start in various functions like move_range, copy_range&#10;Developed arrangement to take &quot;clean&quot; and ready to use stick vals but give them out prepared" />
+    <MESSAGE value="Developed gen_func function a little bit" />
+    <option name="LAST_COMMIT_MESSAGE" value="Developed gen_func function a little bit" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -626,7 +636,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/tests/test.py</url>
-          <line>7</line>
+          <line>9</line>
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
@@ -800,24 +810,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="893">
+        <state relative-caret-position="5394">
           <caret line="177" column="14" selection-start-line="177" selection-start-column="14" selection-end-line="177" selection-end-column="14" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="314">
-          <caret line="16" selection-start-line="16" selection-end-line="16" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="403">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
+        <state relative-caret-position="4588">
           <caret line="238" selection-start-line="238" selection-end-line="238" />
           <folding>
             <element signature="e#0#1139#1" expanded="true" />
@@ -829,10 +836,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="129" column="70" selection-start-line="129" selection-start-column="70" selection-end-line="129" selection-end-column="70" />
+        <state relative-caret-position="389">
+          <caret line="76" column="32" lean-forward="true" selection-start-line="76" selection-start-column="32" selection-end-line="76" selection-end-column="32" />
           <folding>
-            <element signature="e#4876#5013#1" expanded="true" />
+            <element signature="e#140#155#0" expanded="true" />
           </folding>
         </state>
       </provider>

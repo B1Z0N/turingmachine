@@ -69,6 +69,17 @@ class TuringMachineMacro:
             self,
             func_tree: anytree.Node
             ):
+        def is_equal_funcs(node1, node2):
+            if node1.is_leaf and node2.is_leaf:
+                return node1.name == node2.name
+            else:
+                if len(node1.children) != len(node2.children):
+                    return False
+                return all(
+                    is_equal_funcs(child1, child2) for child1, child2
+                    in zip(node1.children, node2.children)
+                    ) and node1.name == node2.name
+
         def get_func_and_args(tree):
             args = set()
             funcs = set()
@@ -142,7 +153,6 @@ class TuringMachineMacro:
                     new_val = self.val_alpha.pop()
                     self.set_rule(new_val, self.stick_cond, 'S')
                     between_all.add(new_val)
-                    # print(self.tm)
                     self.set_all_on_way(
                         blank, self.tm.default, between_all,
                         vec.start, 'R'
