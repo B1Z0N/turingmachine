@@ -130,7 +130,7 @@ class TestTuringMachineMacro:
 
         test(
             'a,1,0,b,_,1,0,c,0,1,h:::q1:',
-            ',,,b,_,1,0,c,1,0,d:7::q1:',
+            ',,,b,_,1,0,c,1,0,d:3::q1:',
             'a', between1, 'b',
             between12, 'c', after2, 'R'
             )  # with start and end
@@ -139,19 +139,43 @@ class TestTuringMachineMacro:
         between12 += ['b', 'c']
         test(
             'a,1,0,b,_,1,0,c,0,1,h:::q1:',
-            ',,,b,_,1,0,c,1,0,d:7::q1:',
+            ',,,b,_,1,0,c,1,0,d:3::q1:',
             'a', between1, 'b',
             between12, 'c', after2, 'R'
             )  # without start and end
         test(
             'a,1,0,b,_,1,0,c,0,1,h:10::q1:',
-            'd,0,1,b,_,1,0,c,,,:3::q1:',
+            'd,0,1,b,_,1,0,c,,,:7::q1:',
             'h', ['1', '0'], 'c',
             between12, 'b', ['1', '0', 'a', ''], 'L'
             )  # with start and end
 
     def test_stop(self):
         self.test_move_by_val()
+
+    def test_set_all_on_way(self):
+        test = partial(func_for_testing, "set_all_on_way")
+
+        from_val = '0'
+        to_val = 's'
+        on_way_vals = ['1', '0', 'j']
+        stop_val = ''
+        test("1,0,1,1,0,j,:::q1:",
+             "1,s,1,1,s,j,:6::q1:",
+             from_val, to_val,
+             on_way_vals, stop_val,
+             'R'
+             )
+        from_val = 's'
+        to_val = '0'
+        on_way_vals = ['1', 's', 'j']
+        stop_val = ''
+        test("1,s,1,1,s,j:5::q1:",
+             ",1,0,1,1,0,j:-1::q1:",
+             from_val, to_val,
+             on_way_vals, stop_val,
+             'L'
+             )
 
     def test_bin_func(self):
         test = partial(func_for_testing, "bin_func")

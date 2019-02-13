@@ -74,24 +74,25 @@ class TuringMachineMacro:
             funcs = set()
             for elem in anytree.PostOrderIter(tree):
                 if elem.is_leaf:
-                    args.add(elem)
+                    args.add(elem.name)
                 else:
-                    funcs.add(elem)
+                    funcs.add(elem.name)
 
             return funcs, args
 
         funcs, args = get_func_and_args(func_tree)
 
         for function in funcs:
-            self.val_alpha.reserved.add({function.start, function.end})
+            self.val_alpha.reserved.union({function.start, function.end})
 
         symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
         symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
 
         between_bin = {'0', '1'}
         empty = [self.tm.default]
+        blank = self.val_alpha.pop()
         between_all = {val for pair in funcs for val in (pair.start, pair.end)}
-        between_all = between_all.union(between_bin, empty)
+        between_all = between_all.union(between_bin, {blank})
 
         def set_funcs(node, remember=False):
             nonlocal self, between_all, empty
@@ -99,35 +100,69 @@ class TuringMachineMacro:
 
             if node.is_leaf:
                 next_cond = self.cond_alpha.pop()
-                self.tm.set_rule(self.tm.default, self.stick_cond, symbols_for_args[node.name], next_cond, 'L')
+                self.set_rule(symbols_for_args[node.name], next_cond, 'L')
+                between_all.add(symbols_for_args[node.name])
                 self.stick_cond = next_cond
                 self.stick_val = self.tm.default
             else:
+                vec = node.name
                 if remember:
                     pass
                 else:
-                    conds = [self.cond_alpha.pop() for _ in range(3)]
+                    conds = [self.cond_alpha.pop() for _ in range(4)]
                     end_val = self.val_alpha.pop()
 
                     between_all.add(end_val)
-                    self.set_rule(self.tm.default, conds[0], 'L')
-                    self.set_rule(self.tm.default, conds[1], 'L')
-                    self.set_rule(end_val, conds[2], 'S')
+                    self.set_rule(self.stick_val, conds[0], 'L', suppose_val=self.tm.default)
+                    self.set_rule(blank, conds[1], 'L', suppose_val=self.tm.default)
+                    self.set_rule(blank, conds[2], 'L', suppose_val=self.tm.default)
+                    self.set_rule(end_val, conds[3], 'S')
 
-                    self.move_by_val(node.end, between_all, 'R')
+                    self.move_by_val(vec.end, between_all, 'R')
                     ret = self.copy_range(
-                        node.end, between_bin,
-                        node.start, between_all,
-                        self.tm.default, empty,
+                        vec.end, between_bin,
+                        vec.start, [blank],
+                        end_val, [self.tm.default],
                         'L'
                         )
                     between_all = between_all.union({ret.start, ret.end})
                     self.move_by_val(ret.start, between_all, 'L')
+                    self.set_rule(ret.start, self.cond_alpha.pop(), 'S')
 
                     for child in node.children:
                         set_funcs(child, remember=True)
 
+                    new_val = self.val_alpha.pop()
+                    self.set_rule(new_val, self.stick_cond, 'S')
+                    between_all.add(new_val)
+                    # print(self.tm)
+                    self.set_all_on_way(blank, self.tm.default, between_all,
+                                        vec.start, 'R'
+                                        )
                     self.set_rule(self.val_alpha.pop(), self.cond_alpha.pop(), 'S')
+
+        set_funcs(func_tree)
+
+    def set_all_on_way(
+            self, from_val, to_val,
+            on_way_vals: Iterable, stop_val,
+            direction
+            ):
+        on_way_vals = set(on_way_vals)
+        on_way_vals = on_way_vals.difference({from_val, stop_val})
+
+        for val in on_way_vals:
+            self.tm.set_rule(
+                val, self.stick_cond,
+                val, self.stick_cond,
+                direction
+                )
+        self.tm.set_rule(from_val, self.stick_cond, to_val, self.stick_cond, direction)
+        ret_cond = self.cond_alpha.pop()
+        self.tm.set_rule(stop_val, self.stick_cond, stop_val, ret_cond, 'S')
+
+        self.stick_val = stop_val
+        self.stick_cond = ret_cond
 
     def __init__(self, tm: machine.TuringMachine):
         self.tm = tm
@@ -195,9 +230,6 @@ class TuringMachineMacro:
 
         self.set_rule(self.tm.default, new_cond, 'S')
 
-        self.stick_val = self.tm.default
-        self.stick_cond = new_cond
-
     def clean_range(
             self,
             start: str, end: str,
@@ -212,28 +244,28 @@ class TuringMachineMacro:
 
         if self.stick_val != start:
             raise InvalidRegionError(
-                f"(should start with {start} symbol, not with {self.stick_val})"
+                f"(symbols {start}, {self.stick_val} not equal)"
                 )
 
         on_way_vals = on_way_vals.difference({end})
         on_way_vals = on_way_vals.union({start})
 
-        new_cond = self.cond_alpha.pop()
-        self.set_rule(self.tm.default, new_cond, direction)
+        self.set_rule(self.tm.default, self.stick_cond, direction)
         for val in on_way_vals:
             self.tm.set_rule(
-                val, new_cond,
-                self.tm.default, new_cond,
+                val, self.stick_cond,
+                self.tm.default, self.stick_cond,
                 direction
                 )
 
         self.stick_val = end
-        self.stick_cond = self.cond_alpha.pop()
+        new_cond = self.cond_alpha.pop()
         self.tm.set_rule(
-            end, new_cond,
             end, self.stick_cond,
+            end, new_cond,
             'S'
             )
+        self.stick_cond = new_cond
 
     def move_range(
             self,
@@ -247,14 +279,15 @@ class TuringMachineMacro:
             ):
         """The same as copy_range, except that it uses
         clean_range on original range"""
-        self.copy_range(
+        ret = self.copy_range(
             start1, between1,
             end1, between12,
             start2, after2,
             direction
             )
         self.clean_range(start1, end1, between1, direction)
-        self.move_by_val(start2, between12, direction)
+
+        return ret
 
     def copy_range(
             self,
@@ -287,21 +320,20 @@ class TuringMachineMacro:
         stop_vals = {key: self.val_alpha.pop() for key in between1}
 
         """Setting up the stop sign after start2"""
-        self.set_rule(self.stick_val, main[0], 'S')
         tempset = between1.union(between12, {start1, end1})
         for val in tempset:
-            self.tm.set_rule(val, main[0], val, main[0], direction)
-        self.tm.set_rule(start2, main[0], start2, main[1], direction)
+            self.tm.set_rule(val, self.stick_cond, val, self.stick_cond, direction)
+        self.tm.set_rule(start2, self.stick_cond, start2, main[0], direction)
         for val in after2:
-            self.tm.set_rule(val, main[1], stop_val, main[1], opposite_direction)
-        self.tm.set_rule(start2, main[1], start2, main[5], 'S')
+            self.tm.set_rule(val, main[0], stop_val, main[0], opposite_direction)
+        self.tm.set_rule(start2, main[0], start2, main[4], 'S')
         """Going back to start1 or stop by stop_vals"""
         tempset = between1.union(between12, {end1, start2})
         for val in tempset:
-            self.tm.set_rule(val, main[5], val, main[5], opposite_direction)
+            self.tm.set_rule(val, main[4], val, main[4], opposite_direction)
         for val in stop_vals.values():
-            self.tm.set_rule(val, main[5], val, main[2], direction)
-        self.tm.set_rule(start1, main[5], start1, main[2], direction)
+            self.tm.set_rule(val, main[4], val, main[1], direction)
+        self.tm.set_rule(start1, main[4], start1, main[1], direction)
 
         """Copy depending on the symbol of between1 gained"""
         tempset = between1.union(between12, {end1, start2})
@@ -309,24 +341,24 @@ class TuringMachineMacro:
             next_val = stop_vals[val]
             next_cond = copy_one[val]
             self.tm.set_rule(
-                val, main[2],
+                val, main[1],
                 next_val, next_cond,
                 direction
                 )
             for elem in tempset:
                 self.tm.set_rule(elem, next_cond, elem, next_cond, direction)
-            self.tm.set_rule(stop_val, next_cond, val, main[3], direction)
+            self.tm.set_rule(stop_val, next_cond, val, main[2], direction)
         for val in after2:
-            self.tm.set_rule(val, main[3], stop_val, main[6], opposite_direction)
+            self.tm.set_rule(val, main[2], stop_val, main[5], opposite_direction)
 
         """Get back and make a cycle"""
         for val in tempset:
-            self.tm.set_rule(val, main[6], val, main[6], opposite_direction)
+            self.tm.set_rule(val, main[5], val, main[5], opposite_direction)
         for val in stop_vals.values():
-            self.tm.set_rule(val, main[6], val, main[2], direction)
+            self.tm.set_rule(val, main[5], val, main[1], direction)
 
         """Clean when everything is done"""
-        self.tm.set_rule(end1, main[2], end1, main[4], opposite_direction)
+        self.tm.set_rule(end1, main[1], end1, main[3], opposite_direction)
 
         def key_by_value(dictionary, value):
             for key in dictionary:
@@ -335,11 +367,17 @@ class TuringMachineMacro:
 
         for val in stop_vals.values():
             prev = key_by_value(stop_vals, val)
-            self.tm.set_rule(val, main[4], prev, main[4], opposite_direction)
+            self.tm.set_rule(val, main[3], prev, main[3], opposite_direction)
 
         self.stick_cond = self.cond_alpha.pop()
-        self.tm.set_rule(start1, main[4], start1, self.stick_cond, 'S')
+        self.tm.set_rule(start1, main[3], start1, self.stick_cond, 'S')
         self.stick_val = start1
+
+        CopyRange = namedtuple("CopyRange", "start end")
+        if direction == 'L':
+            start2, stop_val = stop_val, start2
+
+        return CopyRange(start2, stop_val)
 
     def move_by_val(
             self, val: str,
@@ -348,30 +386,27 @@ class TuringMachineMacro:
             ):
         """Stops once val was encountered on the tape"""
         on_way_vals = set(on_way_vals)
-        new_cond = self.cond_alpha.pop()
 
         on_way_vals = on_way_vals.difference(set(val))
         on_way_vals = on_way_vals.union(set(self.stick_val))
 
-        self.set_rule(self.stick_val, new_cond, direction)
+        self.set_rule(self.stick_val, self.stick_cond, direction)
 
         for oval in on_way_vals:
             self.tm.set_rule(
-                oval, new_cond,
-                oval, new_cond,
+                oval, self.stick_cond,
+                oval, self.stick_cond,
                 direction
                 )
 
-        self.stick_val = val  # to use next macro function
-        self.stick_cond = self.cond_alpha.pop()  # we need to stick them together
-        self.tm.set_rule(val, new_cond, val, self.stick_cond, 'S')  # stay to choose what to do next
+        self.stick_val = val
+        self.set_rule(val, self.cond_alpha.pop(), 'S')
 
     def stop(self):
         """
         Finish macro machine execution, every command after this function
         will be useless
         """
-        print(self.stick_val, self.stick_cond)
         self.set_rule(self.stick_val, self.stick_cond, 'STOP')
 
     def bin_func(
@@ -400,8 +435,8 @@ class TuringMachineMacro:
         one1 = self.val_alpha.pop()
         one2 = self.val_alpha.pop()
 
-        cond_names = tuple(self.cond_alpha.pop() for _ in range(25))
-        self.set_rule(self.stick_val, cond_names[0], 'S')
+        cond_names = [self.stick_cond]
+        cond_names += [self.cond_alpha.pop() for _ in range(25)]
 
         file = self._parse_file(
             self.FUNC_BY_VECTOR_FILE,
@@ -439,6 +474,7 @@ class TuringMachineMacro:
         temp.seek(0)
 
         return temp
+
 # TODO: add two binary numbers
 # TODO: mul two binary numbers
 # TODO: negation of a binary number
