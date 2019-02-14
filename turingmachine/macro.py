@@ -46,7 +46,7 @@ class InvalidRegionError(TuringMachineMacroError):
             )
 
 
-BinaryFunctionVector = namedtuple("BinaryFunctionVector", "name start end")
+BinaryFunctionVector = namedtuple("BinaryFunctionVector", "start end")
 
 
 class TuringMachineMacro:
@@ -87,7 +87,17 @@ class TuringMachineMacro:
                 if elem.is_leaf:
                     args.add(elem.name)
                 else:
-                    funcs.add(elem.name)
+                    if any(
+                            is_equal_funcs(
+                                node, elem
+                                )
+                            for node in funcs
+                            ):
+                        continue
+                    else:
+                        funcs.add(elem)
+
+            funcs = {elem.name for elem in funcs}
 
             return funcs, args
 
@@ -99,67 +109,93 @@ class TuringMachineMacro:
         symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
         symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
 
-        between_bin = {'0', '1'}
-        empty = [self.tm.default]
-        blank = self.val_alpha.pop()
-        before_vecs = set(blank)
-        # between_all = {val for pair in funcs for val in (pair.start, pair.end)}
-        between_all = set(blank).union(between_bin)
+        blank = self.val_alpha.pop()  # symbol for blank spaces for future function results
+        before_vecs = {blank}
+        between_all = {blank}
+        default = self.tm.default
+        bin_vals = {'1', '0'}
+        first = True
+        after_vecs = {val for func in funcs for val in (func.start, func.end)}
 
-        def set_funcs(node, remember=False):
-            nonlocal self, between_all, before_vecs, empty
-            nonlocal symbols_for_args, symbols_for_funcs
+        def set_funcs(node):
+            nonlocal first, before_vecs, between_all
+            nonlocal blank, self, default, bin_vals
+
+            def set_marker(marker):
+                """Function used for setting argument names in
+                binary function arguments place
+                """
+                self.set_rule(
+                    self.stick_val, self.stick_cond,
+                    'L', suppose_val=default
+                    )
+                self.set_rule(
+                    marker, self.cond_alpha.pop(),
+                    'S'
+                    )
+
+                between_all.add(marker)
+                before_vecs.add(marker)
+
+            def prepare_results():
+                nonlocal blank
+                set_marker(blank)
+                set_marker(blank)
+                res_val = self.val_alpha.pop()
+                set_marker(res_val)
+
+                return res_val
+
+            def run_children(node):
+                postponed = []
+                for child in node.children:
+                    it = set_funcs(child)
+                    next(it)
+                    if isinstance(child.name, BinaryFunctionVector):
+                        postponed.append(it)
+
+                return postponed
+
+            def run_postponed(postponed):
+                for post in postponed:
+                    next(post)
 
             if node.is_leaf:
-                next_cond = self.cond_alpha.pop()
-                self.set_rule(symbols_for_args[node.name], next_cond, 'L')
-
-                self.stick_cond = next_cond
-                self.stick_val = self.tm.default
-
-                between_all.add(symbols_for_args[node.name])
-                before_vecs.add(symbols_for_args[node.name])
+                set_marker(symbols_for_args[node.name])
+                yield
             else:
                 vec = node.name
-                if remember:
-                    pass
+                if first is not True:
+                    set_marker(symbols_for_funcs[vec])
+                    yield
                 else:
-                    conds = [self.cond_alpha.pop() for _ in range(4)]
-                    end_val = self.val_alpha.pop()
+                    first = False
 
-                    before_vecs.add(end_val)
-                    between_all = between_all.union({end_val, vec.start, vec.end})
+                res_val = prepare_results()  # place markers where results will be displayed
+                #  res_val is the very left point of the tape
 
-                    self.set_rule(self.stick_val, conds[0], 'L', suppose_val=self.tm.default)
-                    self.set_rule(blank, conds[1], 'L', suppose_val=self.tm.default)
-                    self.set_rule(blank, conds[2], 'L', suppose_val=self.tm.default)
-                    self.set_rule(end_val, conds[3], 'S')
+                move_set = between_all.union(bin_vals, after_vecs)
+                self.move_by_val(vec.end, move_set, 'R')
 
-                    self.move_by_val(vec.end, between_all.union(between_bin), 'R')
-                    ret = self.copy_range(
-                        vec.end, between_bin,
-                        vec.start, before_vecs,
-                        end_val, [self.tm.default],
-                        'L'
-                        )
-                    before_vecs = before_vecs.union({ret.start, ret.end})
-                    between_all = between_all.union(before_vecs)
-                    self.move_by_val(ret.start, between_all, 'L')
-                    self.set_rule(ret.start, self.cond_alpha.pop(), 'S')
+                copy_res = self.copy_range(
+                    vec.end, bin_vals, vec.start,
+                    move_set, res_val, [default],
+                    'L'
+                    )
 
-                    for child in node.children:
-                        set_funcs(child, remember=True)
+                between_all.add(copy_res.start)
+                self.move_by_val(copy_res.start, move_set, 'L')
+                postponed = run_children(node)
 
-                    new_val = self.val_alpha.pop()
-                    self.set_rule(new_val, self.stick_cond, 'S')
-                    between_all.add(new_val)
-                    self.set_all_on_way(
-                        blank, self.tm.default, between_all,
-                        vec.start, 'R'
-                        )
-                    self.set_rule(self.val_alpha.pop(), self.cond_alpha.pop(), 'S')
+                set_marker(self.val_alpha.pop())
+                run_postponed(postponed)
 
-        set_funcs(func_tree)
+        it = set_funcs(func_tree)
+        while True:
+            try:
+                next(it)
+            except StopIteration:
+                break
 
     def set_all_on_way(
             self, from_val, to_val,
@@ -307,7 +343,7 @@ class TuringMachineMacro:
 
         return ret
 
-    def copy_range(
+    def copy_range(  # rewrite it with some glue in my head
             self,
             start1: str,
             between1: Iterable,
@@ -324,7 +360,7 @@ class TuringMachineMacro:
             raise InvalidRegionError(f"should start with {self.stick_val}, not with {start1}")
 
         between1 = set(between1).difference({start1, end1})
-        between12 = set(between12).difference({end1, start2})
+        between12 = set(between12).difference({end1, start2, start1})
         after2 = set(after2).difference(start2)
         whole = between1.union(between12, after2, {start1, end1, start2})
         self.val_alpha.reserved.update(whole)
