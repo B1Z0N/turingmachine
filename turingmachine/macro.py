@@ -6,8 +6,6 @@ import tempfile
 from collections import namedtuple
 from collections.abc import Iterable
 
-import anytree
-
 from turingmachine import alphabetgenerator
 from turingmachine import machine
 
@@ -431,114 +429,91 @@ class TuringMachineMacro:
         return temp
 
 
-class TuringMachineAdvancedMacro(TuringMachineMacro):
-    def gen_func_vec(
-            self,
-            func_tree: anytree.Node
-            ):
-        def is_equal_funcs(node1, node2):
-            if node1.is_leaf and node2.is_leaf:
-                return node1.name == node2.name
-            else:
-                if len(node1.children) != len(node2.children):
-                    return False
-                return all(
-                    is_equal_funcs(child1, child2) for child1, child2
-                    in zip(node1.children, node2.children)
-                    ) and node1.name == node2.name
+"""class TuringMachineGenFuncVecMacro(TuringMachineMacro):
 
-        def get_func_and_args(tree):
-            args = set()
-            funcs = set()
-            for elem in anytree.PostOrderIter(tree):
-                if elem.is_leaf:
-                    args.add(elem.name)
-                else:
-                    if any(
-                            is_equal_funcs(
+    def is_equal_funcs(self, node1, node2):
+        if node1.is_leaf and node2.is_leaf:
+            return node1.name == node2.name
+        else:
+            if len(node1.children) != len(node2.children):
+                return False
+            return all(
+                TuringMachineGenFuncVecMacro.is_equal_funcs(child1, child2)
+                for child1, child2
+                in zip(node1.children, node2.children)
+                ) and node1.name == node2.name
+
+    def get_func_and_args(self, tree):
+        args = set()
+        funcs = set()
+        for elem in anytree.PostOrderIter(tree):
+            if elem.is_leaf:
+                args.add(elem.name)
+            else:
+                if any(
+                        TuringMachineGenFuncVecMacro.is_equal_funcs(
                                 node, elem
                                 )
-                            for node in funcs
-                            ):
-                        continue
-                    else:
-                        funcs.add(elem)
+                        for node in funcs
+                        ):
+                    continue
+                else:
+                    funcs.add(elem)
+        funcs = {elem.name for elem in funcs}
+        return funcs, args
 
-            funcs = {elem.name for elem in funcs}
+    def set_marker(self, marker):
 
-            return funcs, args
+        self.set_rule(
+            self.stick_val, self.stick_cond,
+            'L', suppose_val=default
+            )
+        self.set_rule(
+            marker, self.cond_alpha.pop(),
+            'S'
+            )
 
-        funcs, args = get_func_and_args(func_tree)
+        between_all.add(marker)
+        before_vecs.add(marker)
 
-        for function in funcs:
-            self.val_alpha.reserved.union({function.start, function.end})
+    def prepare_results(self):
+        self.set_marker(blank)
+        self.set_marker(blank)
+        res_val = self.val_alpha.pop()
+        self.set_marker(res_val)
 
-        symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
-        symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
+        return res_val
 
-        vecs_start = self.stick_val
-        blank = self.val_alpha.pop()  # symbol for blank spaces for future function results
-        before_vecs = {blank}
-        between_all = {blank}
-        default = self.tm.default
-        bin_vals = {'1', '0'}
-        first = True
-        after_vecs = {val for func in funcs for val in (func.start, func.end)}
+    def run_children(self, node):
+        postponed = []
+        for child in node.children:
+            it = self.set_funcs_generator(child)
+            next(it)
+            if isinstance(child.name, BinaryFunctionVector):
+                postponed.append(it)
 
-        def set_funcs_generator(node):
+        return postponed
+
+    def run_postponed(self, postponed):
+        for post in postponed:
+            next(post)
+
+        def set_funcs_generator(self, node):
             nonlocal first, before_vecs, between_all
             nonlocal blank, self, default, bin_vals
 
-            def set_marker(marker):
-                """Function used for setting argument names in
-                binary function arguments place
-                """
-                self.set_rule(
-                    self.stick_val, self.stick_cond,
-                    'L', suppose_val=default
-                    )
-                self.set_rule(
-                    marker, self.cond_alpha.pop(),
-                    'S'
-                    )
-
-                between_all.add(marker)
-                before_vecs.add(marker)
-
-            def prepare_results():
-                set_marker(blank)
-                set_marker(blank)
-                res_val = self.val_alpha.pop()
-                set_marker(res_val)
-
-                return res_val
-
-            def run_children(node):
-                postponed = []
-                for child in node.children:
-                    it = set_funcs_generator(child)
-                    next(it)
-                    if isinstance(child.name, BinaryFunctionVector):
-                        postponed.append(it)
-
-                return postponed
-
-            def run_postponed(postponed):
-                for post in postponed:
-                    next(post)
-
             if node.is_leaf:
-                set_marker(symbols_for_args[node.name])
+                self.set_marker(symbols_for_args[node.name])
                 yield
             else:
                 vec = node.name
                 if first is not True:
-                    set_marker(symbols_for_funcs[vec])
+                    self.set_marker(symbols_for_funcs[vec])
                     yield
                 else:
                     first = False
 
-                res_val = prepare_results()  # place markers where results will be displayed
+                res_val = self.prepare_results()  # place markers where results will be displayed
                 #  res_val is the very left point of the tape
 
                 move_set = between_all.union(bin_vals, after_vecs)
@@ -552,12 +527,12 @@ class TuringMachineAdvancedMacro(TuringMachineMacro):
 
                 between_all.add(copy_res.start)
                 self.move_by_val(copy_res.start, move_set, 'L')
-                postponed = run_children(node)
+                postponed = self.run_children(node)
 
-                set_marker(self.val_alpha.pop())
-                run_postponed(postponed)
+                self.set_marker(self.val_alpha.pop())
+                self.run_postponed(postponed)
 
-        def run_none_returning_generator(func):
+        def run_none_returning_generator(self, func):
             import types
 
             def _(*args, **kwargs):
@@ -574,15 +549,14 @@ class TuringMachineAdvancedMacro(TuringMachineMacro):
 
         set_funcs = run_none_returning_generator(set_funcs_generator)
 
-        def put_args_gen():
-            nonlocal self, args
-            numbers = 2 ** len(args)
+    def put_args_gen(self):
+        nonlocal self, args
+        numbers = 2 ** len(args)
+        cur_val = self.stick_val
+        self.set_rule(self.stick_val, self.stick_cond, 'L', suppose_val=default)
+        self.set_rule(str(numbers), self.cond_alpha.pop(), 'S')
 
-            cur_val = self.stick_val
-            self.set_rule(self.stick_val, self.stick_cond, 'L', suppose_val=default)
-            self.set_rule(str(numbers), self.cond_alpha.pop(), 'S')
-
-        def set_args():
+        def set_args(self):
             nonlocal self, args, symbols_for_args
 
             numbers = self.stick_val
@@ -599,10 +573,31 @@ class TuringMachineAdvancedMacro(TuringMachineMacro):
             self.set_all_on_way(from_to, tempset, vecs_start, 'R')
             self.move_by_val(numbers, tempset, 'L')
 
-        set_funcs(func_tree)
-        put_args_gen()
+    def gen_func_vec(
+            self,
+            func_tree: anytree.Node
+            ):
 
-        set_args()
+        funcs, args = self.get_func_and_args(func_tree)
+
+        for function in funcs:
+            self.val_alpha.reserved.union({function.start, function.end})
+
+        symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
+        symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
+
+        vecs_start = self.stick_val
+        blank = self.val_alpha.pop()  # symbol for blank spaces for future function results
+        before_vecs = {blank}
+        between_all = {blank}
+        default = self.tm.default
+        bin_vals = {'1', '0'}
+        first = True
+        after_vecs = {val for func in funcs for val in (func.start, func.end)}
+
+        self.set_funcs(func_tree)
+        self.put_args_gen()
+        self.set_args()
 
 # TODO: add two binary numbers
 # TODO: mul two binary numbers
@@ -610,3 +605,5 @@ class TuringMachineAdvancedMacro(TuringMachineMacro):
 # TODO: n superposition
 
 # TODO: optimizer of conditions
+
+"""
