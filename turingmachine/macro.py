@@ -47,6 +47,25 @@ class InvalidRegionError(TuringMachineMacroError):
 
 
 BinaryFunctionVector = namedtuple("BinaryFunctionVector", "start end")
+MacroFunction = namedtuple("MacroFunction", "name start_cond end_cond")
+
+
+def return_macro_info(func):
+    def _(*args, **kwargs):
+        self = args[0]
+
+        start_cond = self.stick_cond
+        ret = func(*args, **kwargs)
+        name = func.__name__
+        name = name[0].upper() + name[1:]
+
+        ret2 = MacroFunction(name, start_cond, self.stick_cond)
+        if ret is None:
+            return ret2
+        else:
+            return ret2, ret
+
+    return _
 
 
 class TuringMachineMacro:
@@ -65,145 +84,16 @@ class TuringMachineMacro:
         self.stick_val = suppose_val
         self.stick_cond = next_cond
 
-    def gen_func_vec(
-            self,
-            func_tree: anytree.Node
-            ):
-        def is_equal_funcs(node1, node2):
-            if node1.is_leaf and node2.is_leaf:
-                return node1.name == node2.name
-            else:
-                if len(node1.children) != len(node2.children):
-                    return False
-                return all(
-                    is_equal_funcs(child1, child2) for child1, child2
-                    in zip(node1.children, node2.children)
-                    ) and node1.name == node2.name
-
-        def get_func_and_args(tree):
-            args = set()
-            funcs = set()
-            for elem in anytree.PostOrderIter(tree):
-                if elem.is_leaf:
-                    args.add(elem.name)
-                else:
-                    if any(
-                            is_equal_funcs(
-                                node, elem
-                                )
-                            for node in funcs
-                            ):
-                        continue
-                    else:
-                        funcs.add(elem)
-
-            funcs = {elem.name for elem in funcs}
-
-            return funcs, args
-
-        funcs, args = get_func_and_args(func_tree)
-
-        for function in funcs:
-            self.val_alpha.reserved.union({function.start, function.end})
-
-        symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
-        symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
-
-        blank = self.val_alpha.pop()  # symbol for blank spaces for future function results
-        before_vecs = {blank}
-        between_all = {blank}
-        default = self.tm.default
-        bin_vals = {'1', '0'}
-        first = True
-        after_vecs = {val for func in funcs for val in (func.start, func.end)}
-
-        def set_funcs(node):
-            nonlocal first, before_vecs, between_all
-            nonlocal blank, self, default, bin_vals
-
-            def set_marker(marker):
-                """Function used for setting argument names in
-                binary function arguments place
-                """
-                self.set_rule(
-                    self.stick_val, self.stick_cond,
-                    'L', suppose_val=default
-                    )
-                self.set_rule(
-                    marker, self.cond_alpha.pop(),
-                    'S'
-                    )
-
-                between_all.add(marker)
-                before_vecs.add(marker)
-
-            def prepare_results():
-                nonlocal blank
-                set_marker(blank)
-                set_marker(blank)
-                res_val = self.val_alpha.pop()
-                set_marker(res_val)
-
-                return res_val
-
-            def run_children(node):
-                postponed = []
-                for child in node.children:
-                    it = set_funcs(child)
-                    next(it)
-                    if isinstance(child.name, BinaryFunctionVector):
-                        postponed.append(it)
-
-                return postponed
-
-            def run_postponed(postponed):
-                for post in postponed:
-                    next(post)
-
-            if node.is_leaf:
-                set_marker(symbols_for_args[node.name])
-                yield
-            else:
-                vec = node.name
-                if first is not True:
-                    set_marker(symbols_for_funcs[vec])
-                    yield
-                else:
-                    first = False
-
-                res_val = prepare_results()  # place markers where results will be displayed
-                #  res_val is the very left point of the tape
-
-                move_set = between_all.union(bin_vals, after_vecs)
-                self.move_by_val(vec.end, move_set, 'R')
-
-                copy_res = self.copy_range(
-                    vec.end, bin_vals, vec.start,
-                    move_set, res_val, [default],
-                    'L'
-                    )
-
-                between_all.add(copy_res.start)
-                self.move_by_val(copy_res.start, move_set, 'L')
-                postponed = run_children(node)
-
-                set_marker(self.val_alpha.pop())
-                run_postponed(postponed)
-
-        it = set_funcs(func_tree)
-        while True:
-            try:
-                next(it)
-            except StopIteration:
-                break
-
+    @return_macro_info
     def set_all_on_way(
-            self, from_val, to_val,
-            on_way_vals: Iterable, stop_val,
+            self, from_to: dict,
+            on_way_vals: Iterable,
+            stop_val,
             direction
             ):
+
         on_way_vals = set(on_way_vals)
-        on_way_vals = on_way_vals.difference({from_val, stop_val})
+        on_way_vals = on_way_vals.difference(from_to.keys(), {stop_val})
 
         for val in on_way_vals:
             self.tm.set_rule(
@@ -211,7 +101,8 @@ class TuringMachineMacro:
                 val, self.stick_cond,
                 direction
                 )
-        self.tm.set_rule(from_val, self.stick_cond, to_val, self.stick_cond, direction)
+        for _from, _to in from_to.items():
+            self.tm.set_rule(_from, self.stick_cond, _to, self.stick_cond, direction)
         ret_cond = self.cond_alpha.pop()
         self.tm.set_rule(stop_val, self.stick_cond, stop_val, ret_cond, 'S')
 
@@ -229,6 +120,7 @@ class TuringMachineMacro:
 
         self.cache = {}
 
+    @return_macro_info
     def copy_one(
             self, to: str,
             on_way_vals: Iterable,
@@ -242,6 +134,7 @@ class TuringMachineMacro:
             on_way_vals, direction
             )
 
+    @return_macro_info
     def move_one(
             self, to: str,
             on_way_vals: Iterable,
@@ -250,6 +143,7 @@ class TuringMachineMacro:
         """The same as copy_one except of
         the fact that it deletes original
         """
+        start_cond = self.stick_cond
         val = self.stick_val
         self.clean_one()
         self.put_one(
@@ -257,6 +151,7 @@ class TuringMachineMacro:
             on_way_vals, direction
             )
 
+    @return_macro_info
     def put_one(
             self, val: str, to: str,
             on_way_vals: Iterable,
@@ -278,12 +173,14 @@ class TuringMachineMacro:
                       'S'
                       )
 
+    @return_macro_info
     def clean_one(self):
         """Set current cell to TuringMachine default value"""
         new_cond = self.cond_alpha.pop()
 
         self.set_rule(self.tm.default, new_cond, 'S')
 
+    @return_macro_info
     def clean_range(
             self,
             start: str, end: str,
@@ -321,6 +218,7 @@ class TuringMachineMacro:
             )
         self.stick_cond = new_cond
 
+    @return_macro_info
     def move_range(
             self,
             start1: str,
@@ -343,6 +241,7 @@ class TuringMachineMacro:
 
         return ret
 
+    @return_macro_info
     def copy_range(  # rewrite it with some glue in my head
             self,
             start1: str,
@@ -433,6 +332,7 @@ class TuringMachineMacro:
 
         return CopyRange(start2, stop_val)
 
+    @return_macro_info
     def move_by_val(
             self, val: str,
             on_way_vals: Iterable,
@@ -463,6 +363,7 @@ class TuringMachineMacro:
         """
         self.set_rule(self.stick_val, self.stick_cond, 'STOP')
 
+    @return_macro_info
     def bin_func(
             self,
             start_arg, end_arg,
@@ -528,6 +429,180 @@ class TuringMachineMacro:
         temp.seek(0)
 
         return temp
+
+
+class TuringMachineAdvancedMacro(TuringMachineMacro):
+    def gen_func_vec(
+            self,
+            func_tree: anytree.Node
+            ):
+        def is_equal_funcs(node1, node2):
+            if node1.is_leaf and node2.is_leaf:
+                return node1.name == node2.name
+            else:
+                if len(node1.children) != len(node2.children):
+                    return False
+                return all(
+                    is_equal_funcs(child1, child2) for child1, child2
+                    in zip(node1.children, node2.children)
+                    ) and node1.name == node2.name
+
+        def get_func_and_args(tree):
+            args = set()
+            funcs = set()
+            for elem in anytree.PostOrderIter(tree):
+                if elem.is_leaf:
+                    args.add(elem.name)
+                else:
+                    if any(
+                            is_equal_funcs(
+                                node, elem
+                                )
+                            for node in funcs
+                            ):
+                        continue
+                    else:
+                        funcs.add(elem)
+
+            funcs = {elem.name for elem in funcs}
+
+            return funcs, args
+
+        funcs, args = get_func_and_args(func_tree)
+
+        for function in funcs:
+            self.val_alpha.reserved.union({function.start, function.end})
+
+        symbols_for_args = {arg: self.val_alpha.pop() for arg in args}
+        symbols_for_funcs = {func: self.val_alpha.pop() for func in funcs}
+
+        vecs_start = self.stick_val
+        blank = self.val_alpha.pop()  # symbol for blank spaces for future function results
+        before_vecs = {blank}
+        between_all = {blank}
+        default = self.tm.default
+        bin_vals = {'1', '0'}
+        first = True
+        after_vecs = {val for func in funcs for val in (func.start, func.end)}
+
+        def set_funcs_generator(node):
+            nonlocal first, before_vecs, between_all
+            nonlocal blank, self, default, bin_vals
+
+            def set_marker(marker):
+                """Function used for setting argument names in
+                binary function arguments place
+                """
+                self.set_rule(
+                    self.stick_val, self.stick_cond,
+                    'L', suppose_val=default
+                    )
+                self.set_rule(
+                    marker, self.cond_alpha.pop(),
+                    'S'
+                    )
+
+                between_all.add(marker)
+                before_vecs.add(marker)
+
+            def prepare_results():
+                set_marker(blank)
+                set_marker(blank)
+                res_val = self.val_alpha.pop()
+                set_marker(res_val)
+
+                return res_val
+
+            def run_children(node):
+                postponed = []
+                for child in node.children:
+                    it = set_funcs_generator(child)
+                    next(it)
+                    if isinstance(child.name, BinaryFunctionVector):
+                        postponed.append(it)
+
+                return postponed
+
+            def run_postponed(postponed):
+                for post in postponed:
+                    next(post)
+
+            if node.is_leaf:
+                set_marker(symbols_for_args[node.name])
+                yield
+            else:
+                vec = node.name
+                if first is not True:
+                    set_marker(symbols_for_funcs[vec])
+                    yield
+                else:
+                    first = False
+
+                res_val = prepare_results()  # place markers where results will be displayed
+                #  res_val is the very left point of the tape
+
+                move_set = between_all.union(bin_vals, after_vecs)
+                self.move_by_val(vec.end, move_set, 'R')
+
+                copy_res = self.copy_range(
+                    vec.end, bin_vals, vec.start,
+                    move_set, res_val, [default],
+                    'L'
+                    )
+
+                between_all.add(copy_res.start)
+                self.move_by_val(copy_res.start, move_set, 'L')
+                postponed = run_children(node)
+
+                set_marker(self.val_alpha.pop())
+                run_postponed(postponed)
+
+        def run_none_returning_generator(func):
+            import types
+
+            def _(*args, **kwargs):
+                it = func(*args, **kwargs)
+                if not isinstance(it, types.GeneratorType):
+                    raise TypeError(repr(it) + "must be a generator")
+                while True:
+                    try:
+                        next(it)
+                    except StopIteration:
+                        break
+
+            return _
+
+        set_funcs = run_none_returning_generator(set_funcs_generator)
+
+        def put_args_gen():
+            nonlocal self, args
+            numbers = 2 ** len(args)
+
+            cur_val = self.stick_val
+            self.set_rule(self.stick_val, self.stick_cond, 'L', suppose_val=default)
+            self.set_rule(str(numbers), self.cond_alpha.pop(), 'S')
+
+        def set_args():
+            nonlocal self, args, symbols_for_args
+
+            numbers = self.stick_val
+
+            def mybin(num, length):
+                res = bin(num)[2:]
+                return (length - len(res)) * '0' + res
+
+            arg_num = len(args)
+            cur_bin = mybin(int(numbers), arg_num)
+            from_to = {symbols_for_args[arg]: num for arg, num in zip(args, cur_bin)}
+            tempset = between_all.union(bin_vals, {numbers})
+
+            self.set_all_on_way(from_to, tempset, vecs_start, 'R')
+            self.move_by_val(numbers, tempset, 'L')
+
+        set_funcs(func_tree)
+        put_args_gen()
+
+        set_args()
 
 # TODO: add two binary numbers
 # TODO: mul two binary numbers

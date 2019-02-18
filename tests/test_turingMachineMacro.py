@@ -156,23 +156,21 @@ class TestTuringMachineMacro:
     def test_set_all_on_way(self):
         test = partial(func_for_testing, "set_all_on_way")
 
-        from_val = '0'
-        to_val = 's'
+        from_val = {'0': 's'}
         on_way_vals = ['1', '0', 'j']
         stop_val = ''
         test("1,0,1,1,0,j,:::q1:",
              "1,s,1,1,s,j,:6::q1:",
-             from_val, to_val,
+             from_val,
              on_way_vals, stop_val,
              'R'
              )
-        from_val = 's'
-        to_val = '0'
+        from_val = {'s': '0'}
         on_way_vals = ['1', 's', 'j']
         stop_val = ''
         test("1,s,1,1,s,j:5::q1:",
              ",1,0,1,1,0,j:-1::q1:",
-             from_val, to_val,
+             from_val,
              on_way_vals, stop_val,
              'L'
              )
