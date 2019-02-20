@@ -156,6 +156,20 @@ class TestTuringMachineMacro:
     def test_set_all_on_way(self):
         test = partial(func_for_testing, "set_all_on_way")
 
+        tm = TuringMachine.from_str("a,1,0,0,1,1,1,b,c,k,c,c,b:::q1:")
+        tmac = TuringMachineMacro(tm)
+
+        from_to = {'1': 's'}
+        on_way_vals = ['1', '0', 'a', 'b']
+        stop_val = 'b'
+
+        tmac.set_all_on_way(from_to, on_way_vals, stop_val, 'R')
+        tmac.set_rule(tmac.stick_val, tmac.cond_alpha.pop(), 'R', suppose_val='c')
+        tmac.set_all_on_way({'c': 's'}, ['c', 'k', 'b'], stop_val, 'R')
+        print(tm)
+        tmac.stop()
+        tm.run()
+
         from_val = {'0': 's'}
         on_way_vals = ['1', '0', 'j']
         stop_val = ''
