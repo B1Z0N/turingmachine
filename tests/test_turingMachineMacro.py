@@ -1,7 +1,7 @@
 from functools import partial
 
 from turingmachine.machine import TuringMachine
-from turingmachine.macro import TuringMachineMacro
+from turingmachine.macrotrash import TuringMachineMacro
 
 
 def tm_equal(

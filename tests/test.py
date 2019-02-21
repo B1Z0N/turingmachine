@@ -1,7 +1,7 @@
 from anytree import Node
 
 from turingmachine.machine import TuringMachine
-from turingmachine.macro import BinaryFunctionVector, TuringMachineGenFuncVecMacro
+from turingmachine.macrotrash import BinaryFunctionVector, TuringMachineGenFuncVecMacro
 
 tm = TuringMachine.from_str("a,0,0,0,0,b,1,1,1,1,c:::q1:")
 function = BinaryFunctionVector
