@@ -107,38 +107,6 @@ class MoveByVal(Basic):
 
         return namedtuple("MoveByValRet", "start_cond end_cond")
 
-    def _is_reusable_move_by_val(
-            self, case, val: str, on_way_vals: Iterable,
-            direction: str, cycle=False
-            ):
-        if case is not None:
-            val1, on_way_vals1, direction1 = case.args
-
-        on_way_vals = set(on_way_vals)
-        on_way_vals = on_way_vals.difference({val})
-        on_way_vals = on_way_vals.union(set(self.stick_val))
-
-        if case is None: return self._new_move_by_val(val, on_way_vals, direction)
-
-        reuse = direction == direction1
-
-        if cycle:
-            reuse = reuse and all((
-                on_way_vals.issubset(on_way_vals1),
-                val == val1
-                ))
-        else:
-            reuse = reuse and all((
-                on_way_vals.isdisjoint(on_way_vals1),
-                val not in on_way_vals1,
-                val1 not in on_way_vals
-                ))
-
-        if reuse:
-            return Decision(reuse, (case.conds, val, on_way_vals, direction))
-        else:
-            return Decision(reuse, (val, on_way_vals, direction))
-
     def _reuse_move_by_val(self, conds, val, on_way_vals, direction):
 
 

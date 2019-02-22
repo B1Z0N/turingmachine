@@ -1,6 +1,7 @@
 import abc
 import functools
-from collections.abc import Hashable
+from collections import namedtuple
+from collections.abc import Iterable
 
 from turingmachine import alphabetgenerator
 from turingmachine import machine
@@ -51,15 +52,11 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
 
     def __init__(self):
         self.cases = []
-        self.reuse_case = None
-        self.for_use = None
+        self.args = None
+        self.cur_case = None
 
     @abc.abstractmethod
     def prepare(self, obj: Basic, *args, **kwargs):
-        pass
-
-    @abc.abstractmethod
-    def is_reusable(self, obj: Basic, *args, **kwargs):
         pass
 
     @abc.abstractmethod
@@ -71,23 +68,21 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
         pass
 
     def main(self, obj: Basic, *args, **kwargs) -> None:
-        self.take_reusable(obj, *args, **kwargs)
         self.prepare(obj, *args, **kwargs)
-        self.use(obj, *args, **kwargs)
+        self.use(obj)
 
-    def take_reusable(self, obj: Basic, *args, **kwargs):
-        self.reuse_case = None
-        for case in self.cases:
-            self.is_reusable(obj, case, *args, **kwargs)
-            if self.reuse_case is not None:
-                break
+    # def take_reusable(self, obj: Basic, *args, **kwargs):
+    #     self.is_reuse = False
+    #     for case in self.cases:
+    #         self.prepare(obj, case, *args, **kwargs)
+    #         if self.is_reuse is True:
+    #             break
 
-    def use(self, obj: Basic, *args, **kwargs):
-        if self.reuse_case is not None:
-            self.reuse(obj, *args, **kwargs)
+    def use(self, obj: Basic):
+        if self.cur_case is not None:
+            self.reuse(obj, *self.args)
         else:
-            self.create(obj, *args, **kwargs)
-            self.cases.append((args, kwargs))
+            self.create(obj, *self.args)
 
     __call__ = main
 
@@ -97,20 +92,123 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
         return func
 
 
+MacroCase = namedtuple("MacroCase", "conds args")
+
+
+class Params:
+    def __init__(self, args, kwargs=None):
+        self.kwargs = None if kwargs is None else kwargs
+        self.args = args
+
+
+# noinspection PyMethodOverriding,PyMethodOverriding,PyMethodOverriding,PyMethodOverriding
 class MoveByVal(MacroFuncTemplate):
     """Class for managing move by value functionality"""
 
-    def is_reusable(self, obj: Basic, *args, **kwargs):
-        pass
+    MoveByValConds = namedtuple("MoveByValConds", "move_cond, end_cond")
 
-    def prepare(self, obj: Basic, *args, **kwargs):
-        pass
+    def prepare(
+            self, obj: Basic,
+            val: str,
+            on_way_vals: Iterable,
+            direction: str,
+            cycle=False,
+            new=False
+            ):
+        on_way_vals = {on_way_vals}
+        on_way_vals = on_way_vals.difference({val})
+        on_way_vals = on_way_vals.union({obj.stick_val})
 
-    def reuse(self, obj: Basic, *args, **kwargs):
-        pass
+        self.cur_case = None
+        if new is True:
+            self.args = (val, on_way_vals, direction)
+            return
 
-    def create(self, obj: Basic, *args, **kwargs):
-        pass
+        for case in self.cases:
+            val1, on_way_vals1, direction1 = case.params.args
+
+            if direction == direction1:
+                reuse = True
+            else:
+                continue
+
+            if cycle:
+                reuse = reuse and val in val1
+                reuse = reuse and all((
+                    on_way_vals.issubset(on_way_vals1),
+                    val in val1
+                    ))
+            else:
+                reuse = reuse and all((
+                    on_way_vals.isdisjoint(on_way_vals1),
+                    val not in on_way_vals1,
+                    val1 not in on_way_vals,
+                    val != val1
+                    ))
+            if reuse is True:
+                self.cur_case = case
+                break
+
+        if self.cur_case is not None:
+            self.args = (val, on_way_vals, direction, cycle)
+        else:
+            self.args = (val, on_way_vals, direction)
+
+    @staticmethod
+    def _main_move(
+            obj: Basic, val: str,
+            on_way_vals: set,
+            direction: str,
+            cycle=True
+            ):
+        obj.set_rule(obj.stick_val, obj.stick_cond, direction)
+
+        for oval in on_way_vals:
+            obj.tm.set_rule(
+                oval, obj.stick_cond,
+                oval, obj.stick_cond,
+                direction
+                )
+
+        obj.stick_val = val
+        if cycle is False:
+            obj.set_rule(val, obj.cond_alpha.pop(), 'S')
+
+    def reuse(
+            self, obj: Basic, val: str,
+            on_way_vals: set,
+            direction: str,
+            cycle: bool
+            ):
+        _, on_way_vals1, _ = self.cur_case.params.args
+
+        move_set = on_way_vals1.difference(on_way_vals)
+        self._main_move(obj, val, move_set, direction, cycle)
+
+        if cycle:
+            params = Params((val, on_way_vals.union(on_way_vals1), direction))
+            conds = self.MoveByValConds(
+                move_cond=self.cur_case.conds.move_cond,
+                end_cond=self.cur_case.conds.end_cond
+                )
+
+            self.cases.append(MacroCase(conds, params))
+        else:
+
+    def create(
+            self, obj: Basic, val: str,
+            on_way_vals: set,
+            direction: str,
+            ):
+        """Stops once val was encountered on the tape"""
+        start_cond = obj.stick_cond
+
+        self._main_move(obj, val, on_way_vals, direction)
+
+        params = Params((val, on_way_vals, direction))
+        conds = self.MoveByValConds(move_cond=start_cond, end_cond=obj.stick_cond)
+
+        self.cases.append(MacroCase(conds, params))
 
 
 class SetAllOnWay(MacroFuncTemplate):
@@ -174,21 +272,21 @@ class MacroMain(Basic):
 
     def copy_one(
             self, to: str,
-            on_way_vals: Hashable,
+            on_way_vals: Iterable,
             direction: str
             ):
         pass
 
     def move_one(
             self, to: str,
-            on_way_vals: Hashable,
+            on_way_vals: Iterable,
             direction: str
             ):
         pass
 
     def put_one(
             self, val: str, to: str,
-            on_way_vals: Hashable,
+            on_way_vals: Iterable,
             direction
             ):
         pass
@@ -199,11 +297,11 @@ class MacroMain(Basic):
     def move_range(
             self,
             start1: str,
-            between1: Hashable,
+            between1: Iterable,
             end1: str,
-            between12: Hashable,
+            between12: Iterable,
             start2: str,
-            after2: Hashable,
+            after2: Iterable,
             direction
             ):
         pass

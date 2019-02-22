@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py" description="        test('a,b,_,_,_,c:::q1:', 'a,b,_,_,_,a:5::..." line="29" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/turingmachine/binfunc.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turingmachine/extensions/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/turingmachine/macrotrash.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_turingMachineMacro.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_turingMachineMacro.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/__init__.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turingmachine/macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macro.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/macrotmp.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/turingmachine/macrotrash.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macrotrash.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,7 +23,37 @@
     <favorites_list name="turing" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="525" />
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="47">
+              <caret line="133" column="40" lean-forward="true" selection-start-line="133" selection-start-column="40" selection-end-line="133" selection-end-column="40" />
+              <folding>
+                <element signature="e#0#10#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="84">
+              <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
+              <folding>
+                <element signature="e#10206#10299#1" expanded="true" />
+                <element signature="e#10560#10697#1" expanded="true" />
+                <element signature="e#10955#11042#1" expanded="true" />
+                <element signature="e#11384#11425#1" expanded="true" />
+                <element signature="e#12109#12293#1" expanded="true" />
+                <element signature="e#13990#14091#1" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -80,6 +108,7 @@
       <replace>main[4]</replace>
       <replace>main[5]</replace>
       <replace>Hashable</replace>
+      <replace>Iterable</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -124,12 +153,13 @@
         <option value="$PROJECT_DIR$/turingmachine/machine.py" />
         <option value="$PROJECT_DIR$/tests/test.py" />
         <option value="$PROJECT_DIR$/turingmachine/macrofactory.py" />
-        <option value="$PROJECT_DIR$/tests/test_turingMachineMacro.py" />
         <option value="$PROJECT_DIR$/turingmachine/macrotmp.py" />
         <option value="$PROJECT_DIR$/turingmachine/binfunc.py" />
-        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/__init__.py" />
         <option value="$PROJECT_DIR$/turingmachine/extensions/__init__.py" />
+        <option value="$PROJECT_DIR$/tests/test_turingMachineMacro.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macrotrash.py" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
       </list>
     </option>
   </component>
@@ -147,18 +177,12 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
               <item name="turing" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="turing" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
@@ -175,6 +199,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -510,7 +535,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550695632569</updated>
     </task>
-    <option name="localTasksCounter" value="35" />
+    <task id="LOCAL-00035" summary="Created ABC and decided to make it not a class for inheritance, but a descriptor class for assigning to other's class instances, for acting like a function.&#10;Added extension package for binary function vector generation and superposition of an ordinary function.">
+      <created>1550746622872</created>
+      <option name="number" value="00035" />
+      <option name="presentableId" value="LOCAL-00035" />
+      <option name="project" value="LOCAL" />
+      <updated>1550746622872</updated>
+    </task>
+    <option name="localTasksCounter" value="36" />
     <servers />
   </component>
   <component name="TodoView">
@@ -524,10 +556,12 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.26298702" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.26273885" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.25796178" />
+      <window_info anchor="bottom" id="Inspection Results" weight="0.3292978" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.33171913" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.7445521" />
@@ -539,7 +573,7 @@
       <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.064164646" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.46125907" />
-      <window_info active="true" anchor="bottom" id="Messages" order="11" visible="true" weight="0.2433414" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.6549637" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25487012" />
@@ -613,7 +647,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="1. Added NameTemplate class for generating new condition names based on given name&#10;2. Upgraded TuringAlphabet class, so that now it can take several templates and switch between them, also&#10;it can generate a name without a template&#10;3. Written some exceptions for new code support&#10;4. Split move_cursor function to two move_by_pos and move_by_val, so that first uses the second to move,&#10;also first can generate names with a given template condition" />
     <MESSAGE value="Splitted macro module to two modules:&#10;1. macro - where all macro computation is being written&#10;2. alphabetgenerator - where all classes and exceptions for generating names for a turing machine conditions are kept" />
     <MESSAGE value="Written tests to alphabetgenerator module" />
     <MESSAGE value="Written some tests to currently available functions" />
@@ -638,7 +671,8 @@
     <MESSAGE value="Created class for binary function vector generation." />
     <MESSAGE value="Coded class for conditions reusability" />
     <MESSAGE value="Added abcs, class factory and Basic class and some handwritten classes. I think we should left out all this trash. Next time i will choose only one decision for creating Mixins." />
-    <option name="LAST_COMMIT_MESSAGE" value="Added abcs, class factory and Basic class and some handwritten classes. I think we should left out all this trash. Next time i will choose only one decision for creating Mixins." />
+    <MESSAGE value="Created ABC and decided to make it not a class for inheritance, but a descriptor class for assigning to other's class instances, for acting like a function.&#10;Added extension package for binary function vector generation and superposition of an ordinary function." />
+    <option name="LAST_COMMIT_MESSAGE" value="Created ABC and decided to make it not a class for inheritance, but a descriptor class for assigning to other's class instances, for acting like a function.&#10;Added extension package for binary function vector generation and superposition of an ordinary function." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -802,13 +836,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="93">
-          <caret line="3" column="29" selection-start-line="3" selection-start-column="29" selection-end-line="3" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/tests/test.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
@@ -866,10 +893,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="17" column="29" selection-start-line="17" selection-start-column="29" selection-end-line="17" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="10261">
-          <caret line="352" lean-forward="true" selection-start-line="352" selection-end-line="352" />
+        <state relative-caret-position="84">
+          <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
           <folding>
             <element signature="e#10206#10299#1" expanded="true" />
             <element signature="e#10560#10697#1" expanded="true" />
@@ -883,13 +917,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="5084">
-          <caret line="167" selection-start-line="167" selection-end-line="167" />
+        <state relative-caret-position="47">
+          <caret line="133" column="40" lean-forward="true" selection-start-line="133" selection-start-column="40" selection-end-line="133" selection-end-column="40" />
           <folding>
-            <element signature="e#0#17#0" expanded="true" />
-            <element signature="e#688#771#1" expanded="true" />
-            <element signature="e#1101#1256#1" expanded="true" />
-            <element signature="e#2897#2963#1" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
           </folding>
         </state>
       </provider>
