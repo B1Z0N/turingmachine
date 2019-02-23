@@ -44,7 +44,7 @@ class Basic:
         self.set_rule(self.stick_val, self.stick_cond, 'STOP')
 
 
-class MacroFuncTemplate(metaclass=abc.ABCMeta):
+class MacroFuncABC(metaclass=abc.ABCMeta):
     """
     Descriptor ABC class for acting like a function of one
     of the subclasses of Basic class
@@ -54,20 +54,54 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
         self.cases = []
         self.args = None
         self.cur_case = None
+        self.cur_index = None
 
     @abc.abstractmethod
     def prepare(self, obj: Basic, *args, **kwargs):
+        """
+        Filter parameters and chose whether create new set
+        of conditions or reuse previous ones.
+
+        Prepare args and put them in self.args to be set for
+        self.reuse() or self.create()
+
+        Loop through self.cases and choose one appropriate
+        case for reuse, assign it to self.cur_case
+        and it's index to self.cur_index. If there are
+        no such case it should be assigned to None.
+        """
         pass
 
     @abc.abstractmethod
     def reuse(self, obj: Basic, *args, **kwargs):
+        """
+        Reuse function takes self.args prepared in
+        self.prepare
+
+        self.cur_case is helpful info for reuse
+        handling.
+
+        Reuse and edit self.cases[self.cur_index]
+        so that it contains up to date info about
+        this case.
+        """
         pass
 
     @abc.abstractmethod
     def create(self, obj: Basic, *args, **kwargs):
+        """
+        Create function takes self.args prepared
+        by self.prepare.
+
+        Handle creating fully new case.
+
+        Finally perform self.cases.append(macro_case),
+        for future lookups
+        """
         pass
 
     def main(self, obj: Basic, *args, **kwargs) -> None:
+        """Function that performs all actions"""
         self.prepare(obj, *args, **kwargs)
         self.use(obj)
 
@@ -79,6 +113,7 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
     #             break
 
     def use(self, obj: Basic):
+        """Checks whether to reuse older or create new case"""
         if self.cur_case is not None:
             self.reuse(obj, *self.args)
         else:
@@ -87,15 +122,57 @@ class MacroFuncTemplate(metaclass=abc.ABCMeta):
     __call__ = main
 
     def __get__(self, obj: Basic, cls):
+        """Get main function"""
         func = functools.partial(self.__call__, obj)
 
         return func
 
 
+"""
+Class for shadowing MacroFuncABC docstrings.
+
+MacroFuncABC's docstrings are for developers
+extending macros functionality
+
+MacroFuncTemplate's docstrings are for
+developers using this module
+"""
+
+
+class MacroFuncTemplate(MacroFuncABC):
+    """
+    Template descriptor class
+    for writing macros to Turing Machine
+    """
+
+    @abc.abstractmethod
+    def prepare(self, obj: Basic, *args, **kwargs):
+        """
+        Prepare and choose whether to reuse or
+        create new case
+        """
+        pass
+
+    @abc.abstractmethod
+    def reuse(self, obj: Basic, *args, **kwargs):
+        """
+        Reuse previous case
+        """
+        pass
+
+    @abc.abstractmethod
+    def create(self, obj: Basic, *args, **kwargs):
+        """
+        Create new case
+        """
+        pass
+
 MacroCase = namedtuple("MacroCase", "conds args")
+"""Recommended class for case in MacroFuncTemplate"""
 
 
 class Params:
+    """Recommended class for args in MacroCase class"""
     def __init__(self, args, kwargs=None):
         self.kwargs = None if kwargs is None else kwargs
         self.args = args
@@ -106,6 +183,17 @@ class MoveByVal(MacroFuncTemplate):
     """Class for managing move by value functionality"""
 
     MoveByValConds = namedtuple("MoveByValConds", "move_cond, end_cond")
+    """Internal class for communicating between functions"""
+
+    def main(
+            self, obj: Basic,
+            val: str,
+            on_way_vals: Iterable,
+            direction: str,
+            cycle=False,
+            new=False
+            ):
+        super().main(obj, val, on_way_vals, direction, cycle=cycle, new=new)
 
     def prepare(
             self, obj: Basic,
@@ -124,7 +212,7 @@ class MoveByVal(MacroFuncTemplate):
             self.args = (val, on_way_vals, direction)
             return
 
-        for case in self.cases:
+        for index, case in self.cases:
             val1, on_way_vals1, direction1 = case.params.args
 
             if direction == direction1:
@@ -143,10 +231,11 @@ class MoveByVal(MacroFuncTemplate):
                     on_way_vals.isdisjoint(on_way_vals1),
                     val not in on_way_vals1,
                     val1 not in on_way_vals,
-                    val != val1
+                    val not in val1
                     ))
             if reuse is True:
                 self.cur_case = case
+                self.cur_index = index
                 break
 
         if self.cur_case is not None:
@@ -180,20 +269,20 @@ class MoveByVal(MacroFuncTemplate):
             direction: str,
             cycle: bool
             ):
-        _, on_way_vals1, _ = self.cur_case.params.args
+        cur_vals, on_way_vals1, _ = self.cur_case.params.args
 
         move_set = on_way_vals1.difference(on_way_vals)
         self._main_move(obj, val, move_set, direction, cycle)
 
-        if cycle:
-            params = Params((val, on_way_vals.union(on_way_vals1), direction))
-            conds = self.MoveByValConds(
-                move_cond=self.cur_case.conds.move_cond,
-                end_cond=self.cur_case.conds.end_cond
-                )
+        if cycle is False:
+            cur_vals = cur_vals.union(val)
 
-            self.cases.append(MacroCase(conds, params))
-        else:
+        params = Params((cur_vals, on_way_vals.union(on_way_vals1), direction))
+        conds = self.MoveByValConds(
+            move_cond=self.cur_case.conds.move_cond,
+            end_cond=self.cur_case.conds.end_cond
+            )
+        self.cases[self.cur_index] = MacroCase(conds, params)
 
     def create(
             self, obj: Basic, val: str,
@@ -205,7 +294,7 @@ class MoveByVal(MacroFuncTemplate):
 
         self._main_move(obj, val, on_way_vals, direction)
 
-        params = Params((val, on_way_vals, direction))
+        params = Params(({val}, on_way_vals, direction))
         conds = self.MoveByValConds(move_cond=start_cond, end_cond=obj.stick_cond)
 
         self.cases.append(MacroCase(conds, params))

@@ -8,10 +8,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turingmachine/macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macro.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/macrotrash.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macrotrash.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -27,10 +25,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="47">
-              <caret line="133" column="40" lean-forward="true" selection-start-line="133" selection-start-column="40" selection-end-line="133" selection-end-column="40" />
+            <state relative-caret-position="1082">
+              <caret line="162" column="23" selection-start-line="162" selection-start-column="23" selection-end-line="162" selection-end-column="23" />
               <folding>
                 <element signature="e#0#10#0" expanded="true" />
+                <element signature="e#1417#1524#1" expanded="true" />
+                <element signature="e#1743#1767#1" expanded="true" />
+                <element signature="e#2278#2546#1" expanded="true" />
+                <element signature="e#2625#2649#1" expanded="true" />
+                <element signature="e#3687#3739#1" expanded="true" />
+                <element signature="e#3731#3808#1" expanded="true" />
+                <element signature="e#3812#3852#1" expanded="true" />
+                <element signature="e#4289#4313#1" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -39,16 +45,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="84">
+            <state relative-caret-position="2108">
               <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
-              <folding>
-                <element signature="e#10206#10299#1" expanded="true" />
-                <element signature="e#10560#10697#1" expanded="true" />
-                <element signature="e#10955#11042#1" expanded="true" />
-                <element signature="e#11384#11425#1" expanded="true" />
-                <element signature="e#12109#12293#1" expanded="true" />
-                <element signature="e#13990#14091#1" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -177,6 +175,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -199,7 +198,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -542,7 +540,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550746622872</updated>
     </task>
-    <option name="localTasksCounter" value="36" />
+    <task id="LOCAL-00036" summary="Coded MoveByVal class. A few optimisations is queried.">
+      <created>1550866389229</created>
+      <option name="number" value="00036" />
+      <option name="presentableId" value="LOCAL-00036" />
+      <option name="project" value="LOCAL" />
+      <updated>1550866389229</updated>
+    </task>
+    <option name="localTasksCounter" value="37" />
     <servers />
   </component>
   <component name="TodoView">
@@ -561,7 +566,6 @@
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.26273885" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.25796178" />
-      <window_info anchor="bottom" id="Inspection Results" weight="0.3292978" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.33171913" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.7445521" />
@@ -574,6 +578,7 @@
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.46125907" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.6549637" />
+      <window_info active="true" anchor="bottom" id="Inspection Results" order="12" visible="true" weight="0.064164646" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25487012" />
@@ -647,7 +652,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Splitted macro module to two modules:&#10;1. macro - where all macro computation is being written&#10;2. alphabetgenerator - where all classes and exceptions for generating names for a turing machine conditions are kept" />
     <MESSAGE value="Written tests to alphabetgenerator module" />
     <MESSAGE value="Written some tests to currently available functions" />
     <MESSAGE value="1. Added stop function and exception&#10;2. Added bin_func file" />
@@ -672,7 +676,8 @@
     <MESSAGE value="Coded class for conditions reusability" />
     <MESSAGE value="Added abcs, class factory and Basic class and some handwritten classes. I think we should left out all this trash. Next time i will choose only one decision for creating Mixins." />
     <MESSAGE value="Created ABC and decided to make it not a class for inheritance, but a descriptor class for assigning to other's class instances, for acting like a function.&#10;Added extension package for binary function vector generation and superposition of an ordinary function." />
-    <option name="LAST_COMMIT_MESSAGE" value="Created ABC and decided to make it not a class for inheritance, but a descriptor class for assigning to other's class instances, for acting like a function.&#10;Added extension package for binary function vector generation and superposition of an ordinary function." />
+    <MESSAGE value="Coded MoveByVal class. A few optimisations is queried." />
+    <option name="LAST_COMMIT_MESSAGE" value="Coded MoveByVal class. A few optimisations is queried." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -900,28 +905,28 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
+        <state relative-caret-position="1082">
+          <caret line="162" column="23" selection-start-line="162" selection-start-column="23" selection-end-line="162" selection-end-column="23" />
           <folding>
-            <element signature="e#10206#10299#1" expanded="true" />
-            <element signature="e#10560#10697#1" expanded="true" />
-            <element signature="e#10955#11042#1" expanded="true" />
-            <element signature="e#11384#11425#1" expanded="true" />
-            <element signature="e#12109#12293#1" expanded="true" />
-            <element signature="e#13990#14091#1" expanded="true" />
+            <element signature="e#0#10#0" expanded="true" />
+            <element signature="e#1417#1524#1" expanded="true" />
+            <element signature="e#1743#1767#1" expanded="true" />
+            <element signature="e#2278#2546#1" expanded="true" />
+            <element signature="e#2625#2649#1" expanded="true" />
+            <element signature="e#3687#3739#1" expanded="true" />
+            <element signature="e#3731#3808#1" expanded="true" />
+            <element signature="e#3812#3852#1" expanded="true" />
+            <element signature="e#4289#4313#1" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="47">
-          <caret line="133" column="40" lean-forward="true" selection-start-line="133" selection-start-column="40" selection-end-line="133" selection-end-column="40" />
-          <folding>
-            <element signature="e#0#10#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="2108">
+          <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
         </state>
       </provider>
     </entry>
