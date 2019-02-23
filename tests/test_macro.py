@@ -90,6 +90,7 @@ def reset_to_class_setup(string=None):
 
 
 class TestMoveByVal:
+
     TESTSTRING1 = "1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:"
 
     def setup_class(self, string=None):
@@ -101,7 +102,26 @@ class TestMoveByVal:
         prepare_class(self, string, Kek)
 
     def test_main(self):
-        pass
+        self.setup_class('3,a,' + self.TESTSTRING1)
+
+        lst = ['3']
+        self.bsc.set_rule('3', self.bsc.cond_alpha.pop(), 'R', suppose_val='a')
+        cond = self.bsc.cond_alpha.pop()
+        cond2 = self.bsc.cond_alpha.pop()
+        end_cond = self.bsc.cond_alpha.pop()
+        print(cond, cond2, end_cond)
+        for i in reversed(range(1, 3)):
+            self.bsc.move('b', ['0', '1'], 'R', cycle=True)
+            self.bsc.move('a', ['0', '1'], 'L', cycle=True)
+            self.bsc.set_rule('a', cond, 'L', suppose_val=str(i + 1))
+            if i > 1:
+                self.bsc.set_rule(str(i), cond2, 'R', suppose_val='a')
+            else:
+                self.bsc.set_rule(str(i), end_cond, 'R', suppose_val='a')
+
+        self.bsc.stop()
+        print(self.bsc.tm)
+        self.bsc.tm.run()
 
     @reset_to_class_setup(TESTSTRING1)
     def test_prepare(self):
@@ -149,5 +169,12 @@ class TestMoveByVal:
         assert self.bsc.move.cases == [cur_case]
 
     def test_reuse(self):
-        pass
+        args = 'c', {'0', '1', 'o', 't'}, 'R', False
+        self.bsc.move.reuse(*args)
 
+        params = macro.Params(({'b', 'c'}, {'0', '1', 'o', 't'}, 'R'), {})
+        conds = macro.MoveByVal.MoveByValConds(move_cond='q1', end_cond='q2')
+
+        cur_case = macro.MacroCase(conds, params)
+
+        assert self.bsc.move.cases == [cur_case]

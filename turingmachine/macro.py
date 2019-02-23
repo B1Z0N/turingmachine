@@ -27,11 +27,13 @@ class Basic:
 
         if suppose_val is None:
             suppose_val = next_val
-
-        self.tm.set_rule(
-            self.stick_val, self.stick_cond,
-            next_val, next_cond, direction
-            )
+        try:
+            self.tm.set_rule(
+                self.stick_val, self.stick_cond,
+                next_val, next_cond, direction
+                )
+        except machine.RuleExistsError:
+            pass
         self.stick_val = suppose_val
         self.stick_cond = next_cond
 
@@ -102,7 +104,7 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
 
     def main(self, *args, **kwargs) -> None:
         """Function that performs all actions"""
-        self.prepare(self.obj, *args, **kwargs)
+        self.prepare(*args, **kwargs)
         self.use()
 
     # def take_reusable(self, obj: Basic, *args, **kwargs):
@@ -115,9 +117,9 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
     def use(self):
         """Checks whether to reuse older or create new case"""
         if self.cur_case is not None:
-            self.reuse(self.obj, *self.args)
+            self.reuse(*self.args)
         else:
-            self.create(self.obj, *self.args)
+            self.create(*self.args)
 
     __call__ = main
 
@@ -271,7 +273,9 @@ class MoveByVal(MacroFuncTemplate):
         cur_vals, on_way_vals1, _ = self.cur_case.params.args
 
         move_set = on_way_vals.difference(on_way_vals1)
-        self._main_move(obj, val, move_set, direction, cycle)
+
+        obj.set_rule(obj.stick_val, self.cur_case.conds.move_cond, 'S')
+        self._main_move(val, move_set, direction, cycle)
 
         if cycle is False:
             cur_vals = cur_vals.union(val)
