@@ -10,5 +10,12 @@
         </list>
       </option>
     </inspection_tool>
+    <inspection_tool class="PyUnresolvedReferencesInspection" enabled="false" level="WARNING" enabled_by_default="false">
+      <option name="ignoredIdentifiers">
+        <list>
+          <option value="turingmachine.macro.Basic.prepare" />
+        </list>
+      </option>
+    </inspection_tool>
   </profile>
 </component>

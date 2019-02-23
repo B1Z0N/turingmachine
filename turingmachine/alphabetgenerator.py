@@ -46,13 +46,26 @@ class NameTemplate:
             raise NotAllowedName(name)
         self.it = self.iterate()
 
+    def __eq__(self, other):
+        return all((
+            self.counter == other.counter,
+            self.letter == other.letter
+            ))
+
+    def __repr__(self):
+        s = "NameTemplate(\nCounter: \n{}\nLetter: \n{}\n)"
+
+        return s.format(self.counter, self.letter)
+
+    __str__ = __repr__
+
     def iterate(self):
         while True:
             self.counter += 1
             yield self.letter + str(self.counter)
 
-    def get_resrved(self):
-        for i in range(self.counter):
+    def get_reserved(self):
+        for i in range(self.counter + 1):
             yield self.letter + str(i)
         yield self.letter
 
@@ -76,6 +89,19 @@ class AlphabetGenerator:
         else:
             self.it = self._get_letter()
 
+    def __eq__(self, other):
+        return all((
+            self.reserved == other.reserved,
+            self.templates == other.templates,
+            self.alphabet == other.alphabet
+            ))
+
+    def __repr__(self):
+        s = "AlphabetGenerator(\nAlphabet: \n{}\nReserved: \n{}\nTemplates: \n{}\n)"
+        return s.format(self.alphabet, self.reserved, self.templates)
+
+    __str__ = __repr__
+
     def set_template(self, name):
         """Set a new template, or continue if
         it already exists"""
@@ -87,7 +113,7 @@ class AlphabetGenerator:
             self.templates[name] = temp
 
         self.it = self.templates[name].iterate()
-        self.reserved.update(set(temp.get_resrved()))
+        self.reserved.update(set(temp.get_reserved()))
 
     def del_template(self):
         """Set template to default generator"""

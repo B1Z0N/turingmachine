@@ -1,5 +1,4 @@
 import abc
-import functools
 from collections import namedtuple
 from collections.abc import Iterable
 
@@ -55,9 +54,10 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
         self.args = None
         self.cur_case = None
         self.cur_index = None
+        self.obj = None
 
     @abc.abstractmethod
-    def prepare(self, obj: Basic, *args, **kwargs):
+    def prepare(self, *args, **kwargs):
         """
         Filter parameters and chose whether create new set
         of conditions or reuse previous ones.
@@ -73,7 +73,7 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def reuse(self, obj: Basic, *args, **kwargs):
+    def reuse(self, *args, **kwargs):
         """
         Reuse function takes self.args prepared in
         self.prepare
@@ -88,7 +88,7 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
         pass
 
     @abc.abstractmethod
-    def create(self, obj: Basic, *args, **kwargs):
+    def create(self, *args, **kwargs):
         """
         Create function takes self.args prepared
         by self.prepare.
@@ -100,10 +100,10 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
         """
         pass
 
-    def main(self, obj: Basic, *args, **kwargs) -> None:
+    def main(self, *args, **kwargs) -> None:
         """Function that performs all actions"""
-        self.prepare(obj, *args, **kwargs)
-        self.use(obj)
+        self.prepare(self.obj, *args, **kwargs)
+        self.use()
 
     # def take_reusable(self, obj: Basic, *args, **kwargs):
     #     self.is_reuse = False
@@ -112,20 +112,20 @@ class MacroFuncABC(metaclass=abc.ABCMeta):
     #         if self.is_reuse is True:
     #             break
 
-    def use(self, obj: Basic):
+    def use(self):
         """Checks whether to reuse older or create new case"""
         if self.cur_case is not None:
-            self.reuse(obj, *self.args)
+            self.reuse(self.obj, *self.args)
         else:
-            self.create(obj, *self.args)
+            self.create(self.obj, *self.args)
 
     __call__ = main
 
     def __get__(self, obj: Basic, cls):
         """Get main function"""
-        func = functools.partial(self.__call__, obj)
+        self.obj = obj
 
-        return func
+        return self
 
 
 """
@@ -146,7 +146,7 @@ class MacroFuncTemplate(MacroFuncABC):
     """
 
     @abc.abstractmethod
-    def prepare(self, obj: Basic, *args, **kwargs):
+    def prepare(self, *args, **kwargs):
         """
         Prepare and choose whether to reuse or
         create new case
@@ -154,29 +154,26 @@ class MacroFuncTemplate(MacroFuncABC):
         pass
 
     @abc.abstractmethod
-    def reuse(self, obj: Basic, *args, **kwargs):
+    def reuse(self, *args, **kwargs):
         """
         Reuse previous case
         """
         pass
 
     @abc.abstractmethod
-    def create(self, obj: Basic, *args, **kwargs):
+    def create(self, *args, **kwargs):
         """
         Create new case
         """
         pass
 
 
-MacroCase = namedtuple("MacroCase", "conds args")
+MacroCase = namedtuple("MacroCase", "conds params")
 """Recommended class for case in MacroFuncTemplate"""
 
+Params = namedtuple("Params", "args kwargs")
 
-class Params:
-    """Recommended class for args in MacroCase class"""
-    def __init__(self, args, kwargs=None):
-        self.kwargs = None if kwargs is None else kwargs
-        self.args = args
+"""Recommended class for args in MacroCase class"""
 
 
 # noinspection PyMethodOverriding,PyMethodOverriding,PyMethodOverriding,PyMethodOverriding
@@ -186,25 +183,24 @@ class MoveByVal(MacroFuncTemplate):
     MoveByValConds = namedtuple("MoveByValConds", "move_cond, end_cond")
     """Internal class for communicating between functions"""
 
-    def main(
-            self, obj: Basic,
-            val: str,
+    def __call__(
+            self, val: str,
             on_way_vals: Iterable,
             direction: str,
             cycle=False,
             new=False
             ):
-        super().main(obj, val, on_way_vals, direction, cycle=cycle, new=new)
+        super().main(val, on_way_vals, direction, cycle=cycle, new=new)
 
     def prepare(
-            self, obj: Basic,
-            val: str,
+            self, val: str,
             on_way_vals: Iterable,
             direction: str,
             cycle=False,
             new=False
             ):
-        on_way_vals = {on_way_vals}
+        obj = self.obj
+        on_way_vals = set(on_way_vals)
         on_way_vals = on_way_vals.difference({val})
         on_way_vals = on_way_vals.union({obj.stick_val})
 
@@ -213,7 +209,7 @@ class MoveByVal(MacroFuncTemplate):
             self.args = (val, on_way_vals, direction)
             return
 
-        for index, case in self.cases:
+        for index, case in enumerate(self.cases):
             val1, on_way_vals1, direction1 = case.params.args
 
             if direction == direction1:
@@ -229,9 +225,8 @@ class MoveByVal(MacroFuncTemplate):
                     ))
             else:
                 reuse = reuse and all((
-                    on_way_vals.isdisjoint(on_way_vals1),
                     val not in on_way_vals1,
-                    val1 not in on_way_vals,
+                    not val1.issubset(on_way_vals),
                     val not in val1
                     ))
             if reuse is True:
@@ -244,14 +239,14 @@ class MoveByVal(MacroFuncTemplate):
         else:
             self.args = (val, on_way_vals, direction)
 
-    @staticmethod
     def _main_move(
-            obj: Basic, val: str,
+            self, val: str,
             on_way_vals: set,
             direction: str,
-            cycle=True
+            cycle=False
             ):
         """Some code common to reuse and create functions"""
+        obj = self.obj
 
         obj.set_rule(obj.stick_val, obj.stick_cond, direction)
 
@@ -267,20 +262,21 @@ class MoveByVal(MacroFuncTemplate):
             obj.set_rule(val, obj.cond_alpha.pop(), 'S')
 
     def reuse(
-            self, obj: Basic, val: str,
+            self, val: str,
             on_way_vals: set,
             direction: str,
             cycle: bool
             ):
+        obj = self.obj
         cur_vals, on_way_vals1, _ = self.cur_case.params.args
 
-        move_set = on_way_vals1.difference(on_way_vals)
+        move_set = on_way_vals.difference(on_way_vals1)
         self._main_move(obj, val, move_set, direction, cycle)
 
         if cycle is False:
             cur_vals = cur_vals.union(val)
 
-        params = Params((cur_vals, on_way_vals.union(on_way_vals1), direction))
+        params = Params((cur_vals, on_way_vals.union(on_way_vals1), direction), {})
         conds = self.MoveByValConds(
             move_cond=self.cur_case.conds.move_cond,
             end_cond=self.cur_case.conds.end_cond
@@ -288,15 +284,16 @@ class MoveByVal(MacroFuncTemplate):
         self.cases[self.cur_index] = MacroCase(conds, params)
 
     def create(
-            self, obj: Basic, val: str,
+            self, val: str,
             on_way_vals: set,
             direction: str,
             ):
+        obj = self.obj
         start_cond = obj.stick_cond
 
-        self._main_move(obj, val, on_way_vals, direction)
+        self._main_move(val, on_way_vals, direction)
 
-        params = Params(({val}, on_way_vals, direction))
+        params = Params(({val}, on_way_vals, direction), {})
         conds = self.MoveByValConds(move_cond=start_cond, end_cond=obj.stick_cond)
 
         self.cases.append(MacroCase(conds, params))

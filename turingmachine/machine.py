@@ -187,7 +187,7 @@ class TuringMachine:
         elif move == 'STOP':
             return self.stop
         else:
-            raise ValueError("wrong move character, must be either 'R','L' or 'S'")
+            raise ValueError(f"wrong move character: '{move}', must be either 'R','L' or 'S'")
 
     def rule_str(
             self, format_string,
