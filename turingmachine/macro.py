@@ -167,6 +167,7 @@ class MacroFuncTemplate(MacroFuncABC):
         """
         pass
 
+
 MacroCase = namedtuple("MacroCase", "conds args")
 """Recommended class for case in MacroFuncTemplate"""
 
@@ -250,6 +251,8 @@ class MoveByVal(MacroFuncTemplate):
             direction: str,
             cycle=True
             ):
+        """Some code common to reuse and create functions"""
+
         obj.set_rule(obj.stick_val, obj.stick_cond, direction)
 
         for oval in on_way_vals:
@@ -289,7 +292,6 @@ class MoveByVal(MacroFuncTemplate):
             on_way_vals: set,
             direction: str,
             ):
-        """Stops once val was encountered on the tape"""
         start_cond = obj.stick_cond
 
         self._main_move(obj, val, on_way_vals, direction)
