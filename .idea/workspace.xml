@@ -9,8 +9,7 @@
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/test_macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/test_macro.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macro.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/turingmachine/machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/machine.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -26,23 +25,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
+            <state relative-caret-position="6665">
               <caret line="276" column="71" selection-start-line="276" selection-start-column="71" selection-end-line="276" selection-end-column="71" />
-              <folding>
-                <element signature="e#0#10#0" expanded="true" />
-                <element signature="e#752#886#1" expanded="true" />
-                <element signature="e#1186#1299#1" expanded="true" />
-                <element signature="e#3678#3876#1" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="377">
-              <caret line="123" column="25" lean-forward="true" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+            <state relative-caret-position="222">
+              <caret line="121" column="23" selection-start-line="121" selection-start-column="23" selection-end-line="121" selection-end-column="23" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -50,11 +43,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="128">
-              <caret line="176" selection-start-line="176" selection-end-line="176" />
+            <state relative-caret-position="344">
+              <caret line="451" column="39" selection-start-line="451" selection-start-column="39" selection-end-line="451" selection-end-column="39" />
               <folding>
                 <element signature="e#0#1139#1" expanded="true" />
                 <element signature="e#1141#1157#0" expanded="true" />
@@ -67,7 +60,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/alphabetgenerator.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-184">
+            <state relative-caret-position="1736">
               <caret line="66" column="27" lean-forward="true" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
               <folding>
                 <element signature="e#65#81#0" expanded="true" />
@@ -79,7 +72,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="62">
+            <state relative-caret-position="155">
               <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
             </state>
           </provider>
@@ -88,7 +81,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3472">
+            <state relative-caret-position="3410">
               <caret line="112" column="22" selection-start-line="112" selection-start-column="18" selection-end-line="112" selection-end-column="22" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -118,7 +111,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>s</find>
       <find>STOP</find>
       <find>S</find>
       <find>q6</find>
@@ -148,6 +140,7 @@
       <find>params</find>
       <find>print</find>
       <find>get_resr</find>
+      <find>%s</find>
     </findStrings>
     <replaceStrings>
       <replace>difference</replace>
@@ -213,10 +206,10 @@
         <option value="$PROJECT_DIR$/turingmachine/test_basic.py" />
         <option value="$PROJECT_DIR$/tests/test_basic.py" />
         <option value="$PROJECT_DIR$/turingmachine/test_moveByVal.py" />
-        <option value="$PROJECT_DIR$/turingmachine/machine.py" />
         <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
         <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/tests/test_macro.py" />
+        <option value="$PROJECT_DIR$/turingmachine/machine.py" />
       </list>
     </option>
   </component>
@@ -234,7 +227,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -256,6 +248,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -681,7 +674,14 @@
       <option name="project" value="LOCAL" />
       <updated>1550950801310</updated>
     </task>
-    <option name="localTasksCounter" value="40" />
+    <task id="LOCAL-00040" summary="Written tests and passed them for MoveByVal class">
+      <created>1550959508515</created>
+      <option name="number" value="00040" />
+      <option name="presentableId" value="LOCAL-00040" />
+      <option name="project" value="LOCAL" />
+      <updated>1550959508515</updated>
+    </task>
+    <option name="localTasksCounter" value="41" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -708,7 +708,7 @@
     <frame x="-1" y="0" width="1922" height="1043" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.271645" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.2712314" />
       <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
       <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.25796178" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -719,10 +719,10 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.30508474" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.5799031" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Messages" order="10" weight="0.6549637" />
-      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49893844" weight="0.33535108" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="11" sideWeight="0.49893844" visible="true" weight="0.30266345" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.43583536" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -797,7 +797,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Added a lot of exceptions in different files&#10;Added support for computing values of vector function&#10;..." />
     <MESSAGE value="Added temporary files support&#10;Fixed repr of a machine&#10;Refactored some code&#10;TODO: find the way to write paths(os module maybe)" />
     <MESSAGE value="Found a strategy of writing abstracted macros, refactored a lot of code. Rewritten some functions, make to work all present functionality in TuringMacroMachine(move_by_val and bin_func)" />
     <MESSAGE value="Added clean function scratch, tested it a little bit, not so properly as i'd wanted to." />
@@ -822,7 +821,8 @@
     <MESSAGE value="Refactored MoveByVal class. Added different docstrings for different developers." />
     <MESSAGE value="Written tests for Basic class. Passed it." />
     <MESSAGE value="Written test for MoveByVal class, half passed it." />
-    <option name="LAST_COMMIT_MESSAGE" value="Written test for MoveByVal class, half passed it." />
+    <MESSAGE value="Written tests and passed them for MoveByVal class" />
+    <option name="LAST_COMMIT_MESSAGE" value="Written tests and passed them for MoveByVal class" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1009,48 +1009,19 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2108">
-          <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3472">
-          <caret line="112" column="22" selection-start-line="112" selection-start-column="18" selection-end-line="112" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/test_moveByVal.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
+    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="62">
-          <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="128">
-          <caret line="176" selection-start-line="176" selection-end-line="176" />
-          <folding>
-            <element signature="e#0#1139#1" expanded="true" />
-            <element signature="e#1141#1157#0" expanded="true" />
-            <element signature="e#2201#2629#1" expanded="true" />
-          </folding>
+        <state relative-caret-position="6665">
+          <caret line="276" column="71" selection-start-line="276" selection-start-column="71" selection-end-line="276" selection-end-column="71" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/alphabetgenerator.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-184">
+        <state relative-caret-position="1736">
           <caret line="66" column="27" lean-forward="true" selection-start-line="66" selection-start-column="27" selection-end-line="66" selection-end-column="27" />
           <folding>
             <element signature="e#65#81#0" expanded="true" />
@@ -1058,25 +1029,48 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
+    <entry file="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="157">
-          <caret line="276" column="71" selection-start-line="276" selection-start-column="71" selection-end-line="276" selection-end-column="71" />
+        <state relative-caret-position="155">
+          <caret line="8" column="26" lean-forward="true" selection-start-line="8" selection-start-column="26" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/test_machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3410">
+          <caret line="112" column="22" selection-start-line="112" selection-start-column="18" selection-end-line="112" selection-end-column="22" />
           <folding>
-            <element signature="e#0#10#0" expanded="true" />
-            <element signature="e#752#886#1" expanded="true" />
-            <element signature="e#1186#1299#1" expanded="true" />
-            <element signature="e#3678#3876#1" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/macrotrash.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2108">
+          <caret line="89" selection-start-line="89" selection-end-line="107" selection-end-column="64" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/test_macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="377">
-          <caret line="123" column="25" lean-forward="true" selection-start-line="123" selection-start-column="25" selection-end-line="123" selection-end-column="25" />
+        <state relative-caret-position="222">
+          <caret line="121" column="23" selection-start-line="121" selection-start-column="23" selection-end-line="121" selection-end-column="23" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="451" column="39" selection-start-line="451" selection-start-column="39" selection-end-line="451" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#1139#1" expanded="true" />
+            <element signature="e#1141#1157#0" expanded="true" />
+            <element signature="e#2201#2629#1" expanded="true" />
           </folding>
         </state>
       </provider>

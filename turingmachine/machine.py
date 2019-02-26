@@ -281,7 +281,7 @@ class TuringMachine:
         elif move_func == self.stop:
             move = 'STOP'
         else:
-            move = '"' + move_func.__name__ + '"'
+            move = '"{}"'.format(move_func.__name__)
 
         s = delimiter.join([
             val, condition,
@@ -355,7 +355,8 @@ class TuringMachine:
         init_str = head + tail
 
         return cls.from_str(
-            init_str, tape_delimiter=tape_delimiter, log_func=log_func)
+            init_str, tape_delimiter=tape_delimiter, log_func=log_func
+            )
 
     def forward(self, value):
         """Put a value to the current position and move right on the tape
@@ -434,16 +435,17 @@ class TuringMachine:
 
     def __repr__(self):
         center = self[0]
-        self[0] = '{' + center + '}'
+        self[0] = '{{{}}}'.format(center)
         index = self[self.index]
-        self[self.index] = '[' + index + ']'
+        self[self.index] = '[{}]'.format(index)
         tape = str(self.tape)
         self[self.index] = index  #
         self[0] = center  # Order is very important
 
-        s = 'Index[]: ' + str(self.index) + '\nCondition: ' + self.condition \
-            + '\nDefault: ' + self.default + '\nCenter{}: ' + str(self._center) \
-            + '\nTape: ' + tape[tape.find('['):-1] + '\nRules:\n'
+        s = 'Index[]: {}\nCondition: {}\nDefault: {}\nCenter({{}}): {}\nTape: {}\nRules:\n'.format(
+            str(self.index), self.condition, self.default, str(self._center), tape[tape.find('['):-1]
+            )
+
         for key, val in self._rules.items():
             s += self.default_log(key[0], key[1], val[0], val[1], val[2]) + '\n'
 
