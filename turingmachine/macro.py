@@ -36,6 +36,7 @@ class MacroSticks:
 
         contains: container of different types determined by some of (look upper) parameters,
                   contains value(s) and condition(s)
+        updated: are the sticks true for now?
     """
 
     class StickError(MacroError):
@@ -57,41 +58,54 @@ class MacroSticks:
             one value and multiple conditions
             one value and one condition
         """
+        self.updated = True
+
         self._sin_val_cond = False
         self._mul_val_cond = False
         self._sin_val_mul_cond = False
+        self._mul_val_sin_cond = False
 
         if isinstance(stick_val, str) and isinstance(stick_cond, str):
             # two parameters and it is ordinary string value, condition
             self._set_ordinary(stick_val, stick_cond)
-            self._sin_val_cond = True
         elif isinstance(stick_val, Iterable) and isinstance(stick_cond, Iterable):
             if isinstance(stick_val, str):
-                # two parameters and it is value iterable, and ordinary string condition
+                # two parameters and it is condition iterable, and ordinary string value
                 self._set_single_value_multiple_conditions(stick_val, stick_cond)
-                self._sin_val_mul_cond = True
+            elif isinstance(stick_cond, str):
+                # two parameters and it is value iterable, and ordinary string condition
+                self._set_multiple_value_single_conditions(stick_val, stick_cond)
             else:
                 # two parameters and it is two iterables of values and conditions
                 self._set_two_iterables(stick_val, stick_cond)
-                self._mul_val_cond = True
         else:
             # nothing of the above
             raise self.StickError(stick_val, stick_cond)
 
-    def set(self, stick_val, stick_cond=None):
+    def set(self, stick_val=None, stick_cond=None):
+        if stick_val is None and stick_cond is None:
+            self.updated = True
         self.__init__(stick_val, stick_cond=stick_cond)
+        return self.contains
 
     def get(self):
         return self.contains
 
     def _set_two_iterables(self, values: Iterable, conditions: Iterable):
         self.contains = list(values), list(conditions)
+        self._mul_val_cond = True
 
-    def _set_single_value_multiple_conditions(self, values: Iterable, conditions: Iterable):
-        self.contains = values, list(conditions)
+    def _set_single_value_multiple_conditions(self, value: Iterable, conditions: Iterable):
+        self.contains = value, list(conditions)
+        self._sin_val_mul_cond = True
+
+    def _set_multiple_value_single_conditions(self, values: Iterable, condition: Iterable):
+        self.contains = list(values), condition
+        self._mul_val_sin_cond = True
 
     def _set_ordinary(self, value: str, condition: str):
         self.contains = value, condition
+        self._sin_val_cond = True
 
     def get_values(self):
         """
@@ -114,6 +128,8 @@ class MacroSticks:
     def is_sin_val_mul_cond(self):
         return self._sin_val_mul_cond
 
+    def is_mul_val_sin_cond(self):
+        return self._mul_val_sin_cond
 
 class NextCondition(enum.Enum):
     """
@@ -245,7 +261,10 @@ class Basic:
         if self.val_cond.is_sin_val_cond():
             return self.single_move(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
         else:
-            return self.parallel_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)
+            return self.parallel_cond_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)
+
+    def is_up_to_date(self):
+        assert self.val_cond.updated, "Should be updated after call to self.tm_set_rule, to use macro functions"
 
     def single_move(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev):
         """
@@ -263,6 +282,7 @@ class Basic:
         Returns:
             MacroStick object containing value, condition pair of this move
         """
+        self.is_up_to_date()
         assert self.val_cond.is_sin_val_cond(), \
             "There are join for joining multiple conditions, and parallelise for continuing multiple conditions"
 
@@ -299,6 +319,7 @@ class Basic:
         Returns:
             MacroStick object containing value, condition pair of this move
         """
+        self.is_up_to_date()
         assert self.val_cond.is_sin_val_mul_cond(), \
             "Single value and multiple conditions should be passed"
 
@@ -323,7 +344,7 @@ class Basic:
         self.val_cond.set(suppose_val, next_cond)
         return self.val_cond
 
-    def parallel_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
+    def parallel_cond_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
         """
         Sets rule for multiple conditions, smth alike for_each
 
@@ -335,8 +356,9 @@ class Basic:
             suppose_vals: suppose values for next move
             next_conds: next conditions for move, previous by default
         Returns:
-            MacroStick object containing values, conditions dict of this move
+            MacroStick object containing values, conditions iterables of this move
         """
+        self.is_up_to_date()
         assert self.val_cond.is_sin_val_mul_cond(), \
             "Single value and multiple conditions should be passed"
 
@@ -349,7 +371,7 @@ class Basic:
             assert not isinstance(suppose_vals, str)
             len(suppose_vals)
             firstly_supposed = suppose_vals
-        except:
+        except ...:
             firstly_supposed = suppose_vals
             suppose_vals = [suppose_vals] * length
 
@@ -371,6 +393,26 @@ class Basic:
         self.val_cond.set(firstly_supposed, next_conds)
         return self.val_cond
 
+    def parallelise_by_vals(self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev):
+        """
+        Sets rule from one pair of value-condition to multiple values and one condition
+
+        For automatically generating next_cond, see NextCondition documentation
+
+        Arguments:
+            next_val: next value for rule, previous if omitted
+            direction: direction
+            suppose_vals: suppose values for next move
+            next_cond: next condition for move, previous by default
+        Returns:
+            MacroStick object containing values, condition of this move
+        """
+        self.is_up_to_date()
+        val, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
+
+        self.val_cond.set(next_val if suppose_vals is None else suppose_vals, cond)
+        return self.val_cond
+
     def stop(self):
         """
         Finish macro machine execution, every command after this function
@@ -381,90 +423,36 @@ class Basic:
         Returns:
             MacroStick object containing value, condition pair of the last move
         """
+        self.is_up_to_date()
         if not self.val_cond.is_sin_val_cond():
             raise self.UndeterminedConditionError(self.val_cond)
 
         return self.single_move('STOP')
 
+    def tm_set_rule(self, value, condition, next_value, next_condition, direction):
+        """
+        Setting the rule for turing and preserving some parameters of this macro.
 
-class MacroFunc(metaclass=abc.ABCMeta):
+        It is recommended to use this function instead of self.tm.set_rule
+        Both of this functions are used when you need "bare" access to turing machine.
+        Be careful, you will need to set val_cond to some meaningful value after this call.
+        """
+        self.reserve_name({next_value}, {next_condition})
+        self.tm.set_rule(value, condition, next_value, next_condition, direction)
+
+        self.val_cond.updated = False
+
+def setify_with_order(seq: Iterable) -> list:
     """
-    Descriptor base class for acting like a function of one
-    of the subclasses of Basic class.
-
-    Should only be used with classes that give the same interface as Basic
-
-    Attributes:
-        obj: link to Basic object, to act as a descriptor
+    Function for deleting duplicates from iterable, but preserving order
     """
-
-    def __init__(self):
-        self.obj = None
-
-    def __call__(self, *args, **kwargs):
-        """
-        Decides what to do with passed arguments depending on current
-        `sticked` machine value, if it is in determined condition than
-        set_simple will be called, else continue_parallel will be called.
-
-        To parallelise conditions use parallelise explicitly.
-
-        To join them use join from Basic class.
-        """
-        if isinstance(self.obj.val_cond, dict):
-            return self.parallel_move(*args, **kwargs)
-        else:
-            return self.single_move(*args, **kwargs)
-
-    @abc.abstractmethod
-    def single_move(*args, **kwargs):
-        """
-        If we are simply moving from determined condition to determined condition
-        """
-        pass
-
-    @abc.abstractmethod
-    def parallelise(self, *args, **kwargs):
-        """
-        If we are creating branches from determined condition
-        """
-        pass
-
-    @abc.abstractmethod
-    def parallel_move(self, *args, **kwargs):
-        """
-        If we are continuing our parallel branches, analogous to for_each
-        """
-        pass
-
-    def __get__(self, obj: Basic, cls):
-        """Get object, needed for descriptor call"""
-        self.obj = obj
-
-        return self
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
 
 
-def macrofunc_preconditions(needed_type, error_msg):
-    """
-    Decorator for asserting and signaling about non-conformant stick-value type
-    """
-
-    def outer(func):
-        @wraps(func)
-        def inner(*args, **kwargs):
-            self = args[0]
-            assert get(self.obj, needed_assertion), error_msg
-
-            return func(*args[1:], **kwargs)
-
-        return inner
-
-    return outer
-
-
-class GoToConcept(MacroFunc, metaclass=abc.ABCMeta):
+class GoToConcept(metaclass=abc.ABCMeta):
     # TODO: you could find patterns and shortify code of three main functions
-    # TODO: make set_sticks for incapsulation
     """
     Class for managing move to val functionality with
     parameterized actions to perform between start and stop
@@ -488,6 +476,9 @@ class GoToConcept(MacroFunc, metaclass=abc.ABCMeta):
 
     __ERROR_MSG = "single_move, parallelise - for determined condition, continue_parallel" \
                   " for undetermined(multiple conditions)"
+
+    def __init__(self, obj: Basic):
+        self.obj = obj
 
     @macrofunc_preconditions(tuple, __ERROR_MSG)
     def parallelise(
@@ -553,7 +544,6 @@ class GoToConcept(MacroFunc, metaclass=abc.ABCMeta):
         return self.obj.val_cond
         # finishing
 
-    @macrofunc_preconditions(tuple, __ERROR_MSG)
     def single_move(
             self,
             move_vals: Iterable,
@@ -571,27 +561,33 @@ class GoToConcept(MacroFunc, metaclass=abc.ABCMeta):
         Returns:
             MacroStick object with values and conditions of this move
         """
-        start_val, start_cond = self.obj.val_cond.get()
-        end_vals = set(end_vals)
-        move_vals = set(move_vals).difference(end_vals)
+        # # checking
+        # assert self.obj.val_cond.is_sin_val_cond(), self.__ERROR_MSG
+
+        # not needed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         # preparation
+        start_value, start_condition = self.obj.val_cond.get()
+        end_vals = setify_with_order(end_vals)
+        move_vals = setify_with_order(move_vals)
+        move_vals.remove(end_vals)
 
-        move_cond, start_val = self.start_prepare(start_cond, set(start_val))
-        move_vals = move_vals.union(start_val)
         # start
+        start_value, _ = self.obj.single_move("S", next_val=self._start_modifier(start_value),
+                                              next_cond=NextCondition.auto)
 
-        self.main_move(move_cond, move_vals, direction)
-        # main move
+        # move
+        for value in move_vals:
+            self.obj.single_move(direction, suppose_val=value)
 
-        end_cond = self.obj.cond_alpha.pop()
-        result = []
+        # end
+        _, from_end_cond = self.obj.parallelise_by_vals(direction, suppose_vals=end_vals)
+        to_end_cond = self.obj.cond_alpha.pop()
         for value in end_vals:
-            result.append(self._end_modifier(value))
-            self.obj.tm.set_rule(value, move_cond, changed, end_cond, "S")
+            self.obj.tm_set_rule(value, end_cond, value, to_end_cond, "S")
 
-        self.obj.val_cond = changed, end_cond  #####!!!
+        self.obj.val_cond.set(end_vals, to_end_cond)
         return self.obj.val_cond
-        # finishing
 
     def _start_modifier(self, start_value):
         return self.start_modifier(start_value) \

@@ -147,7 +147,7 @@ class TestBasic:
 
     def parallel_testing(self, state1, state2, value, conditions1, conditions2,
                          *args, reserved1=None, reserved2=None, suppose_vals=None, **kwargs):
-        """Helper function for testing Basic.parallel_move"""
+        """Helper function for testing Basic.parallel_cond_move"""
 
         if reserved1 is None:
             reserved1 = conditions1
@@ -164,7 +164,7 @@ class TestBasic:
 
         mac1.cond_alpha.reserved = mac1.cond_alpha.reserved.union(set(reserved1))
         mac1.val_cond.set(value, conditions1)
-        mac1.parallel_move(*args, suppose_vals=suppose_vals, **kwargs)
+        mac1.parallel_cond_move(*args, suppose_vals=suppose_vals, **kwargs)
 
         self.parallel_tmac_equal(mac1, mac2)
 
