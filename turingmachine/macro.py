@@ -11,6 +11,8 @@ from functools import wraps
 
 import enum
 
+from ordered_set import OrderedSet
+
 from turingmachine import alphabetgenerator
 from turingmachine import machine
 
@@ -264,7 +266,7 @@ class Basic:
             return self.parallel_cond_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)
 
     def is_up_to_date(self):
-        assert self.val_cond.updated, "Should be updated after call to self.tm_set_rule, to use macro functions"
+        assert self.val_cond.updated, "Should be updated after call to self.manual_rule, to use macro functions"
 
     def single_move(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev):
         """
@@ -300,8 +302,7 @@ class Basic:
         except machine.RuleExistsError:
             pass
 
-        self.val_cond.set(suppose_val, next_cond)
-        return self.val_cond
+        return self.val_cond.set(suppose_val, next_cond)
 
     def join(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.auto):
         """
@@ -341,8 +342,7 @@ class Basic:
             except machine.RuleExistsError:
                 pass
 
-        self.val_cond.set(suppose_val, next_cond)
-        return self.val_cond
+        return self.val_cond.set(suppose_val, next_cond)
 
     def parallel_cond_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
         """
@@ -390,28 +390,15 @@ class Basic:
             except machine.RuleExistsError:
                 pass
 
-        self.val_cond.set(firstly_supposed, next_conds)
-        return self.val_cond
+        return self.val_cond.set(firstly_supposed, next_conds)
 
     def parallelise_by_vals(self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev):
         """
-        Sets rule from one pair of value-condition to multiple values and one condition
-
-        For automatically generating next_cond, see NextCondition documentation
-
-        Arguments:
-            next_val: next value for rule, previous if omitted
-            direction: direction
-            suppose_vals: suppose values for next move
-            next_cond: next condition for move, previous by default
-        Returns:
-            MacroStick object containing values, condition of this move
+        val_cond:
+            (value1, condition1) -> (values2, condition2)
         """
-        self.is_up_to_date()
-        val, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
-
-        self.val_cond.set(next_val if suppose_vals is None else suppose_vals, cond)
-        return self.val_cond
+        _, cond = self.obj.single_move(direction, next_val=next_val, next_cond=next_cond)
+        return self.val_cond.set(suppose_vals, cond)
 
     def stop(self):
         """
@@ -429,7 +416,7 @@ class Basic:
 
         return self.single_move('STOP')
 
-    def tm_set_rule(self, value, condition, next_value, next_condition, direction):
+    def manual_rule(self, value, condition, next_value, next_condition, direction):
         """
         Setting the rule for turing and preserving some parameters of this macro.
 
@@ -442,303 +429,199 @@ class Basic:
 
         self.val_cond.updated = False
 
-def setify_with_order(seq: Iterable) -> list:
-    """
-    Function for deleting duplicates from iterable, but preserving order
-    """
-    seen = set()
-    seen_add = seen.add
-    return [x for x in seq if not (x in seen or seen_add(x))]
-
-
 class GoToConcept(metaclass=abc.ABCMeta):
-    # TODO: you could find patterns and shortify code of three main functions
     """
-    Class for managing move to val functionality with
-    parameterized actions to perform between start and stop
-    point values
-
-    Generalises behaviour of some common operations like
-    MoveToVal, SetAllOnWay, CleanRange
-
-    The only difference among this examples is it's function of going
-    through the tape to val:
-    in MoveToVal it is      a q1 -> a q1 R (do nothing and move)
-    in SetAllOnWay it is    a q1 -> b q1 R (change all values to some value 'b')
-    in CleanRange it is     a q1 -> default q1 R (clean all values to 'default')
-
-    To customize behaviour inherit from this class and define:
-    1. start_modifier: for custom start value changing
-    2. move_modifier: for custom move value changing
-    3. end_modifier: for custom end value changing
-
+    Class to implement a common algorithm
     """
-
-    __ERROR_MSG = "single_move, parallelise - for determined condition, continue_parallel" \
-                  " for undetermined(multiple conditions)"
-
     def __init__(self, obj: Basic):
         self.obj = obj
 
-    @macrofunc_preconditions(tuple, __ERROR_MSG)
-    def parallelise(
-            self,
-            move_vals: Iterable,
-            end_val: Iterable,
-            direction: str,
-            start_vals=None
-    ):
-        """
-        Branch one condition and multiple values to multiple conditions for each value.
-        Should be called only in determined condition and value
+    def _set_includes(self, include_start: bool, include_end: bool):
+        self._include_start = include_start
+        self._include_end = include_end
 
-        Arguments:
-            move_vals: values of moving
-            end_val: stop value
-            direction: direction
-        Returns:
-            MacroStick object with values and conditions of this move
-        """
-        start_vals = set(start_vals).union({self.obj.val_cond[0]})
-        start_cond = self.obj.val_cond[1]
-        move_vals = set(move_vals).difference({end_val}).union(start_vals)
+    def single_move(self,
+                    move_vals: Iterable,
+                    end_vals: Iterable or str,
+                    direction: str,
+                    include_start=True, include_end=False
+                    ):
         # preparation
+        self._set_includes(include_start, include_end)
+        end_vals = OrderedSet(end_vals)
+        move_vals = OrderedSet(move_vals) - end_vals
 
-        result = []
-        for start_value in start_vals:
-            self.obj.val_cond = start_value, start_cond
-            result.append(self.single_move(move_vals, end_val, direction))
+        # start move
+        new_start_value = self._start_modifier(self.obj.val_cond.get_values())
+        self.obj.single_move("S", next_val=new_start_value, next_cond=NextCondition.auto)
 
-        self.obj.val_cond = dict(result)
-        return self.obj.val_cond
-
-    @macrofunc_preconditions(dict, __ERROR_MSG)
-    def parallel_move(
-            self,
-            move_vals: Iterable,
-            end_val: Iterable,
-            direction: str
-    ):
-        """
-        Continue moving every branch separately.
-        Should be called only in undetermined condition and value
-
-        Arguments:
-            move_vals: values of moving
-            end_val: stop value
-            direction: direction
-        Returns:
-            MacroStick object with values and conditions of this move
-        """
-        start_vals, start_conds = self.obj.val_cond.keys(), self.obj.val_cond.values()
-        move_vals = set(move_vals).difference(end_vals).union(start_vals)
-        # preparation
-
-        returns = []
-        for value, condition in self.obj.items():
-            self.obj.val_cond = value, condition
-            returns.append(self.single_move(move_vals, end_val, direction))
         # main move
+        for i in range(len(move_vals)):
+            self.obj.single_move(direction, next_val=self._move_modifier(move_vals[i]), suppose_val=move_vals[i + 1])
+        self.obj.single_move("S", next_val=self._move_modifier(move_vals[-1]))
 
-        self.obj.val_cond = dict(returns)
-        return self.obj.val_cond
-        # finishing
+        # end move
+        self.obj.parallelise_by_vals(direction, suppose_vals=end_vals,
+                                     next_cond=NextCondition.auto)
 
-    def single_move(
-            self,
-            move_vals: Iterable,
-            end_vals: Iterable,
-            direction: str
-    ):
-        """
-        Perform simple move, from one pair of (value, condition) to [other pair]
-        or [multiple values and one condition]
+        new_end_vals = [self._end_modifier(value) for value in end_vals]
+        new_end_cond = self.obj.cond_alpha.pop()
+        end_cond = self.obj.val_cond.get_conds()
 
-        Arguments:
-            move_vals: values of moving
-            end_vals: stop values
-            direction: direction
-        Returns:
-            MacroStick object with values and conditions of this move
-        """
-        # # checking
-        # assert self.obj.val_cond.is_sin_val_cond(), self.__ERROR_MSG
+        end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
+        for i in range(len(end_vals)):
+            self.obj.manual_rule(end_cond, end_vals[i], new_end_cond, new_end_vals[i], "S")
 
-        # not needed !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        return self.obj.val_cond.set(new_end_vals[0] if len(new_end_vals) == 1
+                                     else new_end_vals, new_end_cond)
 
-        # preparation
-        start_value, start_condition = self.obj.val_cond.get()
-        end_vals = setify_with_order(end_vals)
-        move_vals = setify_with_order(move_vals)
-        move_vals.remove(end_vals)
+    def parallelise(self,
+                    move_vals: Iterable,
+                    end_val: str,
+                    direction: str,
+                    start_vals=None,
+                    include_start=True, include_end=False
+                    ):
+        self._set_includes(include_start, include_end)
+        if start_vals is None:
+            start_vals, _ = self.obj.val_cond.get()
+        start_vals = OrderedSet(start_vals)
 
-        # start
-        start_value, _ = self.obj.single_move("S", next_val=self._start_modifier(start_value),
-                                              next_cond=NextCondition.auto)
+        move_vals = OrderedSet(move_vals) - OrderedSet(end_val) + start_vals
+        start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
 
-        # move
-        for value in move_vals:
-            self.obj.single_move(direction, suppose_val=value)
+        assert self.obj.val_cond.is_mul_val_sin_cond(), \
+            "Multiple values and single condition should be passed"
 
-        # end
-        _, from_end_cond = self.obj.parallelise_by_vals(direction, suppose_vals=end_vals)
-        to_end_cond = self.obj.cond_alpha.pop()
-        for value in end_vals:
-            self.obj.tm_set_rule(value, end_cond, value, to_end_cond, "S")
+        end_conds = []
+        for start_value in start_vals:
+            move_cond = self.obj.cond_alpha.pop()
 
-        self.obj.val_cond.set(end_vals, to_end_cond)
-        return self.obj.val_cond
+            self.obj.val_cond.set(start_value, move_cond)
+            end_conds.append(
+                self.single_move(move_vals + start_vals, end_val, direction)[1]
+            )
 
-    def _start_modifier(self, start_value):
-        return self.start_modifier(start_value) \
-            if self.include_start is True else start_value
+        return self.obj.val_cond.set(end_val, end_conds)
 
-    def _end_modifier(self, end_value):
-        return self.end_modifier(end_value) \
-            if self.include_end is True else end_value
+    def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
+                      include_start=True, include_end=False
+                      ):
+        self._set_includes(include_start, include_end)
+        assert self.obj.val_cond.is_sin_val_mul_cond(), \
+            "Single value and multiple conditions should be passed"
 
-    def __call__(
-            self,
-            move_vals: Iterable,
-            end_vals: Iterable,
-            direction: str,
-            include_start=True,
-            include_end=False,
-    ):
-        """
-            Descriptor call function
+        start_val, start_conds = self.obj.val_cond.get()
 
-            start_condition and start_value would be deduced from sticks
+        end_conds = []
+        for condition in start_conds:
+            self.obj.val_cond.set(start_val, condition)
+            end_conds.append(
+                self.single_move(move_vals, end_val, direction)[1]
+            )
 
-            Arguments:
-                move_vals: values that we are moving through
-                end_vals: stopping values
-                direction: direction of moving
-            Returns:
-                one end condition or dict of values-conditions of stopping
-        """
-        self.include_start = include_start
-        self.include_end = include_end
-        super().__call__(self, move_vals, end_vals, direction)
+        return self.obj.val_cond.set(end_val, end_conds)
 
-    def start_prepare(self, start_cond, start_vals):
-        """
-        Settles all start_vals from start_cond to move_cond
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=True, include_end=False):
+        self.single_move(move_vals, end_vals, direction, include_end, include_start)
 
-        Arguments:
-            start_cond: condition from which we are starting
-            start_vals: set of starting values for moving
-        Returns:
-            move_cond: condition to which we are switching for further moving
-            new_start_vals: changed start values
-        """
-        move_cond = self.obj.cond_alpha.pop()
+    __call__ = main
 
-        new_start_vals = []
-        for value in start_vals:
-            changed = self.start_modifier(value)
-            self.obj.tm.set_rule(value, start_cond, changed, move_cond, "S")
+    def _move_modifier(self, move_val):
+        return self.move_modifier(move_val)
 
-            new_start_vals.append(changed)
+    def _start_modifier(self, start_val):
+        return self.start_modifier(start_val) if self._include_start else start_val
 
-        return move_cond, new_start_vals
-
-    def main_move(self, move_cond, move_vals, direction):
-        """
-        Moves move_vals in direction with move_cond condition
-
-        Arguments:
-            move_cond: condition for moving further
-            move_vals: value set to move through
-            direction: direction of moving
-        """
-        for value in move_vals:
-            changed = self.move_modifier(value)
-            self.obj.tm.set_rule(value, move_cond, changed, move_cond, direction)
+    def _end_modifier(self, end_val):
+        return self.end_modifier(end_val) if self._include_start else end_val
 
     @abc.abstractmethod
-    def start_modifier(self, start_value):
-        """
-        Specializes what to do with start value
-        """
+    def move_modifier(self, move_val):
         pass
 
     @abc.abstractmethod
-    def move_modifier(self, move_value):
-        """
-        Specializes what to do with all of the
-        middle `move` tape values
-        """
+    def start_modifier(self, start_val):
         pass
 
     @abc.abstractmethod
-    def end_modifier(self, end_value):
-        """
-        Specializes what to do with end value
-        """
-
+    def end_modifier(self, end_val):
+        pass
 
 class MoveByVal(GoToConcept):
-    """
-    Class for going to value on tape
-    """
+    """ Main class for moving to value on the tape"""
 
-    def move_modifier(self, move_value):
-        return move_value
+    def move_modifier(self, move_val):
+        return move_val
 
-    start_modifier = end_modifier = move_modifier
+    def start_modifier(self, start_val):
+        return start_val
 
+    def end_modifier(self, end_val):
+        return end_val
 
-# class SetAllOnWay(GoToConcept):
-#     """
-#     Class for changing one values to another one
-#     while going through the tape
-#     """
-#     def __call__(
-#             self,
-#             to_val: str,
-#             move_vals: Iterable,
-#             end_vals: Iterable,
-#             direction: str,
-#             start_vals=None,
-#             start_cond=None,
-#             end_one_cond=True,
-#             include_start=True,
-#             include_end=False
-#     ):
-#         self.to_val = to_val
-#         self.include_end = include_end
-#         self.include_start = include_start
-#
-#         super().__call__(start_vals, move_vals, end_vals, direction,
-#                          start_cond=start_cond, end_one_cond=end_one_cond)
-#
-#     def start_modifier(self, start_value):
-#         return self.to_val if self.include_start else start_value
-#
-#     def move_modifier(self, move_value):
-#         return self.to_val
-#
-#     def end_modifier(self, end_value):
-#         return self.to_val if self.include_end else end_value
-#
-#
-# class CleanRange(SetAllOnWay):
-#     """Class for managing clearing of the tape range functionality"""
-#     def __call__(
-#             self,
-#             move_vals: Iterable,
-#             end_vals: Iterable,
-#             direction: str,
-#             start_vals=None,
-#             start_cond=None,
-#             end_one_cond=True,
-#             include_start=True,
-#             include_end=False
-#     ):
-#         super().__call__(self.obj.tm.default, start_vals, move_vals, end_vals,
-#                          direction, start_cond=start_cond, end_one_cond=end_one_cond,
-#                          include_start=include_start, include_end=include_end)
+class SetAllOnWay(GoToConcept):
+    def move_modifier(self, move_val):
+        return self.to_val
 
-class Macro(Basic):
-    move_by_val = MoveByVal()
+    def start_modifier(self, start_val):
+        return self.to_val
+
+    def end_modifier(self, end_val):
+        return self.to_val
+
+    def __init__(self, obj):
+        self.to_val = obj.tm.default
+        super().__init__(obj)
+
+    def single_move(self,
+                    move_vals: Iterable,
+                    end_vals: Iterable or str,
+                    direction: str,
+                    to_val=None,
+                    include_start=True, include_end=False,
+                    ):
+        self.to_val = to_val if to_val is not None else self.to_val
+        return super().single_move(move_vals, end_vals, direction, include_start, include_end)
+
+    def parallelise(self,
+                    move_vals: Iterable,
+                    end_val: str,
+                    direction: str,
+                    to_val=None,
+                    start_vals=None,
+                    include_start=True, include_end=False
+                    ):
+        self.to_val = to_val if to_val is not None else self.to_val
+        return super().parallelise(move_vals, end_val, direction, start_vals, include_start, include_end)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
+                      to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self.to_val
+        return super().parallel_move(move_vals, end_val, direction, include_start, include_end)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self.to_val
+        return super().main(move_vals, end_vals, direction, include_start, include_end)
+
+    __call__ = main
+
+class CleanRange(GoToConcept):
+    def move_modifier(self, move_val):
+        return self.obj.tm.default
+
+    def start_modifier(self, start_val):
+        return self.obj.tm.default
+
+    def end_modifier(self, end_val):
+        return self.obj.tm.default
+
+class MainMacro(Basic):
+    def __init__(self, tm: turingmachine.TuringMachine):
+        self.move_by_val = MoveByVal()
+        self.clean_range = CleanRange()
+        self.set_all_on_way = SetAllOnWay()
+
+        super().__init__(tm)
