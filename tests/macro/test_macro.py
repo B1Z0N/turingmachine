@@ -2,7 +2,7 @@ from functools import partial
 
 import turingmachine.macro as macro
 from turingmachine.machine import TuringMachine
-from turingmachine.macro import MacroSticks, Basic, MoveByVal, Macro, NextCondition
+from turingmachine.macro import MacroSticks, Basic, NextCondition, Macro
 
 class TestMacroSticks:
     def test_set(self):
@@ -265,6 +265,42 @@ class TestBasic:
                                                  "1 q3 -> a q4 R",
                           ["q1", "q2", "q3"], "R", suppose_val="b", next_val="a", join=True)
 
+    def test_parallelize_by_vals(self):
+        create = lambda string: Basic(TuringMachine.from_str(string))
+
+        try:
+            tmac = create("a,b,1,0,o,t,c:::q1:")
+            tmac.parallelise_by_vals("R", suppose_vals=["b", "1"])
+            tmac.stop()
+            tmac.tm.run()
+            tmac_equal(tmac, create("a,b,1,0,o,t,c:1::q1:"))
+        except Basic.UndeterminedConditionError:
+            pass
+        else:
+            raise AssertionError
+
+        tmac = create("a,b,1,0,o,t,c:::q1:")
+        tmac.parallelise_by_vals("R", suppose_vals=["b", "1"])
+        assert tmac.val_cond.get() == (["b", "1"], "q1")
+
+    def test_manual_rule(self):
+        def test(with_update=False):
+            tmac = Basic(TuringMachine.from_str("1,b,1,0,o,t,c:::q1:"))
+            tmac.manual_rule("1", "q1", "a", "q1", "R")
+            if with_update is True:
+                tmac.val_cond.set(stick_val="b", stick_cond="q1")
+            tmac.stop()
+            tmac.tm.run()
+            tmac_equal(tmac, Basic(TuringMachine.from_str("a,b,1,0,o,t,c:1::q1:")))
+
+        test(with_update=True)
+        try:
+            test()
+        except AssertionError:
+            pass
+        else:
+            raise AssertionError
+
     def test_stop(self):
         mac = Basic(TuringMachine.from_str("1,b,0,0,1:::q1:"))
         mac.set_rule("R", suppose_val="b")
@@ -274,40 +310,41 @@ class TestBasic:
         tm_equal(mac.tm, mac2.tm)
 
 
-# def prepare_class(obj, string, cls):
-#     tm = TuringMachine.from_str(string)
-#     obj.bsc = cls(tm)
-#
-#
-# def reset_to_class_setup(string=None):
-#     def f(func):
-#         def _(*args, **kwargs):
-#             res = func(*args, **kwargs)
-#             self = args[0]
-#             self.setup_class(string)
-#
-#             return res
-#
-#         return _
-#
-#     return f
-#
-# class TestMoveByVal:
-#     TESTSTRING1 = "1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:"
-#
-#     def setup_class(self, string=None):
-#         tm = TuringMachine.from_str(self.TESTSTRING1)
-#         self.tmac = Macro(tm)
-#
-#     def test_call(self):
-#         tm1 = TuringMachine.from_str(self.TESTSTRING1)
-#         tmac = Macro(tm1)
-#
-#         tmac.move_by_val(['0', '1'], 'b', 'R')
-#         tmac.move_by_val(['0', '1', 'o', 't'], 'c', 'R')
-#         tmac.stop()
-#         tmac.tm.run()
-#         tmac.tm.view()
-#
-#         final = TuringMachine.from_str("1,0,0,0,1,1,0,b,1,0,o,t,t,c:13:0:q1:")
-#         tm_equal(tmac.tm, final)
+class TestMoveByVal:
+
+    def test_single_move(self):
+        create = lambda string: Macro(TuringMachine.from_str(string))
+
+        def test(start, final, move_vals, end_vals, direction, between_runs=None):
+            tmac = create(start)
+
+            tmac.move_by_val.single_move(move_vals, end_vals, direction)
+            if between_runs is not None:
+                between_runs(tmac)
+            tmac.stop()
+            tmac.tm.run()
+            tmac.tm.view()
+
+            tm_equal(tmac.tm, create(final).tm)
+
+        test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "1,0,0,0,1,1,0,b,1,0,o,t,t,c:13:0:q1:", ['0', '1', 'o', 't', 'b'], 'c', "R")
+
+        def check_val_conds(tmac):
+            assert tmac.val_cond.get() == (["c", "v"], "q3")
+
+        try:
+            test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "1,0,0,0,1,1,0,b,1,0,o,t,t,c:13:0:q1:",
+                 ['0', '1', 'o', 't', 'b'], ['c', 'v'], "R", check_val_conds)
+        except Basic.UndeterminedConditionError:
+            pass
+        else:
+            raise AssertionError
+
+    def test_parallelise(self):
+        # this test will be postponed till CopyRange functionality will be implemented
+        pass
+
+    def test_parallel_move(self):
+        # this test will be postponed till CopyRange functionality will be implemented
+        pass
+

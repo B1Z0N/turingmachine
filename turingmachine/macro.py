@@ -194,7 +194,6 @@ class Basic:
             super().__init__(msg.format(sticks.get()))
 
     def __init__(self, tm: machine.TuringMachine):
-        """Do some setup work"""
         self.tm = tm
         self.cond_alpha = alphabetgenerator.AlphabetGenerator(gen=self.tm.condition)
         self.val_alpha = alphabetgenerator.AlphabetGenerator()
@@ -290,12 +289,11 @@ class Basic:
 
         next_cond = NextCondition.get_condition(self, next_cond)
         next_val = self.val_cond.get_values() if next_val is None else next_val
-        self.reserve_name({next_val}, {next_cond})
 
         if suppose_val is None:
             suppose_val = next_val
         try:
-            self.tm.set_rule(
+            self.manual_rule(
                 *self.val_cond.get(),
                 next_val, next_cond, direction
             )
@@ -332,12 +330,10 @@ class Basic:
 
         suppose_val = next_val if suppose_val is None else suppose_val
 
-        self.reserve_name({next_val}, {next_cond})
-
         value = self.val_cond.get_values()
         for condition in self.val_cond.get_conds():
             try:
-                self.tm.set_rule(value, condition, next_val,
+                self.manual_rule(value, condition, next_val,
                                  next_cond, direction)
             except machine.RuleExistsError:
                 pass
@@ -371,7 +367,7 @@ class Basic:
             assert not isinstance(suppose_vals, str)
             len(suppose_vals)
             firstly_supposed = suppose_vals
-        except ...:
+        except:  # catches all
             firstly_supposed = suppose_vals
             suppose_vals = [suppose_vals] * length
 
@@ -379,13 +375,12 @@ class Basic:
             "Lengths of next_vals, suppose_vals, and last move val-cond pairs should be equal"
 
         next_conds = NextCondition.get_condition(self, next_conds, amount=length)
-        self.reserve_name(set(next_vals), set(next_conds))
 
         conditions = self.val_cond.get_conds()
         value = self.val_cond.get_values()
         for i in range(length):
             try:
-                self.tm.set_rule(value, conditions[i], next_vals[i],
+                self.manual_rule(value, conditions[i], next_vals[i],
                                  next_conds[i], direction)
             except machine.RuleExistsError:
                 pass
@@ -397,7 +392,7 @@ class Basic:
         val_cond:
             (value1, condition1) -> (values2, condition2)
         """
-        _, cond = self.obj.single_move(direction, next_val=next_val, next_cond=next_cond)
+        _, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
         return self.val_cond.set(suppose_vals, cond)
 
     def stop(self):
@@ -453,27 +448,23 @@ class GoToConcept(metaclass=abc.ABCMeta):
 
         # start move
         new_start_value = self._start_modifier(self.obj.val_cond.get_values())
-        self.obj.single_move("S", next_val=new_start_value, next_cond=NextCondition.auto)
+        _, move_cond = self.obj.single_move("R", next_val=new_start_value, next_cond=NextCondition.auto)
 
         # main move
-        for i in range(len(move_vals)):
-            self.obj.single_move(direction, next_val=self._move_modifier(move_vals[i]), suppose_val=move_vals[i + 1])
-        self.obj.single_move("S", next_val=self._move_modifier(move_vals[-1]))
+        for value in move_vals:
+            self.obj.manual_rule(value, move_cond, self._move_modifier(value), move_cond, direction)
+        self.obj.val_cond.set(end_vals, move_cond)
 
         # end move
-        self.obj.parallelise_by_vals(direction, suppose_vals=end_vals,
-                                     next_cond=NextCondition.auto)
-
         new_end_vals = [self._end_modifier(value) for value in end_vals]
-        new_end_cond = self.obj.cond_alpha.pop()
-        end_cond = self.obj.val_cond.get_conds()
+        end_cond = self.obj.cond_alpha.pop()
 
         end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
         for i in range(len(end_vals)):
-            self.obj.manual_rule(end_cond, end_vals[i], new_end_cond, new_end_vals[i], "S")
+            self.obj.manual_rule(end_vals[i], move_cond, new_end_vals[i], end_cond, "S")
 
         return self.obj.val_cond.set(new_end_vals[0] if len(new_end_vals) == 1
-                                     else new_end_vals, new_end_cond)
+                                     else new_end_vals, end_cond)
 
     def parallelise(self,
                     move_vals: Iterable,
@@ -618,10 +609,15 @@ class CleanRange(GoToConcept):
     def end_modifier(self, end_val):
         return self.obj.tm.default
 
-class MainMacro(Basic):
-    def __init__(self, tm: turingmachine.TuringMachine):
-        self.move_by_val = MoveByVal()
-        self.clean_range = CleanRange()
-        self.set_all_on_way = SetAllOnWay()
 
+# MoveOneVal, PutOneVal, CleanOneVal, CopyOneVal
+# CopyRange, MoveRange
+
+
+class Macro(Basic):
+    def __init__(self, tm: machine.TuringMachine):
         super().__init__(tm)
+
+        self.move_by_val = MoveByVal(self)
+        self.clean_range = CleanRange(self)
+        self.set_all_on_way = SetAllOnWay(self)
