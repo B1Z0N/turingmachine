@@ -3,13 +3,8 @@ Talk about undetermined condition(moving))0)0))00)
 Think about exception guaranties(what could you give 'em
 """
 import abc
-
-from collections import namedtuple
-from collections.abc import Iterable
-
-from functools import wraps
-
 import enum
+from collections.abc import Iterable
 
 from ordered_set import OrderedSet
 
@@ -406,10 +401,25 @@ class Basic:
             MacroStick object containing value, condition pair of the last move
         """
         self.is_up_to_date()
-        if not self.val_cond.is_sin_val_cond():
-            raise self.UndeterminedConditionError(self.val_cond)
 
-        return self.single_move('STOP')
+        if self.val_cond.is_sin_val_cond():
+            return self.single_move("STOP")
+        elif self.val_cond.is_mul_val_sin_cond():
+            vals, cond = self.val_cond.get()
+            for value in vals:
+                self.val_cond.set(value, cond)
+                self.single_move("STOP")
+
+            return self.val_cond.set(vals, cond)
+        elif self.val_cond.is_sin_val_mul_cond():
+            val, conds = self.val_cond.get()
+            for condition in conds:
+                self.val_cond.set(val, condition)
+                self.single_move("STOP")
+
+            return self.val_cond.set(val, conds)
+        else:
+            raise self.UndeterminedConditionError(self.val_cond)
 
     def manual_rule(self, value, condition, next_value, next_condition, direction):
         """
@@ -424,7 +434,8 @@ class Basic:
 
         self.val_cond.updated = False
 
-class GoToConcept(metaclass=abc.ABCMeta):
+
+class GoToConceptABC(metaclass=abc.ABCMeta):
     """
     Class to implement a common algorithm
     """
@@ -443,23 +454,22 @@ class GoToConcept(metaclass=abc.ABCMeta):
                     ):
         # preparation
         self._set_includes(include_start, include_end)
+        end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
         end_vals = OrderedSet(end_vals)
         move_vals = OrderedSet(move_vals) - end_vals
 
         # start move
         new_start_value = self._start_modifier(self.obj.val_cond.get_values())
-        _, move_cond = self.obj.single_move("R", next_val=new_start_value, next_cond=NextCondition.auto)
+        _, move_cond = self.obj.single_move(direction, next_val=new_start_value, next_cond=NextCondition.auto)
 
         # main move
         for value in move_vals:
             self.obj.manual_rule(value, move_cond, self._move_modifier(value), move_cond, direction)
-        self.obj.val_cond.set(end_vals, move_cond)
 
         # end move
         new_end_vals = [self._end_modifier(value) for value in end_vals]
         end_cond = self.obj.cond_alpha.pop()
 
-        end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
         for i in range(len(end_vals)):
             self.obj.manual_rule(end_vals[i], move_cond, new_end_vals[i], end_cond, "S")
 
@@ -473,13 +483,12 @@ class GoToConcept(metaclass=abc.ABCMeta):
                     start_vals=None,
                     include_start=True, include_end=False
                     ):
-        self._set_includes(include_start, include_end)
         if start_vals is None:
             start_vals, _ = self.obj.val_cond.get()
         start_vals = OrderedSet(start_vals)
 
-        move_vals = OrderedSet(move_vals) - OrderedSet(end_val) + start_vals
-        start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
+        move_vals = OrderedSet(move_vals).difference(OrderedSet(end_val)).union(start_vals)
+        start_value, start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
 
         assert self.obj.val_cond.is_mul_val_sin_cond(), \
             "Multiple values and single condition should be passed"
@@ -487,10 +496,12 @@ class GoToConcept(metaclass=abc.ABCMeta):
         end_conds = []
         for start_value in start_vals:
             move_cond = self.obj.cond_alpha.pop()
+            self.obj.manual_rule(start_value, start_cond, start_value, move_cond, "S")
 
             self.obj.val_cond.set(start_value, move_cond)
             end_conds.append(
-                self.single_move(move_vals + start_vals, end_val, direction)[1]
+                self.single_move(move_vals.union(start_vals), end_val, direction,
+                                 include_start=include_start, include_end=include_end)[1]
             )
 
         return self.obj.val_cond.set(end_val, end_conds)
@@ -498,7 +509,6 @@ class GoToConcept(metaclass=abc.ABCMeta):
     def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
                       include_start=True, include_end=False
                       ):
-        self._set_includes(include_start, include_end)
         assert self.obj.val_cond.is_sin_val_mul_cond(), \
             "Single value and multiple conditions should be passed"
 
@@ -508,7 +518,8 @@ class GoToConcept(metaclass=abc.ABCMeta):
         for condition in start_conds:
             self.obj.val_cond.set(start_val, condition)
             end_conds.append(
-                self.single_move(move_vals, end_val, direction)[1]
+                self.single_move(move_vals, end_val, direction,
+                                 include_end=include_end, include_start=include_start)[1]
             )
 
         return self.obj.val_cond.set(end_val, end_conds)
@@ -526,7 +537,7 @@ class GoToConcept(metaclass=abc.ABCMeta):
         return self.start_modifier(start_val) if self._include_start else start_val
 
     def _end_modifier(self, end_val):
-        return self.end_modifier(end_val) if self._include_start else end_val
+        return self.end_modifier(end_val) if self._include_end else end_val
 
     @abc.abstractmethod
     def move_modifier(self, move_val):
@@ -540,9 +551,8 @@ class GoToConcept(metaclass=abc.ABCMeta):
     def end_modifier(self, end_val):
         pass
 
-class MoveByVal(GoToConcept):
-    """ Main class for moving to value on the tape"""
 
+class GoToConcept(GoToConceptABC):
     def move_modifier(self, move_val):
         return move_val
 
@@ -551,6 +561,50 @@ class MoveByVal(GoToConcept):
 
     def end_modifier(self, end_val):
         return end_val
+
+
+class IgnoreThis:
+    """Class for ignoring keyword parameters"""
+    pass
+
+
+class MoveByVal(GoToConcept):
+    """ Main class for moving to value on the tape"""
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().single_move(move_vals, end_vals, direction)
+
+    def parallelise(self, move_vals: Iterable, end_val: str, direction: str,
+                    start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallelise(move_vals, end_val, direction, start_vals=start_vals)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str,
+                      direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallel_move(move_vals, end_val, direction)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction)
+
+    __call__ = main
+
+
+class CleanRange(GoToConcept):
+    def move_modifier(self, move_val):
+        return self.obj.tm.default
+
+    def start_modifier(self, start_val):
+        return self.obj.tm.default
+
+    def end_modifier(self, end_val):
+        return self.obj.tm.default
+
+    def parallel_move(self, *args, **kwargs):
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        pass
 
 class SetAllOnWay(GoToConcept):
     def move_modifier(self, move_val):
@@ -563,55 +617,65 @@ class SetAllOnWay(GoToConcept):
         return self.to_val
 
     def __init__(self, obj):
-        self.to_val = obj.tm.default
+        self._default = obj.tm.default
         super().__init__(obj)
 
-    def single_move(self,
-                    move_vals: Iterable,
-                    end_vals: Iterable or str,
-                    direction: str,
-                    to_val=None,
-                    include_start=True, include_end=False,
-                    ):
-        self.to_val = to_val if to_val is not None else self.to_val
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self._default
         return super().single_move(move_vals, end_vals, direction, include_start, include_end)
-
-    def parallelise(self,
-                    move_vals: Iterable,
-                    end_val: str,
-                    direction: str,
-                    to_val=None,
-                    start_vals=None,
-                    include_start=True, include_end=False
-                    ):
-        self.to_val = to_val if to_val is not None else self.to_val
-        return super().parallelise(move_vals, end_val, direction, start_vals, include_start, include_end)
-
-    def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
-                      to_val=None, include_start=True, include_end=False):
-        self.to_val = to_val if to_val is not None else self.to_val
-        return super().parallel_move(move_vals, end_val, direction, include_start, include_end)
 
     def main(self, move_vals: Iterable, end_vals: Iterable or str,
              direction: str, to_val=None, include_start=True, include_end=False):
-        self.to_val = to_val if to_val is not None else self.to_val
+        self.to_val = to_val if to_val is not None else self._default
         return super().main(move_vals, end_vals, direction, include_start, include_end)
+
+    def parallel_move(self, *args, **kwargs):
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        pass
 
     __call__ = main
 
-class CleanRange(GoToConcept):
-    def move_modifier(self, move_val):
-        return self.obj.tm.default
 
-    def start_modifier(self, start_val):
-        return self.obj.tm.default
+class PutByVal(MoveByVal):
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
+        if put_val is not None:
+            try:
+                val_cond = self.obj.single_move("S", next_val=put_val)
+            except AssertionError:
+                raise Basic.UndeterminedConditionError(self.obj.val_cond)
 
-    def end_modifier(self, end_val):
-        return self.obj.tm.default
+        return val_cond
 
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, put_vals=None, start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
 
-# MoveOneVal, PutOneVal, CleanOneVal, CopyOneVal
-# CopyRange, MoveRange
+        val_cond = super().parallelise(move_vals, end_val, direction, start_vals, include_start=True, include_end=True)
+        if put_vals is not None:
+            val_cond = self.set_appropriate(put_vals, conditions=val_cond[1])
+
+        return val_cond
+
+    def set_appropriate(self, put_vals, conditions=None):
+        cur_val = self.obj.val_cond.get_values()
+        if conditions is None:
+            conditions = self.obj.val_cond.get_conds()
+
+        finita_condition = self.obj.cond_alpha.pop()
+        for i in range(len(put_vals)):
+            self.obj.manual_rule(cur_val, conditions[i], put_vals[i], finita_condition, "S")
+
+        return self.obj.val_cond.set(put_vals, finita_condition)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+    __call__ = main
 
 
 class Macro(Basic):
@@ -621,3 +685,10 @@ class Macro(Basic):
         self.move_by_val = MoveByVal(self)
         self.clean_range = CleanRange(self)
         self.set_all_on_way = SetAllOnWay(self)
+        self.put_by_val = PutByVal(self)
+
+    def copy_range(self):
+        pass
+
+    def move_range(self):
+        pass

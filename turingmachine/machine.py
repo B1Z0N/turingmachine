@@ -301,7 +301,10 @@ class TuringMachine:
             section_delimiter=':',
             log_func=None
             ):
-        """Alternative constructor, for creating cls from a string
+        # TODO: make form_str more convenient in :::::
+        """
+        Alternative constructor, for creating cls from a string
+
         Template:
             'tape_elements_separated_by_comma:start_index:default:start_condition:rules_separated_by_comma'
         Example:
@@ -327,7 +330,9 @@ class TuringMachine:
             cls, file_name, tape_delimiter=',',
             section_delimiter=':', log_func=None
             ):
-        """Alternative constructor, for creating cls from a file
+        """
+        Alternative constructor, for creating cls from a file
+
         Template:
             tape_elements_separated_by_comma:start_index:default:start_condition
             rule
