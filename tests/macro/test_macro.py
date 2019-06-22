@@ -25,13 +25,6 @@ class TestMacroSticks:
         assert self.sticks.get_values() == '2'
 
         try:
-            self.sticks.set('123')  # erroneous behaviour
-        except MacroSticks.StickError:
-            print("Everything is ok")
-        else:
-            raise AssertionError
-
-        try:
             self.sticks.set('123', TuringMachine.from_str('1,0,1,0:::q1:'))  # erroneous behaviour
         except MacroSticks.StickError:
             print("Everything is ok")
@@ -437,15 +430,10 @@ class TestPutByVal:
              ['0', '1', 'o', 't', 'b'], 'c', "R", put_val="d")
 
         def check_val_conds(tmac):
-            assert tmac.val_cond.get() == (["c", "v"], "q3")
+            assert tmac.val_cond.get() == ("s", "q4")
 
-        try:
-            test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "1,0,0,0,1,1,0,b,1,0,o,t,t,c:13:0:q1:",
-                 ['0', '1', 'o', 't', 'b'], ['c', 'v'], "R", put_val="s", between_runs=check_val_conds)
-        except Basic.UndeterminedConditionError:
-            pass
-        else:
-            raise AssertionError
+        test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "1,0,0,0,1,1,0,b,1,0,o,t,t,s:13:0:q1:",
+             ['0', '1', 'o', 't', 'b'], ['c', 'v'], "R", put_val="s", between_runs=check_val_conds)
 
     def test_parallelise(self):
         create = lambda string: Macro(TuringMachine.from_str(string))
@@ -527,3 +515,127 @@ class TestSetAllOnWay:
         tmac.tm.run()
         print(tmac.tm)
         assert tmac.tm.tape == create("d,d,d,d,d,d,d,b,2,2,2:::q1:").tm.tape
+
+
+class TestMoveFromTo:
+
+    def test_single_move(self):
+        create = lambda string: Macro(TuringMachine.from_str(string))
+
+        def test(start, final, move_vals, end_vals, direction, replace_with=None, between_runs=None):
+            tmac = create(start)
+
+            tmac.move_from_to.single_move(move_vals, end_vals, direction, replace_with=replace_with)
+            if between_runs is not None:
+                between_runs(tmac)
+            tmac.stop()
+            tmac.tm.run()
+            tmac.tm.view()
+
+            tm_equal(tmac.tm, create(final).tm)
+
+        test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "d,0,0,0,1,1,0,b,1,0,o,t,t,1:13:0:q1:",
+             ['0', '1', 'o', 't', 'b'], 'c', "R", replace_with="d")
+
+        def check_val_conds(tmac):
+            assert tmac.val_cond.get() == ("1", "q4")
+
+        test("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:", "s,0,0,0,1,1,0,b,1,0,o,t,t,1:13:0:q1:",
+             ['0', '1', 'o', 't', 'b'], ['c', 'v'], "R", replace_with="s", between_runs=check_val_conds)
+
+    def test_parallelise(self):
+        create = lambda string: Macro(TuringMachine.from_str(string))
+        tur = create("a,1,0,1,1,1,b,2,2,2:::q1:")
+        tur.single_move("R", suppose_val="1")
+        end_vals, end_cond = \
+            tur.move_from_to.parallelise(["1", "0", "b", "2"], tur.tm.default, "R",
+                                         start_vals=["0", "1"], replace_with=["o", "t"])
+
+        tur.stop()
+        tur.tm.run()
+        print(tur.tm)
+        tm_equal(tur.tm, create("a,t,0,1,1,1,b,2,2,2,1:10::" + end_cond + ":").tm)
+
+        tur = create("a,0,0,1,1,1,b,2,2,2:::q1:")
+        tur.single_move("R", suppose_val="0")
+        end_vals, end_cond = \
+            tur.move_from_to.parallelise(["1", "0", "b", "2"],
+                                         tur.tm.default, "R", start_vals=["1", "0"], replace_with=["s", "k"])
+        tur.stop()
+        tur.tm.run()
+        print(tur.tm)
+        tmac2 = create("a,k,0,1,1,1,b,2,2,2,0:10::" + end_cond + ":")
+        tmac2.val_cond.set(["1", "0"], end_cond)
+        tm_equal(tur.tm, tmac2.tm)
+
+    def test_parallel_move(self):
+        create = lambda string: Macro(TuringMachine.from_str(string))
+        tur = create("a,1,0,1,1,1,b,2,2,2:::q1:")
+        tur.single_move("R", suppose_val="1")
+        tur.move_from_to.parallelise(["1", "0", "b", "2"], tur.tm.default, "R", start_vals=["0", "1"])
+        end_val, end_conds = tur.move_from_to.parallel_move([tur.tm.default], "", "R")
+        tur.manual_rule(end_val, end_conds[1], "1", end_conds[1], "S")
+        tur.manual_rule(end_val, end_conds[0], "0", end_conds[0], "S")
+        tur.val_cond.set("1", end_conds[1])
+        tur.stop()
+        tur.tm.run()
+        # print(tur.tm)
+        tm_equal(tur.tm, create("a,1,0,1,1,1,b,2,2,2,,1:11::" + end_conds[1] + ":").tm)
+
+        tur = create("a,1,0,1,1,1,b,2,2,2:::q1:")
+        tur.single_move("R", suppose_val="1")
+        tur.move_from_to.parallelise(["1", "0", "b", "2"], tur.tm.default, "R", start_vals=["0", "1"])
+        end_val, end_conds = tur.parallel_cond_move("R", suppose_vals=tur.tm.default, next_conds=NextCondition.auto)
+        tur.manual_rule(end_val, end_conds[1], "1", end_conds[1], "S")
+        tur.manual_rule(end_val, end_conds[0], "0", end_conds[0], "S")
+        tur.val_cond.set("1", end_conds[1])
+        tur.stop()
+        tur.tm.run()
+        # print(tur.tm)
+        tm_equal(tur.tm, create("a,1,0,1,1,1,b,2,2,2,,1:11::" + end_conds[1] + ":").tm)
+
+        tur = create("a,1,0,1,1,1,b,2,2,2:::q1:")
+        tur.single_move("R", suppose_val="1")
+        tur.move_from_to.parallelise(["1", "0", "b", "2"], tur.tm.default, "R", start_vals=["0", "1"])
+        end_val, end_conds = tur.move_from_to.parallel_move([tur.tm.default, "0", "1", "b", "2"], "a", "L")
+        tur.manual_rule(end_val, end_conds[1], "1", end_conds[1], "S")
+        tur.manual_rule(end_val, end_conds[0], "0", end_conds[0], "S")
+        tur.val_cond.set("1", end_conds[1])
+        tur.stop()
+        tur.tm.run()
+        # print(tur.tm)
+        tm_equal(tur.tm, create("1,1,0,1,1,1,b,2,2,2,:::" + end_conds[1] + ":").tm)
+
+
+class TestCopyRange:
+    def test_copy_range(self):
+        create = lambda string: Macro(TuringMachine.from_str(string))
+        tmac = create("a,1,0,1,1,b,2,3,2,2,c:::q1:")
+        tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default], "R")
+        tmac.stop()
+        tmac.tm.run()
+        tm_equal(tmac.tm, create("a,1,0,1,1,b,2,3,2,2,c,1,0,1,1,d:::q1:").tm)
+
+        tmac = create("a,1,0,1,1,b,2,3,2,2,c:10::q1:")
+        tmac.copy_range(["2", "3"], "b", ["0", "1"], "a", [tmac.tm.default], "L")
+        tmac.stop()
+        tmac.tm.run()
+        assert tmac.tm.tape == create("d,2,3,2,2,a,1,0,1,1,b,2,3,2,2,c:15::q1:").tm.tape
+
+        tmac = create("a,1,0,1,1,b,2,3,2,2,c,q,k,l:::q1:")
+        tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default, 'q', 'k', 'l'], "R")
+        tmac.stop()
+        tmac.tm.run()
+        tm_equal(tmac.tm, create("a,1,0,1,1,b,2,3,2,2,c,1,0,1,1,d:::q1:").tm)
+
+        tmac = create("a,1,0,1,1,b,2,3,2,2,c,2,1,2:::q1:")
+        tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default, '2', '1'], "R")
+        tmac.stop()
+        tmac.tm.run()
+        tm_equal(tmac.tm, create("a,1,0,1,1,b,2,3,2,2,c,1,0,1,1,d:::q1:").tm)
+
+        tmac = create("a,1,0,1,1,1,1,1,b,2,3,2,2,c,2,1,2,0,3:::q1:")
+        tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default, '2', '1', '0', '3'], "R")
+        tmac.stop()
+        tmac.tm.run()
+        tm_equal(tmac.tm, create("a,1,0,1,1,1,1,1,b,2,3,2,2,c,1,0,1,1,1,1,1,d:::q1:").tm)

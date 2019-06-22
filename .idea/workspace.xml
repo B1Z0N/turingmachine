@@ -5,12 +5,11 @@
   </component>
   <component name="BookmarkManager">
     <bookmark url="file://$PROJECT_DIR$/tests/test_turingMachineMacro.py" description="        test('a,b,_,_,_,c:::q1:', 'a,b,_,_,_,a:5::..." line="29" />
-    <bookmark url="file://$PROJECT_DIR$/tests/macro/test_macro.py" description="class TestCleanRange:&#10;    def test_single_move(sel..." line="399" />
+    <bookmark url="file://$PROJECT_DIR$/tests/macro/test_macro.py" description="class TestCleanRange:&#10;    def test_single_move(sel..." line="401" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="Written tests and passed them for MoveByVal class">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/turing.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/turing.iml" afterDir="false" />
+    <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/turingmachine/Plans.todo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/macro/test_macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/macro/test_macro.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turingmachine/machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/machine.py" afterDir="false" />
@@ -27,11 +26,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="228">
-              <caret line="697" column="12" selection-start-line="697" selection-start-column="12" selection-end-line="697" selection-end-column="12" />
+            <state relative-caret-position="-130">
+              <caret line="770" selection-start-line="770" selection-end-line="770" />
               <folding>
                 <element signature="e#116#126#0" expanded="true" />
               </folding>
@@ -39,11 +38,20 @@
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/turingmachine/Plans.todo">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="506">
+              <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/macro/test_macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1026">
-              <caret line="471" lean-forward="true" selection-start-line="471" selection-end-line="471" />
+            <state relative-caret-position="552">
+              <caret line="635" selection-start-line="635" selection-end-line="635" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -54,8 +62,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="89">
-              <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+            <state relative-caret-position="123">
+              <caret line="99" column="68" selection-start-line="99" selection-start-column="68" selection-end-line="99" selection-end-column="68" />
               <folding>
                 <element signature="e#1141#1157#0" expanded="true" />
               </folding>
@@ -75,9 +83,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_tape</find>
-      <find>clean_ra</find>
-      <find>&gt;{</find>
       <find>go_cond</find>
       <find>main[1]</find>
       <find>main[7]</find>
@@ -105,6 +110,9 @@
       <find>Undetermin</find>
       <find>UndeterminedCond</find>
       <find>move_by_val</find>
+      <find>put_by_val</find>
+      <find>test_set</find>
+      <find>rule with</find>
     </findStrings>
     <replaceStrings>
       <replace>difference</replace>
@@ -120,6 +128,7 @@
       <replace>Iterable</replace>
       <replace>pass</replace>
       <replace>put_by_val</replace>
+      <replace>move_from_to</replace>
     </replaceStrings>
   </component>
   <component name="Git.Settings">
@@ -174,8 +183,9 @@
         <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
         <option value="$PROJECT_DIR$/tests/test_macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/machine.py" />
-        <option value="$PROJECT_DIR$/tests/macro/test_macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/macro.py" />
+        <option value="$PROJECT_DIR$/tests/macro/test_macro.py" />
+        <option value="$PROJECT_DIR$/turingmachine/Plans.todo" />
       </list>
     </option>
   </component>
@@ -193,7 +203,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -204,29 +213,20 @@
             <path>
               <item name="turing" type="b2602c69:ProjectViewProjectNode" />
               <item name="turing" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="turing" type="462c0819:PsiDirectoryNode" />
-              <item name="tests" type="462c0819:PsiDirectoryNode" />
-              <item name="machine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="turing" type="b2602c69:ProjectViewProjectNode" />
-              <item name="turing" type="462c0819:PsiDirectoryNode" />
               <item name="turingmachine" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="full.screen.before.presentation.mode" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/turingmachine" />
+    <property name="restartRequiresConfirmation" value="false" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="preferences.editor" />
   </component>
@@ -262,7 +262,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python tests.pytest for test_macro.TestMoveByVal">
+  <component name="RunManager" selected="Python tests.pytest for test_macro.TestCopyRange">
     <configuration name="turing" type="PythonConfigurationType" factoryName="Python">
       <module name="turing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -315,6 +315,21 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for test_macro.TestCopyRange" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="turing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/macro" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_macro.TestCopyRange&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest for test_macro.TestMoveByVal" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
       <module name="turing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -360,6 +375,21 @@
       <option name="_new_targetType" value="&quot;PYTHON&quot;" />
       <method v="2" />
     </configuration>
+    <configuration name="pytest for test_macro.TestMoveFromTo" type="tests" factoryName="py.test" temporary="true" nameIsGenerated="true">
+      <module name="turing" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/tests/macro" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="_new_keywords" value="&quot;&quot;" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;test_macro.TestMoveFromTo&quot;" />
+      <option name="_new_targetType" value="&quot;PYTHON&quot;" />
+      <method v="2" />
+    </configuration>
     <configuration name="pytest in test_macro.py" type="tests" factoryName="py.test" nameIsGenerated="true">
       <module name="turing" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -378,14 +408,18 @@
     <list>
       <item itemvalue="Python.turing" />
       <item itemvalue="Python docs.docutils task in " />
+      <item itemvalue="Python tests.pytest for test_macro.TestCleanRange" />
+      <item itemvalue="Python tests.pytest in test_macro.py" />
       <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal" />
       <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal.test__main_move" />
       <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal.test_create" />
-      <item itemvalue="Python tests.pytest for test_macro.TestCleanRange" />
-      <item itemvalue="Python tests.pytest in test_macro.py" />
+      <item itemvalue="Python tests.pytest for test_macro.TestMoveFromTo" />
+      <item itemvalue="Python tests.pytest for test_macro.TestCopyRange" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Python tests.pytest for test_macro.TestCopyRange" />
+        <item itemvalue="Python tests.pytest for test_macro.TestMoveFromTo" />
         <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal" />
         <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal.test_create" />
         <item itemvalue="Python tests.pytest for test_macro.TestMoveByVal.test__main_move" />
@@ -393,7 +427,7 @@
     </recent_temporary>
   </component>
   <component name="StructureViewFactory">
-    <option name="ACTIVE_ACTIONS" value=",SHOW_INHERITED,SHOW_FIELDS" />
+    <option name="ACTIVE_ACTIONS" value=",SHOW_FIELDS,SHOW_INHERITED" />
   </component>
   <component name="SvnConfiguration">
     <configuration />
@@ -686,39 +720,46 @@
       <option name="project" value="LOCAL" />
       <updated>1550959508515</updated>
     </task>
-    <option name="localTasksCounter" value="41" />
+    <task id="LOCAL-00041" summary="Fully written basic &quot;singleton&quot; operations like:&#10;MoveByVal, SetAllOnWay, PutByVal, CleanRange&#10;and tests to them.">
+      <created>1561137251741</created>
+      <option name="number" value="00041" />
+      <option name="presentableId" value="LOCAL-00041" />
+      <option name="project" value="LOCAL" />
+      <updated>1561137251741</updated>
+    </task>
+    <option name="localTasksCounter" value="42" />
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 17h 29m 11s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 03h 54m 25s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 17h 29m 15s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 03m 41s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 17h 29m 30s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 06m 30s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 17h 33m 21s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 07m 14s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 17h 34m 09s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 07m 34s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestCleanRange - 2019.06.21 at 18h 05m 33s.xml">
-      <configuration name="pytest for test_macro.TestCleanRange" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 10m 01s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_in_test_macro_py - 2019.06.21 at 18h 05m 56s.xml">
-      <configuration name="pytest in test_macro.py" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 35m 58s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_in_test_macro_py - 2019.06.21 at 19h 55m 17s.xml">
-      <configuration name="pytest in test_macro.py" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 36m 26s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_in_test_macro_py - 2019.06.21 at 19h 57m 18s.xml">
-      <configuration name="pytest in test_macro.py" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 43m 08s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
-    <history-entry file="pytest_for_test_macro_TestMoveByVal - 2019.06.21 at 20h 00m 16s.xml">
-      <configuration name="pytest for test_macro.TestMoveByVal" configurationId="tests" />
+    <history-entry file="pytest_for_test_macro_TestCopyRange - 2019.06.22 at 04h 43m 11s.xml">
+      <configuration name="pytest for test_macro.TestCopyRange" configurationId="tests" />
     </history-entry>
   </component>
   <component name="TodoView">
@@ -734,21 +775,21 @@
     <frame x="0" y="35" width="1920" height="979" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4164649" visible="true" weight="0.27118644" />
-      <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
-      <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.25796178" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.13701431" weight="0.27118644" />
+      <window_info id="Structure" order="1" sideWeight="0.8629857" side_tool="true" weight="0.27118644" />
+      <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.2579449" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.330855" />
       <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.24535316" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.54770756" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.4337051" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32961586" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" visible="true" weight="0.43122676" />
-      <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
-      <window_info anchor="bottom" id="Messages" order="10" weight="0.6549637" />
-      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49893844" weight="0.08302354" />
+      <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49893844" weight="0.13878563" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49893844" visible="true" weight="0.055762082" />
+      <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.6549637" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.43583536" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -756,25 +797,26 @@
       <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.11093073" />
     </layout>
     <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.35881627" visible="true" weight="0.18683651" />
-      <window_info id="Structure" order="1" sideWeight="0.64118373" side_tool="true" weight="0.1836518" />
-      <window_info id="Favorites" order="2" side_tool="true" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.13701431" weight="0.27118644" />
+      <window_info id="Structure" order="1" sideWeight="0.8629857" side_tool="true" weight="0.27118644" />
+      <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.2579449" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.527845" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49893844" visible="true" weight="0.65254235" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.40072638" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.330855" />
+      <window_info anchor="bottom" id="Run" order="2" sideWeight="0.49893844" weight="0.24535316" />
+      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.5204461" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info anchor="bottom" id="TODO" order="6" weight="0.32961586" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.18765134" />
+      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.49893844" weight="0.330855" />
       <window_info anchor="bottom" id="Event Log" order="9" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
-      <window_info anchor="bottom" id="Python Console" order="10" sideWeight="0.49893844" weight="0.38135594" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.3292978" />
+      <window_info anchor="bottom" id="Messages" order="10" weight="0.6549637" />
+      <window_info anchor="bottom" id="Python Console" order="11" sideWeight="0.49893844" weight="0.13878563" />
+      <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.43583536" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" show_stripe_button="false" weight="0.25" />
-      <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.33549783" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25487012" />
+      <window_info anchor="right" x="0" y="0" width="430" height="843" id="Documentation" order="3" side_tool="true" weight="0.11093073" />
     </layout-to-restore>
   </component>
   <component name="UpdateCopyrightCheckinHandler">
@@ -823,7 +865,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Added temporary files support&#10;Fixed repr of a machine&#10;Refactored some code&#10;TODO: find the way to write paths(os module maybe)" />
     <MESSAGE value="Found a strategy of writing abstracted macros, refactored a lot of code. Rewritten some functions, make to work all present functionality in TuringMacroMachine(move_by_val and bin_func)" />
     <MESSAGE value="Added clean function scratch, tested it a little bit, not so properly as i'd wanted to." />
     <MESSAGE value="Added a lot of useful minifunctions to like copy or clean or put, to manage tape condition" />
@@ -848,7 +889,8 @@
     <MESSAGE value="Written tests for Basic class. Passed it." />
     <MESSAGE value="Written test for MoveByVal class, half passed it." />
     <MESSAGE value="Written tests and passed them for MoveByVal class" />
-    <option name="LAST_COMMIT_MESSAGE" value="Written tests and passed them for MoveByVal class" />
+    <MESSAGE value="Fully written basic &quot;singleton&quot; operations like:&#10;MoveByVal, SetAllOnWay, PutByVal, CleanRange&#10;and tests to them." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully written basic &quot;singleton&quot; operations like:&#10;MoveByVal, SetAllOnWay, PutByVal, CleanRange&#10;and tests to them." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -865,12 +907,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/turing/macro/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/turing/macro.py" />
-    <entry file="file://$PROJECT_DIR$/turing/machine.py" />
-    <entry file="file://$PROJECT_DIR$/turing/__init__.py" />
-    <entry file="file://$PROJECT_DIR$/turingmachine/test_turingMachine.py" />
-    <entry file="file://$PROJECT_DIR$/turingmachine/test_TuringMachine.py" />
     <entry file="file://$PROJECT_DIR$/tests/test_turingMachine.py" />
     <entry file="file://$PROJECT_DIR$/tests/test_all.py" />
     <entry file="file://$PROJECT_DIR$/turingmachine/IDEA: macro.py" />
@@ -1003,10 +1039,45 @@
     <entry file="file://$PROJECT_DIR$/tests/machine/machine_test_from_file">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/_pytest/python.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="126">
+          <caret line="1463" selection-start-line="1463" selection-end-line="1463" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pluggy/manager.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="247">
+          <caret line="86" selection-start-line="86" selection-end-line="86" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pluggy/hooks.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="115">
+          <caret line="288" selection-start-line="288" selection-end-line="288" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/_pytest/runner.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="79" selection-start-line="79" selection-end-line="79" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/venv/lib/python3.7/site-packages/pluggy/callers.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="324">
+          <caret line="195" selection-start-line="195" selection-end-line="195" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="89">
-          <caret line="117" lean-forward="true" selection-start-line="117" selection-end-line="117" />
+        <state relative-caret-position="123">
+          <caret line="99" column="68" selection-start-line="99" selection-start-column="68" selection-end-line="99" selection-end-column="68" />
           <folding>
             <element signature="e#1141#1157#0" expanded="true" />
           </folding>
@@ -1015,8 +1086,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/macro/test_macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1026">
-          <caret line="471" lean-forward="true" selection-start-line="471" selection-end-line="471" />
+        <state relative-caret-position="552">
+          <caret line="635" selection-start-line="635" selection-end-line="635" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -1025,11 +1096,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="228">
-          <caret line="697" column="12" selection-start-line="697" selection-start-column="12" selection-end-line="697" selection-end-column="12" />
+        <state relative-caret-position="-130">
+          <caret line="770" selection-start-line="770" selection-end-line="770" />
           <folding>
             <element signature="e#116#126#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/turingmachine/Plans.todo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="506">
+          <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
         </state>
       </provider>
     </entry>

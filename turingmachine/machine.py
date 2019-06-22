@@ -76,7 +76,7 @@ class RuleNotFoundError(TuringMachineError):
             cond, turing_machine
             ):
         msg = "Rule with {} is absent, in list of rules on this machine:\n{}\n"
-        rule = "value: {}, condition: {}"
+        rule = "value: '{}', condition: '{}'"
 
         super().__init__(
             msg.format(
@@ -97,7 +97,7 @@ class RuleExistsError(TuringMachineError):
     """Raise when trying to add rule that already exist"""
 
     def __init__(self, val, cond):
-        msg = f'Rule with value: {val} and condition: {cond} already exist'
+        msg = f'Rule with value: \'{val}\' and condition: \'{cond}\' already exist'
         super().__init__(msg)
 
 

@@ -1,0 +1,24 @@
+Global:
+    1. Find patterns of common operations in code and implement their functionality.
+
+    2. Find common operations for turing machines in different
+       areas(numeric system conversions, for example) and implement them.
+
+    3. Make it easier for developers to create new libraries, create
+       interface for this. Some analog of packaging system.
+
+    4. Make it possible to find operation logic from concrete tm code and
+       reproduce it in macro(python) code. Create new file format if needed.
+
+    5. GUI with visual constructor for macroses, and support to side developers
+       packages(uses packaging system in paragraph 3, some common interface
+       for developers)
+
+Local:
+    1. Create more intuitive TuringMachine.from_str function
+
+    2. Write comments to all functions in one style
+
+    3. Create some packages that will address author's problems, like
+       3.1. Calculating binary function value by it's vector
+       3.2. Find functional superposition in binary system

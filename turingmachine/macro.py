@@ -82,6 +82,12 @@ class MacroSticks:
     def set(self, stick_val=None, stick_cond=None):
         if stick_val is None and stick_cond is None:
             self.updated = True
+
+        if stick_cond is None:
+            stick_cond = self.contains[1]
+        if stick_val is None:
+            stick_val = self.contains[0]
+
         self.__init__(stick_val, stick_cond=stick_cond)
         return self.contains
 
@@ -487,7 +493,7 @@ class GoToConceptABC(metaclass=abc.ABCMeta):
             start_vals, _ = self.obj.val_cond.get()
         start_vals = OrderedSet(start_vals)
 
-        move_vals = OrderedSet(move_vals).difference(OrderedSet(end_val)).union(start_vals)
+        move_vals -= OrderedSet(end_val) | start_vals
         start_value, start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
 
         assert self.obj.val_cond.is_mul_val_sin_cond(), \
@@ -606,6 +612,7 @@ class CleanRange(GoToConcept):
     def parallelise(self, *args, **kwargs):
         pass
 
+
 class SetAllOnWay(GoToConcept):
     def move_modifier(self, move_val):
         return self.to_val
@@ -645,7 +652,15 @@ class PutByVal(MoveByVal):
         val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
         if put_val is not None:
             try:
-                val_cond = self.obj.single_move("S", next_val=put_val)
+                if self.obj.val_cond.is_sin_val_cond():
+                    val_cond = self.obj.single_move("S", next_val=put_val)
+                else:
+                    cur_cond = self.obj.val_cond.get_conds()
+                    end_cond = self.obj.cond_alpha.pop()
+                    for value in self.obj.val_cond.get_values():
+                        self.obj.val_cond.set(value, cur_cond)
+                        self.obj.single_move("S", next_val=put_val, next_cond=end_cond)
+                    val_cond = self.obj.val_cond.set(put_val, end_cond)
             except AssertionError:
                 raise Basic.UndeterminedConditionError(self.obj.val_cond)
 
@@ -678,6 +693,42 @@ class PutByVal(MoveByVal):
     __call__ = main
 
 
+class MoveFromTo(PutByVal):
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        put_val = None
+        if replace_with is not None:
+            put_val = self.obj.val_cond.get_values()
+            self.obj.single_move("S", next_val=replace_with)
+
+        return super().single_move(move_vals, end_vals, direction, put_val=put_val)
+
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, replace_with=None, start_vals=None, include_start=IgnoreThis,
+                    include_end=IgnoreThis):
+        put_vals = None
+        if replace_with is not None:
+            if start_vals is None:
+                start_vals = self.obj.val_cond.get_values()
+            put_vals = start_vals
+
+            start_cond = self.obj.val_cond.get_conds()
+            move_cond = self.obj.cond_alpha.pop()
+            for start, replace in zip(start_vals, replace_with):
+                self.obj.manual_rule(start, start_cond, replace, move_cond, "S")
+
+            self.obj.val_cond.set(replace_with, move_cond)
+            start_vals = replace_with
+
+        return super().parallelise(move_vals, end_val, direction, put_vals=put_vals, start_vals=start_vals)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return self.single_move(move_vals, end_vals, direction, replace_with=replace_with)
+
+    __call__ = main
+
+
 class Macro(Basic):
     def __init__(self, tm: machine.TuringMachine):
         super().__init__(tm)
@@ -686,9 +737,67 @@ class Macro(Basic):
         self.clean_range = CleanRange(self)
         self.set_all_on_way = SetAllOnWay(self)
         self.put_by_val = PutByVal(self)
+        self.move_from_to = MoveFromTo(self)
 
-    def copy_range(self):
-        pass
+    def copy_range(self, values, end1, between12,
+                   start2, after2, direction):
+        # preparation
+        values = OrderedSet(values)
+        between12 = OrderedSet(between12)
+        after2 = OrderedSet(after2)
+
+        start_val = self.val_cond.get_values()
+
+        values -= OrderedSet([end1, start_val])
+        between12 -= OrderedSet([end1, start2])
+        after2 -= OrderedSet(start2)
+
+        end2 = self.val_alpha.pop()
+        move_set = values | between12 | after2 | OrderedSet([start_val, end1, start2])
+        opdirection = "R" if direction == "L" else "L"
+
+        # put end2 at the end and return
+        self.move_by_val.single_move(values, end1, direction)
+        self.move_by_val.single_move(between12, start2, direction)
+        self.put_by_val.single_move([start2], after2, direction, end2)
+
+        self.single_move(opdirection, suppose_val=start2)
+        self.move_by_val.single_move(between12, end1, opdirection)
+        self.move_by_val.single_move(values, start_val, opdirection)
+        self.single_move(direction)
+
+        # start copying
+        replace_with = OrderedSet(self.val_alpha.pop() for _ in range(len(values)))
+        copy_cond = self.val_cond.get_conds()  # !!!
+        self.move_from_to.parallelise(move_set, end2, direction, start_vals=values, replace_with=replace_with)
+
+        # restore end2 delimiter
+        restore_conds = []
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(stick_val=value, stick_cond=capture_cond)
+            restore_conds.append(self.put_by_val.single_move([value], after2, direction, put_val=end2)[1])
+        self.val_cond.set(stick_val=end2, stick_cond=restore_conds)
+        self.join("S")
+
+        # return back and start again
+        self.move_by_val.single_move(move_set, replace_with, opdirection)
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(value, capture_cond)
+            self.single_move(direction, next_cond=copy_cond)
+
+        # ending the loop and cleaning
+        clean_cond = self.cond_alpha.pop()
+        self.manual_rule(end1, copy_cond, end1, clean_cond, opdirection)
+        self.val_cond.set(end1, clean_cond)
+
+        for replace, restore in zip(replace_with, values):
+            self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+
+        end_cond = self.cond_alpha.pop()
+        self.manual_rule(start_val, clean_cond, start_val, end_cond, "S")
+        return self.val_cond.set(start_val, end_cond)
 
     def move_range(self):
         pass
