@@ -1,6 +1,28 @@
 """
-Talk about undetermined condition(moving))0)0))00)
-Think about exception guaranties(what could you give 'em
+Module to generate tm code by python functions
+
+Usage:
+
+>>> create = lambda string: Macro(TuringMachine.from_str(string))
+
+>>> tmac = create("1,0,1,0,1,b,1,0,o,t,c:::q1:")
+>>> tmac.single_move("R", suppose_val="0")
+# "1,0,1,0,1,b,1,0,o,t,c:1::-:" expected
+
+>>> tmac = create("a,1,0,1,1,b,2,3,2,2,c:::q1:")
+>>> tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default], "R")
+>>> tmac.stop()
+>>> tmac.tm.run()
+# "a,1,0,1,1,b,2,3,2,2,c,1,0,1,1:::-:" expected
+
+>>> tmac = create("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:")
+>>> tmac.move_by_val.single_move(['0', '1', 'o', 't', 'b'], 'c', "R"
+# "1,0,0,0,1,1,0,b,1,0,o,t,t,c:13::-:" expected
+
+>>> tmac = create("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:")
+>>> tmac.move_from_to.single_move(['0', '1', 'o', 't', 'b'], 'c', "R", replace_with="d")
+>>> # "d,0,0,0,1,1,0,b,1,0,o,t,t,1:::-:" expected
+
 """
 import abc
 import enum
@@ -443,12 +465,25 @@ class Basic:
 
 class GoToConceptABC(metaclass=abc.ABCMeta):
     """
-    Class to implement a common algorithm
+    Class to implement a common algorithm. Of moving on tape,
+    with flexible changing of starting, moving and ending values
+    functionality.
+
+    Attributes:
+        obj: instance of Basic
     """
     def __init__(self, obj: Basic):
+        """Set Basic object to work with"""
         self.obj = obj
 
     def _set_includes(self, include_start: bool, include_end: bool):
+        """
+        Common operation of setting arguments.
+
+        Arguments:
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        """
         self._include_start = include_start
         self._include_end = include_end
 
@@ -458,6 +493,25 @@ class GoToConceptABC(metaclass=abc.ABCMeta):
                     direction: str,
                     include_start=True, include_end=False
                     ):
+        """
+        Move on tape.
+
+        (value, condition) -> (value[s]1, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        """
         # preparation
         self._set_includes(include_start, include_end)
         end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
@@ -489,6 +543,27 @@ class GoToConceptABC(metaclass=abc.ABCMeta):
                     start_vals=None,
                     include_start=True, include_end=False
                     ):
+        """
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
+
+        (values, condition) -> (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        """
         if start_vals is None:
             start_vals, _ = self.obj.val_cond.get()
         start_vals = OrderedSet(start_vals)
@@ -515,6 +590,26 @@ class GoToConceptABC(metaclass=abc.ABCMeta):
     def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
                       include_start=True, include_end=False
                       ):
+        """
+        Move for each cond in self.obj.val_cond.get_conds()
+        move for each to end_val.
+
+        (value, conditions) -> (value1, conditions)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        """
         assert self.obj.val_cond.is_sin_val_mul_cond(), \
             "Single value and multiple conditions should be passed"
 
@@ -532,29 +627,63 @@ class GoToConceptABC(metaclass=abc.ABCMeta):
 
     def main(self, move_vals: Iterable, end_vals: Iterable or str,
              direction: str, include_start=True, include_end=False):
+        """
+        Main function for calling as __call__
+
+        Basically the same as self.single_move
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        """
         self.single_move(move_vals, end_vals, direction, include_end, include_start)
 
     __call__ = main
 
     def _move_modifier(self, move_val):
+        """Internal function for modifying move values"""
         return self.move_modifier(move_val)
 
     def _start_modifier(self, start_val):
+        """Internal function for modifying start values"""
         return self.start_modifier(start_val) if self._include_start else start_val
 
     def _end_modifier(self, end_val):
+        """Internal function for modifying end values"""
         return self.end_modifier(end_val) if self._include_end else end_val
 
     @abc.abstractmethod
     def move_modifier(self, move_val):
+        """
+        External function for modifying move values
+        Should be redefined in child classes for different behaviour
+        """
         pass
 
     @abc.abstractmethod
     def start_modifier(self, start_val):
+        """
+        External function for modifying start values
+        Should be redefined in child classes for different behaviour
+        """
         pass
 
     @abc.abstractmethod
     def end_modifier(self, end_val):
+        """
+        External function for modifying end values
+        Should be redefined in child classes for different behaviour
+        """
         pass
 
 
@@ -570,7 +699,10 @@ class GoToConcept(GoToConceptABC):
 
 
 class IgnoreThis:
-    """Class for ignoring keyword parameters"""
+    """
+    Class for signaling that this
+    keyword parameter should be ignored
+    """
     pass
 
 
@@ -597,6 +729,7 @@ class MoveByVal(GoToConcept):
 
 
 class CleanRange(GoToConcept):
+    """Main class for clearing the range on the tape"""
     def move_modifier(self, move_val):
         return self.obj.tm.default
 
@@ -607,13 +740,16 @@ class CleanRange(GoToConcept):
         return self.obj.tm.default
 
     def parallel_move(self, *args, **kwargs):
+        """Not needed in this class"""
         pass
 
     def parallelise(self, *args, **kwargs):
+        """Not needed in this class"""
         pass
 
 
 class SetAllOnWay(GoToConcept):
+    """Main class for setting all values on way to end_val with to_val"""
     def move_modifier(self, move_val):
         return self.to_val
 
@@ -647,9 +783,34 @@ class SetAllOnWay(GoToConcept):
 
 
 class PutByVal(MoveByVal):
+    """Main class for moving to end_val and putting put_val instead"""
+
     def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
                     direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        """
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -> (put_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            put_val: value to put instead of end_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        """
         val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
+
         if put_val is not None:
             try:
                 if self.obj.val_cond.is_sin_val_cond():
@@ -668,7 +829,30 @@ class PutByVal(MoveByVal):
 
     def parallelise(self, move_vals: Iterable, end_val: str,
                     direction: str, put_vals=None, start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        """
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
 
+        (values, condition) -> (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            put_vals: values to put instead of end_val, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        """
         val_cond = super().parallelise(move_vals, end_val, direction, start_vals, include_start=True, include_end=True)
         if put_vals is not None:
             val_cond = self.set_appropriate(put_vals, conditions=val_cond[1])
@@ -676,6 +860,17 @@ class PutByVal(MoveByVal):
         return val_cond
 
     def set_appropriate(self, put_vals, conditions=None):
+        """
+        Set value from self.val_cond.get_values() in appropriate
+        condition from conditions. To value from put_vals and
+        final condition.
+
+        (values, conditions) -> (put_vals, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+        """
         cur_val = self.obj.val_cond.get_values()
         if conditions is None:
             conditions = self.obj.val_cond.get_conds()
@@ -694,8 +889,35 @@ class PutByVal(MoveByVal):
 
 
 class MoveFromTo(PutByVal):
+    """
+    Main class for moving from to end_val and
+    replacing starting value with replace_with
+    """
     def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
                     direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        """
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -> (start_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            replace_with: value to put instead of start_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        """
+
         put_val = None
         if replace_with is not None:
             put_val = self.obj.val_cond.get_values()
@@ -706,6 +928,30 @@ class MoveFromTo(PutByVal):
     def parallelise(self, move_vals: Iterable, end_val: str,
                     direction: str, replace_with=None, start_vals=None, include_start=IgnoreThis,
                     include_end=IgnoreThis):
+        """
+        Parallelise by conds for each value in start_vals and repalce tham with
+        replace_with move for each to end_val and put start_vals to them.
+
+        (values, condition) -> (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            replace_with: values to put instead of start_vals, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        """
         put_vals = None
         if replace_with is not None:
             if start_vals is None:
@@ -730,6 +976,10 @@ class MoveFromTo(PutByVal):
 
 
 class Macro(Basic):
+    """
+    Full basic macro class
+    """
+
     def __init__(self, tm: machine.TuringMachine):
         super().__init__(tm)
 
@@ -740,7 +990,13 @@ class Macro(Basic):
         self.move_from_to = MoveFromTo(self)
 
     def copy_range(self, values, end1, between12,
-                   start2, after2, direction):
+                   start2, after2, direction, clear_values=False):
+        """
+        Copy 'values' from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        clear_values: clears initial values
+        """
         # preparation
         values = OrderedSet(values)
         between12 = OrderedSet(between12)
@@ -792,12 +1048,23 @@ class Macro(Basic):
         self.manual_rule(end1, copy_cond, end1, clean_cond, opdirection)
         self.val_cond.set(end1, clean_cond)
 
-        for replace, restore in zip(replace_with, values):
-            self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+        if clear_values is False:
+            for replace, restore in zip(replace_with, values):
+                self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+        else:
+            for replace in replace_with:
+                self.manual_rule(replace, clean_cond, self.tm.default, clean_cond, opdirection)
 
         end_cond = self.cond_alpha.pop()
         self.manual_rule(start_val, clean_cond, start_val, end_cond, "S")
         return self.val_cond.set(start_val, end_cond)
 
-    def move_range(self):
-        pass
+    def move_range(self, values, end1, between12,
+                   start2, after2, direction):
+        """
+        Move 'values' from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        """
+        return self.copy_range(values, end1, between12, start2,
+                               after2, direction, clear_values=True)

@@ -9,10 +9,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9459e714-dde2-4b86-93de-cf84cf85afaa" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/turingmachine/Plans.todo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/macro/test_macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/tests/macro/test_macro.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/turingmachine/machine.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/machine.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/turingmachine/Plans.todo" beforeDir="false" afterPath="$PROJECT_DIR$/Plans.todo" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/turingmachine/macro.py" beforeDir="false" afterPath="$PROJECT_DIR$/turingmachine/macro.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -26,11 +24,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="525">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-130">
-              <caret line="770" selection-start-line="770" selection-end-line="770" />
+            <state relative-caret-position="44">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
               <folding>
                 <element signature="e#116#126#0" expanded="true" />
               </folding>
@@ -38,20 +36,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/turingmachine/Plans.todo">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="506">
-              <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/tests/macro/test_macro.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="552">
-              <caret line="635" selection-start-line="635" selection-end-line="635" />
+            <state relative-caret-position="330">
+              <caret line="537" column="66" lean-forward="true" selection-start-line="537" selection-start-column="13" selection-end-line="537" selection-end-column="66" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -62,8 +51,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="123">
-              <caret line="99" column="68" selection-start-line="99" selection-start-column="68" selection-end-line="99" selection-end-column="68" />
+            <state relative-caret-position="44">
+              <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
               <folding>
                 <element signature="e#1141#1157#0" expanded="true" />
               </folding>
@@ -183,9 +172,10 @@
         <option value="$PROJECT_DIR$/turingmachine/alphabetgenerator.py" />
         <option value="$PROJECT_DIR$/tests/test_macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/machine.py" />
-        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
         <option value="$PROJECT_DIR$/tests/macro/test_macro.py" />
         <option value="$PROJECT_DIR$/turingmachine/Plans.todo" />
+        <option value="$PROJECT_DIR$/Plans.todo" />
+        <option value="$PROJECT_DIR$/turingmachine/macro.py" />
       </list>
     </option>
   </component>
@@ -240,14 +230,15 @@
     </option>
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/turingmachine" />
-      <recent name="$PROJECT_DIR$/tests" />
-    </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/tests" />
       <recent name="$PROJECT_DIR$/turingmachine/functions" />
       <recent name="$PROJECT_DIR$/turingmachine" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/turingmachine" />
+      <recent name="$PROJECT_DIR$/tests" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -727,7 +718,14 @@
       <option name="project" value="LOCAL" />
       <updated>1561137251741</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="Fully written all basic functionality. Tested it, everything works. Added todolist.">
+      <created>1561172389800</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1561172389800</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TestHistory">
@@ -775,7 +773,7 @@
     <frame x="0" y="35" width="1920" height="979" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.13701431" weight="0.27118644" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.13701431" visible="true" weight="0.27118644" />
       <window_info id="Structure" order="1" sideWeight="0.8629857" side_tool="true" weight="0.27118644" />
       <window_info id="Favorites" order="2" sideWeight="0.58353513" side_tool="true" weight="0.2579449" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -787,7 +785,7 @@
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32961586" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.3292978" />
       <window_info anchor="bottom" id="Python Console" order="8" sideWeight="0.49893844" weight="0.13878563" />
-      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49893844" visible="true" weight="0.055762082" />
+      <window_info anchor="bottom" id="Terminal" order="9" sideWeight="0.49893844" visible="true" weight="0.2614622" />
       <window_info anchor="bottom" id="Event Log" order="10" sideWeight="0.50106156" side_tool="true" weight="0.66343826" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.6549637" />
       <window_info anchor="bottom" id="Inspection Results" order="12" weight="0.43583536" />
@@ -865,7 +863,6 @@
   <component name="VcsManagerConfiguration">
     <option name="CHECK_CODE_SMELLS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="CHECK_CODE_CLEANUP_BEFORE_PROJECT_COMMIT" value="true" />
-    <MESSAGE value="Found a strategy of writing abstracted macros, refactored a lot of code. Rewritten some functions, make to work all present functionality in TuringMacroMachine(move_by_val and bin_func)" />
     <MESSAGE value="Added clean function scratch, tested it a little bit, not so properly as i'd wanted to." />
     <MESSAGE value="Added a lot of useful minifunctions to like copy or clean or put, to manage tape condition" />
     <MESSAGE value="Added copy range function, it is still kind of messy" />
@@ -890,7 +887,8 @@
     <MESSAGE value="Written test for MoveByVal class, half passed it." />
     <MESSAGE value="Written tests and passed them for MoveByVal class" />
     <MESSAGE value="Fully written basic &quot;singleton&quot; operations like:&#10;MoveByVal, SetAllOnWay, PutByVal, CleanRange&#10;and tests to them." />
-    <option name="LAST_COMMIT_MESSAGE" value="Fully written basic &quot;singleton&quot; operations like:&#10;MoveByVal, SetAllOnWay, PutByVal, CleanRange&#10;and tests to them." />
+    <MESSAGE value="Fully written all basic functionality. Tested it, everything works. Added todolist." />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully written all basic functionality. Tested it, everything works. Added todolist." />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -1074,10 +1072,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/Plans.todo">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="660">
+          <caret line="30" column="56" selection-start-line="30" selection-start-column="56" selection-end-line="30" selection-end-column="56" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/machine.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="123">
-          <caret line="99" column="68" selection-start-line="99" selection-start-column="68" selection-end-line="99" selection-end-column="68" />
+        <state relative-caret-position="44">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
           <folding>
             <element signature="e#1141#1157#0" expanded="true" />
           </folding>
@@ -1086,8 +1091,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/macro/test_macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="552">
-          <caret line="635" selection-start-line="635" selection-end-line="635" />
+        <state relative-caret-position="330">
+          <caret line="537" column="66" lean-forward="true" selection-start-line="537" selection-start-column="13" selection-end-line="537" selection-end-column="66" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
@@ -1096,18 +1101,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/turingmachine/macro.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-130">
-          <caret line="770" selection-start-line="770" selection-end-line="770" />
+        <state relative-caret-position="44">
+          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
           <folding>
             <element signature="e#116#126#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/turingmachine/Plans.todo">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="506">
-          <caret line="23" column="58" selection-start-line="23" selection-start-column="58" selection-end-line="23" selection-end-column="58" />
         </state>
       </provider>
     </entry>
