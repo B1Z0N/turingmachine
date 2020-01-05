@@ -1,0 +1,4122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>turingmachine.macro API documentation</title>
+<meta name="description" content="Module to generate tm code by python functions …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>turingmachine.macro</code></h1>
+</header>
+<section id="section-intro">
+<p>Module to generate tm code by python functions</p>
+<p>Usage:</p>
+<pre><code>&gt;&gt;&gt; create = lambda string: Macro(TuringMachine.from_str(string))
+
+&gt;&gt;&gt; tmac = create("1,0,1,0,1,b,1,0,o,t,c:::q1:")
+&gt;&gt;&gt; tmac.single_move("R", suppose_val="0")
+# "1,0,1,0,1,b,1,0,o,t,c:1::-:" expected
+
+&gt;&gt;&gt; tmac = create("a,1,0,1,1,b,2,3,2,2,c:::q1:")
+&gt;&gt;&gt; tmac.copy_range(["1", "0"], "b", ["2", "3"], "c", [tmac.tm.default], "R")
+&gt;&gt;&gt; tmac.stop()
+&gt;&gt;&gt; tmac.tm.run()
+# "a,1,0,1,1,b,2,3,2,2,c,1,0,1,1:::-:" expected
+
+&gt;&gt;&gt; tmac = create("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:")
+&gt;&gt;&gt; tmac.move_by_val.single_move(['0', '1', 'o', 't', 'b'], 'c', "R"
+# "1,0,0,0,1,1,0,b,1,0,o,t,t,c:13::-:" expected
+
+&gt;&gt;&gt; tmac = create("1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:")
+&gt;&gt;&gt; tmac.move_from_to.single_move(['0', '1', 'o', 't', 'b'], 'c', "R", replace_with="d")
+&gt;&gt;&gt; # "d,0,0,0,1,1,0,b,1,0,o,t,t,1:::-:" expected
+</code></pre>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Module to generate tm code by python functions
+
+Usage:
+
+&gt;&gt;&gt; create = lambda string: Macro(TuringMachine.from_str(string))
+
+&gt;&gt;&gt; tmac = create(&#34;1,0,1,0,1,b,1,0,o,t,c:::q1:&#34;)
+&gt;&gt;&gt; tmac.single_move(&#34;R&#34;, suppose_val=&#34;0&#34;)
+# &#34;1,0,1,0,1,b,1,0,o,t,c:1::-:&#34; expected
+
+&gt;&gt;&gt; tmac = create(&#34;a,1,0,1,1,b,2,3,2,2,c:::q1:&#34;)
+&gt;&gt;&gt; tmac.copy_range([&#34;1&#34;, &#34;0&#34;], &#34;b&#34;, [&#34;2&#34;, &#34;3&#34;], &#34;c&#34;, [tmac.tm.default], &#34;R&#34;)
+&gt;&gt;&gt; tmac.stop()
+&gt;&gt;&gt; tmac.tm.run()
+# &#34;a,1,0,1,1,b,2,3,2,2,c,1,0,1,1:::-:&#34; expected
+
+&gt;&gt;&gt; tmac = create(&#34;1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:&#34;)
+&gt;&gt;&gt; tmac.move_by_val.single_move([&#39;0&#39;, &#39;1&#39;, &#39;o&#39;, &#39;t&#39;, &#39;b&#39;], &#39;c&#39;, &#34;R&#34;
+# &#34;1,0,0,0,1,1,0,b,1,0,o,t,t,c:13::-:&#34; expected
+
+&gt;&gt;&gt; tmac = create(&#34;1,0,0,0,1,1,0,b,1,0,o,t,t,c:::q1:&#34;)
+&gt;&gt;&gt; tmac.move_from_to.single_move([&#39;0&#39;, &#39;1&#39;, &#39;o&#39;, &#39;t&#39;, &#39;b&#39;], &#39;c&#39;, &#34;R&#34;, replace_with=&#34;d&#34;)
+&gt;&gt;&gt; # &#34;d,0,0,0,1,1,0,b,1,0,o,t,t,1:::-:&#34; expected
+
+&#34;&#34;&#34;
+import abc
+import enum
+from collections.abc import Iterable
+
+from ordered_set import OrderedSet
+
+from turingmachine import alphabetgenerator
+from turingmachine import machine
+
+
+class MacroError(Exception):
+    &#34;&#34;&#34;Main exception class for this module&#34;&#34;&#34;
+    pass
+
+
+class MacroSticks:
+    &#34;&#34;&#34;
+    Class that handles stick values for Basic class.
+
+    Invariant: exactly one of this is true in every time point:
+    1. is_mul_val_cond
+    2. is_sin_val_cond
+    3. is_sin_val_mul_cond
+
+    Attributes:
+        _sin_val_cond: val_cond contains single value and single condition
+        _mul_val_cond: val_cond contains multiple values and multiple conditions
+        _sin_val_mul_cond: val_cond contains single value and multiple conditions
+
+        contains: container of different types determined by some of (look upper) parameters,
+                  contains value(s) and condition(s)
+        updated: are the sticks true for now?
+    &#34;&#34;&#34;
+
+    class StickError(MacroError):
+        &#34;&#34;&#34;
+        Error class for signalizing invalid input of stick value(s) and condition(s)
+        &#34;&#34;&#34;
+
+        def __init__(self, val, cond):
+            msg = &#34;Enter value-condition, two iterables of value and &#34; \
+                  &#34;condition or value-condition dictionary, not val: {} and cond: {}&#34;
+            super().__init__(msg.format(val, cond))
+
+    def __init__(self, stick_val, stick_cond):
+        &#34;&#34;&#34;
+        Set stick values depending on passed arguments.
+
+        Pass:
+            two iterables - multiple values and conditions
+            one value and multiple conditions
+            one value and one condition
+        &#34;&#34;&#34;
+        self.updated = True
+
+        self._sin_val_cond = False
+        self._mul_val_cond = False
+        self._sin_val_mul_cond = False
+        self._mul_val_sin_cond = False
+
+        if isinstance(stick_val, str) and isinstance(stick_cond, str):
+            # two parameters and it is ordinary string value, condition
+            self._set_ordinary(stick_val, stick_cond)
+        elif isinstance(stick_val, Iterable) and isinstance(stick_cond, Iterable):
+            if isinstance(stick_val, str):
+                # two parameters and it is condition iterable, and ordinary string value
+                self._set_single_value_multiple_conditions(stick_val, stick_cond)
+            elif isinstance(stick_cond, str):
+                # two parameters and it is value iterable, and ordinary string condition
+                self._set_multiple_value_single_conditions(stick_val, stick_cond)
+            else:
+                # two parameters and it is two iterables of values and conditions
+                self._set_two_iterables(stick_val, stick_cond)
+        else:
+            # nothing of the above
+            raise self.StickError(stick_val, stick_cond)
+
+    def set(self, stick_val=None, stick_cond=None):
+        if stick_val is None and stick_cond is None:
+            self.updated = True
+
+        if stick_cond is None:
+            stick_cond = self.contains[1]
+        if stick_val is None:
+            stick_val = self.contains[0]
+
+        self.__init__(stick_val, stick_cond=stick_cond)
+        return self.contains
+
+    def get(self):
+        return self.contains
+
+    def _set_two_iterables(self, values: Iterable, conditions: Iterable):
+        self.contains = list(values), list(conditions)
+        self._mul_val_cond = True
+
+    def _set_single_value_multiple_conditions(self, value: Iterable, conditions: Iterable):
+        self.contains = value, list(conditions)
+        self._sin_val_mul_cond = True
+
+    def _set_multiple_value_single_conditions(self, values: Iterable, condition: Iterable):
+        self.contains = list(values), condition
+        self._mul_val_sin_cond = True
+
+    def _set_ordinary(self, value: str, condition: str):
+        self.contains = value, condition
+        self._sin_val_cond = True
+
+    def get_values(self):
+        &#34;&#34;&#34;
+        Returns list of values, or single value
+        &#34;&#34;&#34;
+        return self.contains[0]
+
+    def get_conds(self):
+        &#34;&#34;&#34;
+        Returns list of conditions, or single condition
+        &#34;&#34;&#34;
+        return self.contains[1]
+
+    def is_mul_val_cond(self):
+        return self._mul_val_cond
+
+    def is_sin_val_cond(self):
+        return self._sin_val_cond
+
+    def is_sin_val_mul_cond(self):
+        return self._sin_val_mul_cond
+
+    def is_mul_val_sin_cond(self):
+        return self._mul_val_sin_cond
+
+class NextCondition(enum.Enum):
+    &#34;&#34;&#34;
+    Class that chooses what next condition to create depending
+    on the argument passed using function set_condition
+
+    Attributes:
+        prev: select previous condition
+        auto: generate new condition by condition alphabetgenerator
+    &#34;&#34;&#34;
+    prev = enum.auto()
+    auto = enum.auto()
+
+    @staticmethod
+    def get_condition(basic_obj, next_cond, amount=1):
+        &#34;&#34;&#34;
+        Get condition depending on the arguments passed
+
+        Arguments:
+            basic_obj: object that are using this class to set conditions
+
+            next_cond: condition. Could be of type NextCondition, than
+            appropriate condition is settled automatically.
+            Could be just a desirable next condition for the move, than
+            it is simply returned.
+
+            amount: amount of conditions for next move to be
+            checked for or generated
+        &#34;&#34;&#34;
+        cls = NextCondition
+
+        if not isinstance(next_cond, cls):
+            return next_cond
+
+        elif next_cond == cls.prev:
+            return basic_obj.val_cond.get_conds()
+
+        elif next_cond == cls.auto:
+            if amount != 1:
+                return [basic_obj.cond_alpha.pop() for _ in range(amount)]
+            return basic_obj.cond_alpha.pop()
+
+
+class Basic:
+    &#34;&#34;&#34;
+    Class with functionality common to all classes of macros. It simplifies
+    creating programs on tm, and working with tm as a whole
+
+    Attributes:
+        tm: TuringMachine class for using this macro on
+        cond_alpha: AlphabetGenerator class for automatically generating conditions
+        val_alpha: AlphabetGenerator class for automatically generating values
+        val_cond: current value and condition, could be determined(one pair), or
+            undetermined(multiple pairs)
+    &#34;&#34;&#34;
+
+    class UndeterminedConditionError(MacroError):
+        def __init__(self, sticks):
+            msg = &#34;Undetermined condition:\n {}&#34;
+            super().__init__(msg.format(sticks.get()))
+
+    def __init__(self, tm: machine.TuringMachine):
+        self.tm = tm
+        self.cond_alpha = alphabetgenerator.AlphabetGenerator(gen=self.tm.condition)
+        self.val_alpha = alphabetgenerator.AlphabetGenerator()
+        self.val_alpha.reserved.update(val for val in self.tm.tape)
+
+        self.val_cond = MacroSticks(self.tm.current, self.tm.condition)
+
+    def reserve_name(self, valset=None, condset=None):
+        if valset is not None:
+            self.val_alpha.reserved = self.val_alpha.reserved.union(valset)
+
+        if condset is not None:
+            self.cond_alpha.reserved = self.cond_alpha.reserved.union(condset)
+
+    def set_rule(self, direction, next_val=None, suppose_val=None, join=False, next_cond=None):
+        &#34;&#34;&#34;
+            Separates decisions of how to set the rule depending on the value-condition case:
+
+            1. if join is true and if it ended in one value and multiple conditions,
+                they are joined to one condition and value
+            2. if it ended in multiple value-condition pairs, they are continuing moving each
+            3. if it ended in one value and multiple conditions, they are continuing moving each,
+            like in previous case
+            4. if it ended in determined single value-condition pair, it is moved from one pair ot other
+
+            !!! 5. if it ended in multiple value-condition pairs, then exception raised
+            (there are no simple rule for this kind of situation, please modify tape to
+            use one of the above cases)
+
+            Next condition will be generated automatically
+
+            Arguments:
+                next_val: next value for rule
+                direction: direction
+                suppose_val: suppose_value for next position
+                join: explicit join(equivalent to self.join call)
+                next_cond: next desirable condition for this move.
+
+                If settled to None, than
+                if join is true it will be passed to join settled to
+                NextCondition.auto
+                else it will be settled to
+                NextCondition.prev
+
+                Also you could specify it, for example:
+                    obj.set_rule( ... , next_cond=NextCondition.auto)
+                    ...
+                    onj.set_rule( ... , next_cond=&#39;q5&#39;)
+
+            Returns:
+                MacroStick object containing current case (value, condition)
+        &#34;&#34;&#34;
+
+        def consists_of_one_value(lst):
+            return isinstance(lst, str)
+
+        if self.val_cond.is_mul_val_cond():
+            if not consists_of_one_value(self.val_cond.get_values()):
+                raise self.UndeterminedConditionError(self.val_cond)
+
+        if join is True:
+            next_cond = NextCondition.auto if next_cond is None else next_cond
+            return self.join(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+
+        next_cond = NextCondition.prev if next_cond is None else next_cond
+        if self.val_cond.is_sin_val_cond():
+            return self.single_move(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+        else:
+            return self.parallel_cond_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)
+
+    def is_up_to_date(self):
+        assert self.val_cond.updated, &#34;Should be updated after call to self.manual_rule, to use macro functions&#34;
+
+    def single_move(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev):
+        &#34;&#34;&#34;
+        Set the rule for movement, suppose_val could be omitted if
+        next tape value would be equal to next_val
+
+        For automatically generating next_cond, see NextCondition documentation
+
+        Use only if tm is in determined condition
+        Arguments:
+            next_val: next value for current sel, previous by default
+            direction: direction
+            suppose_val: suppose_value for next position
+            next_cond: next condition for movement, previous by default
+        Returns:
+            MacroStick object containing value, condition pair of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_cond(), \
+            &#34;There are join for joining multiple conditions, and parallelise for continuing multiple conditions&#34;
+
+        next_cond = NextCondition.get_condition(self, next_cond)
+        next_val = self.val_cond.get_values() if next_val is None else next_val
+
+        if suppose_val is None:
+            suppose_val = next_val
+        try:
+            self.manual_rule(
+                *self.val_cond.get(),
+                next_val, next_cond, direction
+            )
+        except machine.RuleExistsError:
+            pass
+
+        return self.val_cond.set(suppose_val, next_cond)
+
+    def join(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.auto):
+        &#34;&#34;&#34;
+        Joins multiple conditions to one
+
+        If it ended in multiple conditions and one value they are joined to one
+
+        For automatically generating next_cond, see NextCondition documentation
+
+        Arguments:
+            next_val: next value for rule, previous if omitted
+            direction: direction
+            suppose_val: suppose value for next move
+            next_cond: next condition for joining, autogenerated by default
+        Returns:
+            MacroStick object containing value, condition pair of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        if next_cond == NextCondition.prev:
+            raise self.UndeterminedConditionError(self.val_cond)
+
+        next_cond = NextCondition.get_condition(self, next_cond)
+        next_val = self.val_cond.get_values() if next_val is None else next_val
+
+        suppose_val = next_val if suppose_val is None else suppose_val
+
+        value = self.val_cond.get_values()
+        for condition in self.val_cond.get_conds():
+            try:
+                self.manual_rule(value, condition, next_val,
+                                 next_cond, direction)
+            except machine.RuleExistsError:
+                pass
+
+        return self.val_cond.set(suppose_val, next_cond)
+
+    def parallel_cond_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
+        &#34;&#34;&#34;
+        Sets rule for multiple conditions, smth alike for_each
+
+        For automatically generating next_conds, see NextCondition documentation
+
+        Arguments:
+            next_vals: next values for rule, previous if omitted
+            direction: direction
+            suppose_vals: suppose values for next move
+            next_conds: next conditions for move, previous by default
+        Returns:
+            MacroStick object containing values, conditions iterables of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        length = len(self.val_cond.get_conds())
+
+        if next_vals is None:
+            next_vals = [self.val_cond.get_values()] * length
+
+        try:
+            assert not isinstance(suppose_vals, str)
+            len(suppose_vals)
+            firstly_supposed = suppose_vals
+        except:  # catches all
+            firstly_supposed = suppose_vals
+            suppose_vals = [suppose_vals] * length
+
+        assert len(next_vals) == len(self.val_cond.get_conds()) == len(suppose_vals), \
+            &#34;Lengths of next_vals, suppose_vals, and last move val-cond pairs should be equal&#34;
+
+        next_conds = NextCondition.get_condition(self, next_conds, amount=length)
+
+        conditions = self.val_cond.get_conds()
+        value = self.val_cond.get_values()
+        for i in range(length):
+            try:
+                self.manual_rule(value, conditions[i], next_vals[i],
+                                 next_conds[i], direction)
+            except machine.RuleExistsError:
+                pass
+
+        return self.val_cond.set(firstly_supposed, next_conds)
+
+    def parallelise_by_vals(self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev):
+        &#34;&#34;&#34;
+        val_cond:
+            (value1, condition1) -&gt; (values2, condition2)
+        &#34;&#34;&#34;
+        _, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
+        return self.val_cond.set(suppose_vals, cond)
+
+    def stop(self):
+        &#34;&#34;&#34;
+        Finish macro machine execution, every command after this function
+        will be useless.
+
+        Should be called only in determined condition and value.
+
+        Returns:
+            MacroStick object containing value, condition pair of the last move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+
+        if self.val_cond.is_sin_val_cond():
+            return self.single_move(&#34;STOP&#34;)
+        elif self.val_cond.is_mul_val_sin_cond():
+            vals, cond = self.val_cond.get()
+            for value in vals:
+                self.val_cond.set(value, cond)
+                self.single_move(&#34;STOP&#34;)
+
+            return self.val_cond.set(vals, cond)
+        elif self.val_cond.is_sin_val_mul_cond():
+            val, conds = self.val_cond.get()
+            for condition in conds:
+                self.val_cond.set(val, condition)
+                self.single_move(&#34;STOP&#34;)
+
+            return self.val_cond.set(val, conds)
+        else:
+            raise self.UndeterminedConditionError(self.val_cond)
+
+    def manual_rule(self, value, condition, next_value, next_condition, direction):
+        &#34;&#34;&#34;
+        Setting the rule for turing and preserving some parameters of this macro.
+
+        It is recommended to use this function instead of self.tm.set_rule
+        Both of this functions are used when you need &#34;bare&#34; access to turing machine.
+        Be careful, you will need to set val_cond to some meaningful value after this call.
+        &#34;&#34;&#34;
+        self.reserve_name({next_value}, {next_condition})
+        self.tm.set_rule(value, condition, next_value, next_condition, direction)
+
+        self.val_cond.updated = False
+
+
+class GoToConceptABC(metaclass=abc.ABCMeta):
+    &#34;&#34;&#34;
+    Class to implement a common algorithm. Of moving on tape,
+    with flexible changing of starting, moving and ending values
+    functionality.
+
+    Attributes:
+        obj: instance of Basic
+    &#34;&#34;&#34;
+    def __init__(self, obj: Basic):
+        &#34;&#34;&#34;Set Basic object to work with&#34;&#34;&#34;
+        self.obj = obj
+
+    def _set_includes(self, include_start: bool, include_end: bool):
+        &#34;&#34;&#34;
+        Common operation of setting arguments.
+
+        Arguments:
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        &#34;&#34;&#34;
+        self._include_start = include_start
+        self._include_end = include_end
+
+    def single_move(self,
+                    move_vals: Iterable,
+                    end_vals: Iterable or str,
+                    direction: str,
+                    include_start=True, include_end=False
+                    ):
+        &#34;&#34;&#34;
+        Move on tape.
+
+        (value, condition) -&gt; (value[s]1, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        # preparation
+        self._set_includes(include_start, include_end)
+        end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
+        end_vals = OrderedSet(end_vals)
+        move_vals = OrderedSet(move_vals) - end_vals
+
+        # start move
+        new_start_value = self._start_modifier(self.obj.val_cond.get_values())
+        _, move_cond = self.obj.single_move(direction, next_val=new_start_value, next_cond=NextCondition.auto)
+
+        # main move
+        for value in move_vals:
+            self.obj.manual_rule(value, move_cond, self._move_modifier(value), move_cond, direction)
+
+        # end move
+        new_end_vals = [self._end_modifier(value) for value in end_vals]
+        end_cond = self.obj.cond_alpha.pop()
+
+        for i in range(len(end_vals)):
+            self.obj.manual_rule(end_vals[i], move_cond, new_end_vals[i], end_cond, &#34;S&#34;)
+
+        return self.obj.val_cond.set(new_end_vals[0] if len(new_end_vals) == 1
+                                     else new_end_vals, end_cond)
+
+    def parallelise(self,
+                    move_vals: Iterable,
+                    end_val: str,
+                    direction: str,
+                    start_vals=None,
+                    include_start=True, include_end=False
+                    ):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        if start_vals is None:
+            start_vals, _ = self.obj.val_cond.get()
+        start_vals = OrderedSet(start_vals)
+
+        move_vals -= OrderedSet(end_val) | start_vals
+        start_value, start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
+
+        assert self.obj.val_cond.is_mul_val_sin_cond(), \
+            &#34;Multiple values and single condition should be passed&#34;
+
+        end_conds = []
+        for start_value in start_vals:
+            move_cond = self.obj.cond_alpha.pop()
+            self.obj.manual_rule(start_value, start_cond, start_value, move_cond, &#34;S&#34;)
+
+            self.obj.val_cond.set(start_value, move_cond)
+            end_conds.append(
+                self.single_move(move_vals.union(start_vals), end_val, direction,
+                                 include_start=include_start, include_end=include_end)[1]
+            )
+
+        return self.obj.val_cond.set(end_val, end_conds)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
+                      include_start=True, include_end=False
+                      ):
+        &#34;&#34;&#34;
+        Move for each cond in self.obj.val_cond.get_conds()
+        move for each to end_val.
+
+        (value, conditions) -&gt; (value1, conditions)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        assert self.obj.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        start_val, start_conds = self.obj.val_cond.get()
+
+        end_conds = []
+        for condition in start_conds:
+            self.obj.val_cond.set(start_val, condition)
+            end_conds.append(
+                self.single_move(move_vals, end_val, direction,
+                                 include_end=include_end, include_start=include_start)[1]
+            )
+
+        return self.obj.val_cond.set(end_val, end_conds)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=True, include_end=False):
+        &#34;&#34;&#34;
+        Main function for calling as __call__
+
+        Basically the same as self.single_move
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        self.single_move(move_vals, end_vals, direction, include_end, include_start)
+
+    __call__ = main
+
+    def _move_modifier(self, move_val):
+        &#34;&#34;&#34;Internal function for modifying move values&#34;&#34;&#34;
+        return self.move_modifier(move_val)
+
+    def _start_modifier(self, start_val):
+        &#34;&#34;&#34;Internal function for modifying start values&#34;&#34;&#34;
+        return self.start_modifier(start_val) if self._include_start else start_val
+
+    def _end_modifier(self, end_val):
+        &#34;&#34;&#34;Internal function for modifying end values&#34;&#34;&#34;
+        return self.end_modifier(end_val) if self._include_end else end_val
+
+    @abc.abstractmethod
+    def move_modifier(self, move_val):
+        &#34;&#34;&#34;
+        External function for modifying move values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass
+
+    @abc.abstractmethod
+    def start_modifier(self, start_val):
+        &#34;&#34;&#34;
+        External function for modifying start values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass
+
+    @abc.abstractmethod
+    def end_modifier(self, end_val):
+        &#34;&#34;&#34;
+        External function for modifying end values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass
+
+
+class GoToConcept(GoToConceptABC):
+    def move_modifier(self, move_val):
+        return move_val
+
+    def start_modifier(self, start_val):
+        return start_val
+
+    def end_modifier(self, end_val):
+        return end_val
+
+
+class IgnoreThis:
+    &#34;&#34;&#34;
+    Class for signaling that this
+    keyword parameter should be ignored
+    &#34;&#34;&#34;
+    pass
+
+
+class MoveByVal(GoToConcept):
+    &#34;&#34;&#34; Main class for moving to value on the tape&#34;&#34;&#34;
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().single_move(move_vals, end_vals, direction)
+
+    def parallelise(self, move_vals: Iterable, end_val: str, direction: str,
+                    start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallelise(move_vals, end_val, direction, start_vals=start_vals)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str,
+                      direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallel_move(move_vals, end_val, direction)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction)
+
+    __call__ = main
+
+
+class CleanRange(GoToConcept):
+    &#34;&#34;&#34;Main class for clearing the range on the tape&#34;&#34;&#34;
+    def move_modifier(self, move_val):
+        return self.obj.tm.default
+
+    def start_modifier(self, start_val):
+        return self.obj.tm.default
+
+    def end_modifier(self, end_val):
+        return self.obj.tm.default
+
+    def parallel_move(self, *args, **kwargs):
+        &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+        pass
+
+
+class SetAllOnWay(GoToConcept):
+    &#34;&#34;&#34;Main class for setting all values on way to end_val with to_val&#34;&#34;&#34;
+    def move_modifier(self, move_val):
+        return self.to_val
+
+    def start_modifier(self, start_val):
+        return self.to_val
+
+    def end_modifier(self, end_val):
+        return self.to_val
+
+    def __init__(self, obj):
+        self._default = obj.tm.default
+        super().__init__(obj)
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self._default
+        return super().single_move(move_vals, end_vals, direction, include_start, include_end)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self._default
+        return super().main(move_vals, end_vals, direction, include_start, include_end)
+
+    def parallel_move(self, *args, **kwargs):
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        pass
+
+    __call__ = main
+
+
+class PutByVal(MoveByVal):
+    &#34;&#34;&#34;Main class for moving to end_val and putting put_val instead&#34;&#34;&#34;
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -&gt; (put_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            put_val: value to put instead of end_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+        if put_val is not None:
+            try:
+                if self.obj.val_cond.is_sin_val_cond():
+                    val_cond = self.obj.single_move(&#34;S&#34;, next_val=put_val)
+                else:
+                    cur_cond = self.obj.val_cond.get_conds()
+                    end_cond = self.obj.cond_alpha.pop()
+                    for value in self.obj.val_cond.get_values():
+                        self.obj.val_cond.set(value, cur_cond)
+                        self.obj.single_move(&#34;S&#34;, next_val=put_val, next_cond=end_cond)
+                    val_cond = self.obj.val_cond.set(put_val, end_cond)
+            except AssertionError:
+                raise Basic.UndeterminedConditionError(self.obj.val_cond)
+
+        return val_cond
+
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, put_vals=None, start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            put_vals: values to put instead of end_val, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        val_cond = super().parallelise(move_vals, end_val, direction, start_vals, include_start=True, include_end=True)
+        if put_vals is not None:
+            val_cond = self.set_appropriate(put_vals, conditions=val_cond[1])
+
+        return val_cond
+
+    def set_appropriate(self, put_vals, conditions=None):
+        &#34;&#34;&#34;
+        Set value from self.val_cond.get_values() in appropriate
+        condition from conditions. To value from put_vals and
+        final condition.
+
+        (values, conditions) -&gt; (put_vals, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+        &#34;&#34;&#34;
+        cur_val = self.obj.val_cond.get_values()
+        if conditions is None:
+            conditions = self.obj.val_cond.get_conds()
+
+        finita_condition = self.obj.cond_alpha.pop()
+        for i in range(len(put_vals)):
+            self.obj.manual_rule(cur_val, conditions[i], put_vals[i], finita_condition, &#34;S&#34;)
+
+        return self.obj.val_cond.set(put_vals, finita_condition)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+    __call__ = main
+
+
+class MoveFromTo(PutByVal):
+    &#34;&#34;&#34;
+    Main class for moving from to end_val and
+    replacing starting value with replace_with
+    &#34;&#34;&#34;
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -&gt; (start_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            replace_with: value to put instead of start_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+
+        put_val = None
+        if replace_with is not None:
+            put_val = self.obj.val_cond.get_values()
+            self.obj.single_move(&#34;S&#34;, next_val=replace_with)
+
+        return super().single_move(move_vals, end_vals, direction, put_val=put_val)
+
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, replace_with=None, start_vals=None, include_start=IgnoreThis,
+                    include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and repalce tham with
+        replace_with move for each to end_val and put start_vals to them.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            replace_with: values to put instead of start_vals, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        put_vals = None
+        if replace_with is not None:
+            if start_vals is None:
+                start_vals = self.obj.val_cond.get_values()
+            put_vals = start_vals
+
+            start_cond = self.obj.val_cond.get_conds()
+            move_cond = self.obj.cond_alpha.pop()
+            for start, replace in zip(start_vals, replace_with):
+                self.obj.manual_rule(start, start_cond, replace, move_cond, &#34;S&#34;)
+
+            self.obj.val_cond.set(replace_with, move_cond)
+            start_vals = replace_with
+
+        return super().parallelise(move_vals, end_val, direction, put_vals=put_vals, start_vals=start_vals)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return self.single_move(move_vals, end_vals, direction, replace_with=replace_with)
+
+    __call__ = main
+
+
+class Macro(Basic):
+    &#34;&#34;&#34;
+    Full basic macro class
+    &#34;&#34;&#34;
+
+    def __init__(self, tm: machine.TuringMachine):
+        super().__init__(tm)
+
+        self.move_by_val = MoveByVal(self)
+        self.clean_range = CleanRange(self)
+        self.set_all_on_way = SetAllOnWay(self)
+        self.put_by_val = PutByVal(self)
+        self.move_from_to = MoveFromTo(self)
+
+    def copy_range(self, values, end1, between12,
+                   start2, after2, direction, clear_values=False):
+        &#34;&#34;&#34;
+        Copy &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        clear_values: clears initial values
+        &#34;&#34;&#34;
+        # preparation
+        values = OrderedSet(values)
+        between12 = OrderedSet(between12)
+        after2 = OrderedSet(after2)
+
+        start_val = self.val_cond.get_values()
+
+        values -= OrderedSet([end1, start_val])
+        between12 -= OrderedSet([end1, start2])
+        after2 -= OrderedSet(start2)
+
+        end2 = self.val_alpha.pop()
+        move_set = values | between12 | after2 | OrderedSet([start_val, end1, start2])
+        opdirection = &#34;R&#34; if direction == &#34;L&#34; else &#34;L&#34;
+
+        # put end2 at the end and return
+        self.move_by_val.single_move(values, end1, direction)
+        self.move_by_val.single_move(between12, start2, direction)
+        self.put_by_val.single_move([start2], after2, direction, end2)
+
+        self.single_move(opdirection, suppose_val=start2)
+        self.move_by_val.single_move(between12, end1, opdirection)
+        self.move_by_val.single_move(values, start_val, opdirection)
+        self.single_move(direction)
+
+        # start copying
+        replace_with = OrderedSet(self.val_alpha.pop() for _ in range(len(values)))
+        copy_cond = self.val_cond.get_conds()  # !!!
+        self.move_from_to.parallelise(move_set, end2, direction, start_vals=values, replace_with=replace_with)
+
+        # restore end2 delimiter
+        restore_conds = []
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(stick_val=value, stick_cond=capture_cond)
+            restore_conds.append(self.put_by_val.single_move([value], after2, direction, put_val=end2)[1])
+        self.val_cond.set(stick_val=end2, stick_cond=restore_conds)
+        self.join(&#34;S&#34;)
+
+        # return back and start again
+        self.move_by_val.single_move(move_set, replace_with, opdirection)
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(value, capture_cond)
+            self.single_move(direction, next_cond=copy_cond)
+
+        # ending the loop and cleaning
+        clean_cond = self.cond_alpha.pop()
+        self.manual_rule(end1, copy_cond, end1, clean_cond, opdirection)
+        self.val_cond.set(end1, clean_cond)
+
+        if clear_values is False:
+            for replace, restore in zip(replace_with, values):
+                self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+        else:
+            for replace in replace_with:
+                self.manual_rule(replace, clean_cond, self.tm.default, clean_cond, opdirection)
+
+        end_cond = self.cond_alpha.pop()
+        self.manual_rule(start_val, clean_cond, start_val, end_cond, &#34;S&#34;)
+        return self.val_cond.set(start_val, end_cond)
+
+    def move_range(self, values, end1, between12,
+                   start2, after2, direction):
+        &#34;&#34;&#34;
+        Move &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        &#34;&#34;&#34;
+        return self.copy_range(values, end1, between12, start2,
+                               after2, direction, clear_values=True)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="turingmachine.macro.Basic"><code class="flex name class">
+<span>class <span class="ident">Basic</span></span>
+<span>(</span><span>tm)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class with functionality common to all classes of macros. It simplifies
+creating programs on tm, and working with tm as a whole</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>tm</code></strong></dt>
+<dd>TuringMachine class for using this macro on</dd>
+<dt><strong><code>cond_alpha</code></strong></dt>
+<dd>AlphabetGenerator class for automatically generating conditions</dd>
+<dt><strong><code>val_alpha</code></strong></dt>
+<dd>AlphabetGenerator class for automatically generating values</dd>
+<dt><strong><code>val_cond</code></strong></dt>
+<dd>current value and condition, could be determined(one pair), or
+undetermined(multiple pairs)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Basic:
+    &#34;&#34;&#34;
+    Class with functionality common to all classes of macros. It simplifies
+    creating programs on tm, and working with tm as a whole
+
+    Attributes:
+        tm: TuringMachine class for using this macro on
+        cond_alpha: AlphabetGenerator class for automatically generating conditions
+        val_alpha: AlphabetGenerator class for automatically generating values
+        val_cond: current value and condition, could be determined(one pair), or
+            undetermined(multiple pairs)
+    &#34;&#34;&#34;
+
+    class UndeterminedConditionError(MacroError):
+        def __init__(self, sticks):
+            msg = &#34;Undetermined condition:\n {}&#34;
+            super().__init__(msg.format(sticks.get()))
+
+    def __init__(self, tm: machine.TuringMachine):
+        self.tm = tm
+        self.cond_alpha = alphabetgenerator.AlphabetGenerator(gen=self.tm.condition)
+        self.val_alpha = alphabetgenerator.AlphabetGenerator()
+        self.val_alpha.reserved.update(val for val in self.tm.tape)
+
+        self.val_cond = MacroSticks(self.tm.current, self.tm.condition)
+
+    def reserve_name(self, valset=None, condset=None):
+        if valset is not None:
+            self.val_alpha.reserved = self.val_alpha.reserved.union(valset)
+
+        if condset is not None:
+            self.cond_alpha.reserved = self.cond_alpha.reserved.union(condset)
+
+    def set_rule(self, direction, next_val=None, suppose_val=None, join=False, next_cond=None):
+        &#34;&#34;&#34;
+            Separates decisions of how to set the rule depending on the value-condition case:
+
+            1. if join is true and if it ended in one value and multiple conditions,
+                they are joined to one condition and value
+            2. if it ended in multiple value-condition pairs, they are continuing moving each
+            3. if it ended in one value and multiple conditions, they are continuing moving each,
+            like in previous case
+            4. if it ended in determined single value-condition pair, it is moved from one pair ot other
+
+            !!! 5. if it ended in multiple value-condition pairs, then exception raised
+            (there are no simple rule for this kind of situation, please modify tape to
+            use one of the above cases)
+
+            Next condition will be generated automatically
+
+            Arguments:
+                next_val: next value for rule
+                direction: direction
+                suppose_val: suppose_value for next position
+                join: explicit join(equivalent to self.join call)
+                next_cond: next desirable condition for this move.
+
+                If settled to None, than
+                if join is true it will be passed to join settled to
+                NextCondition.auto
+                else it will be settled to
+                NextCondition.prev
+
+                Also you could specify it, for example:
+                    obj.set_rule( ... , next_cond=NextCondition.auto)
+                    ...
+                    onj.set_rule( ... , next_cond=&#39;q5&#39;)
+
+            Returns:
+                MacroStick object containing current case (value, condition)
+        &#34;&#34;&#34;
+
+        def consists_of_one_value(lst):
+            return isinstance(lst, str)
+
+        if self.val_cond.is_mul_val_cond():
+            if not consists_of_one_value(self.val_cond.get_values()):
+                raise self.UndeterminedConditionError(self.val_cond)
+
+        if join is True:
+            next_cond = NextCondition.auto if next_cond is None else next_cond
+            return self.join(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+
+        next_cond = NextCondition.prev if next_cond is None else next_cond
+        if self.val_cond.is_sin_val_cond():
+            return self.single_move(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+        else:
+            return self.parallel_cond_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)
+
+    def is_up_to_date(self):
+        assert self.val_cond.updated, &#34;Should be updated after call to self.manual_rule, to use macro functions&#34;
+
+    def single_move(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev):
+        &#34;&#34;&#34;
+        Set the rule for movement, suppose_val could be omitted if
+        next tape value would be equal to next_val
+
+        For automatically generating next_cond, see NextCondition documentation
+
+        Use only if tm is in determined condition
+        Arguments:
+            next_val: next value for current sel, previous by default
+            direction: direction
+            suppose_val: suppose_value for next position
+            next_cond: next condition for movement, previous by default
+        Returns:
+            MacroStick object containing value, condition pair of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_cond(), \
+            &#34;There are join for joining multiple conditions, and parallelise for continuing multiple conditions&#34;
+
+        next_cond = NextCondition.get_condition(self, next_cond)
+        next_val = self.val_cond.get_values() if next_val is None else next_val
+
+        if suppose_val is None:
+            suppose_val = next_val
+        try:
+            self.manual_rule(
+                *self.val_cond.get(),
+                next_val, next_cond, direction
+            )
+        except machine.RuleExistsError:
+            pass
+
+        return self.val_cond.set(suppose_val, next_cond)
+
+    def join(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.auto):
+        &#34;&#34;&#34;
+        Joins multiple conditions to one
+
+        If it ended in multiple conditions and one value they are joined to one
+
+        For automatically generating next_cond, see NextCondition documentation
+
+        Arguments:
+            next_val: next value for rule, previous if omitted
+            direction: direction
+            suppose_val: suppose value for next move
+            next_cond: next condition for joining, autogenerated by default
+        Returns:
+            MacroStick object containing value, condition pair of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        if next_cond == NextCondition.prev:
+            raise self.UndeterminedConditionError(self.val_cond)
+
+        next_cond = NextCondition.get_condition(self, next_cond)
+        next_val = self.val_cond.get_values() if next_val is None else next_val
+
+        suppose_val = next_val if suppose_val is None else suppose_val
+
+        value = self.val_cond.get_values()
+        for condition in self.val_cond.get_conds():
+            try:
+                self.manual_rule(value, condition, next_val,
+                                 next_cond, direction)
+            except machine.RuleExistsError:
+                pass
+
+        return self.val_cond.set(suppose_val, next_cond)
+
+    def parallel_cond_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
+        &#34;&#34;&#34;
+        Sets rule for multiple conditions, smth alike for_each
+
+        For automatically generating next_conds, see NextCondition documentation
+
+        Arguments:
+            next_vals: next values for rule, previous if omitted
+            direction: direction
+            suppose_vals: suppose values for next move
+            next_conds: next conditions for move, previous by default
+        Returns:
+            MacroStick object containing values, conditions iterables of this move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+        assert self.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        length = len(self.val_cond.get_conds())
+
+        if next_vals is None:
+            next_vals = [self.val_cond.get_values()] * length
+
+        try:
+            assert not isinstance(suppose_vals, str)
+            len(suppose_vals)
+            firstly_supposed = suppose_vals
+        except:  # catches all
+            firstly_supposed = suppose_vals
+            suppose_vals = [suppose_vals] * length
+
+        assert len(next_vals) == len(self.val_cond.get_conds()) == len(suppose_vals), \
+            &#34;Lengths of next_vals, suppose_vals, and last move val-cond pairs should be equal&#34;
+
+        next_conds = NextCondition.get_condition(self, next_conds, amount=length)
+
+        conditions = self.val_cond.get_conds()
+        value = self.val_cond.get_values()
+        for i in range(length):
+            try:
+                self.manual_rule(value, conditions[i], next_vals[i],
+                                 next_conds[i], direction)
+            except machine.RuleExistsError:
+                pass
+
+        return self.val_cond.set(firstly_supposed, next_conds)
+
+    def parallelise_by_vals(self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev):
+        &#34;&#34;&#34;
+        val_cond:
+            (value1, condition1) -&gt; (values2, condition2)
+        &#34;&#34;&#34;
+        _, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
+        return self.val_cond.set(suppose_vals, cond)
+
+    def stop(self):
+        &#34;&#34;&#34;
+        Finish macro machine execution, every command after this function
+        will be useless.
+
+        Should be called only in determined condition and value.
+
+        Returns:
+            MacroStick object containing value, condition pair of the last move
+        &#34;&#34;&#34;
+        self.is_up_to_date()
+
+        if self.val_cond.is_sin_val_cond():
+            return self.single_move(&#34;STOP&#34;)
+        elif self.val_cond.is_mul_val_sin_cond():
+            vals, cond = self.val_cond.get()
+            for value in vals:
+                self.val_cond.set(value, cond)
+                self.single_move(&#34;STOP&#34;)
+
+            return self.val_cond.set(vals, cond)
+        elif self.val_cond.is_sin_val_mul_cond():
+            val, conds = self.val_cond.get()
+            for condition in conds:
+                self.val_cond.set(val, condition)
+                self.single_move(&#34;STOP&#34;)
+
+            return self.val_cond.set(val, conds)
+        else:
+            raise self.UndeterminedConditionError(self.val_cond)
+
+    def manual_rule(self, value, condition, next_value, next_condition, direction):
+        &#34;&#34;&#34;
+        Setting the rule for turing and preserving some parameters of this macro.
+
+        It is recommended to use this function instead of self.tm.set_rule
+        Both of this functions are used when you need &#34;bare&#34; access to turing machine.
+        Be careful, you will need to set val_cond to some meaningful value after this call.
+        &#34;&#34;&#34;
+        self.reserve_name({next_value}, {next_condition})
+        self.tm.set_rule(value, condition, next_value, next_condition, direction)
+
+        self.val_cond.updated = False</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.Macro" href="#turingmachine.macro.Macro">Macro</a></li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="turingmachine.macro.Basic.UndeterminedConditionError"><code class="name">var <span class="ident">UndeterminedConditionError</span></code></dt>
+<dd>
+<section class="desc"><p>Main exception class for this module</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class UndeterminedConditionError(MacroError):
+    def __init__(self, sticks):
+        msg = &#34;Undetermined condition:\n {}&#34;
+        super().__init__(msg.format(sticks.get()))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.Basic.is_up_to_date"><code class="name flex">
+<span>def <span class="ident">is_up_to_date</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_up_to_date(self):
+    assert self.val_cond.updated, &#34;Should be updated after call to self.manual_rule, to use macro functions&#34;</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.join"><code class="name flex">
+<span>def <span class="ident">join</span></span>(<span>self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.auto)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Joins multiple conditions to one</p>
+<p>If it ended in multiple conditions and one value they are joined to one</p>
+<p>For automatically generating next_cond, see NextCondition documentation</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>next_val</code></strong></dt>
+<dd>next value for rule, previous if omitted</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>suppose_val</code></strong></dt>
+<dd>suppose value for next move</dd>
+<dt><strong><code>next_cond</code></strong></dt>
+<dd>next condition for joining, autogenerated by default</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>MacroStick</code> <code>object</code> <code>containing</code> <code>value</code>, <code>condition</code> <code>pair</code> of <code>this</code> <code>move</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def join(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.auto):
+    &#34;&#34;&#34;
+    Joins multiple conditions to one
+
+    If it ended in multiple conditions and one value they are joined to one
+
+    For automatically generating next_cond, see NextCondition documentation
+
+    Arguments:
+        next_val: next value for rule, previous if omitted
+        direction: direction
+        suppose_val: suppose value for next move
+        next_cond: next condition for joining, autogenerated by default
+    Returns:
+        MacroStick object containing value, condition pair of this move
+    &#34;&#34;&#34;
+    self.is_up_to_date()
+    assert self.val_cond.is_sin_val_mul_cond(), \
+        &#34;Single value and multiple conditions should be passed&#34;
+
+    if next_cond == NextCondition.prev:
+        raise self.UndeterminedConditionError(self.val_cond)
+
+    next_cond = NextCondition.get_condition(self, next_cond)
+    next_val = self.val_cond.get_values() if next_val is None else next_val
+
+    suppose_val = next_val if suppose_val is None else suppose_val
+
+    value = self.val_cond.get_values()
+    for condition in self.val_cond.get_conds():
+        try:
+            self.manual_rule(value, condition, next_val,
+                             next_cond, direction)
+        except machine.RuleExistsError:
+            pass
+
+    return self.val_cond.set(suppose_val, next_cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.manual_rule"><code class="name flex">
+<span>def <span class="ident">manual_rule</span></span>(<span>self, value, condition, next_value, next_condition, direction)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Setting the rule for turing and preserving some parameters of this macro.</p>
+<p>It is recommended to use this function instead of self.tm.set_rule
+Both of this functions are used when you need "bare" access to turing machine.
+Be careful, you will need to set val_cond to some meaningful value after this call.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def manual_rule(self, value, condition, next_value, next_condition, direction):
+    &#34;&#34;&#34;
+    Setting the rule for turing and preserving some parameters of this macro.
+
+    It is recommended to use this function instead of self.tm.set_rule
+    Both of this functions are used when you need &#34;bare&#34; access to turing machine.
+    Be careful, you will need to set val_cond to some meaningful value after this call.
+    &#34;&#34;&#34;
+    self.reserve_name({next_value}, {next_condition})
+    self.tm.set_rule(value, condition, next_value, next_condition, direction)
+
+    self.val_cond.updated = False</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.parallel_cond_move"><code class="name flex">
+<span>def <span class="ident">parallel_cond_move</span></span>(<span>self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Sets rule for multiple conditions, smth alike for_each</p>
+<p>For automatically generating next_conds, see NextCondition documentation</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>next_vals</code></strong></dt>
+<dd>next values for rule, previous if omitted</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>suppose_vals</code></strong></dt>
+<dd>suppose values for next move</dd>
+<dt><strong><code>next_conds</code></strong></dt>
+<dd>next conditions for move, previous by default</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>MacroStick</code> <code>object</code> <code>containing</code> <code>values</code>, <code>conditions</code> <code>iterables</code> of <code>this</code> <code>move</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallel_cond_move(self, direction, suppose_vals=None, next_vals=None, next_conds=NextCondition.prev):
+    &#34;&#34;&#34;
+    Sets rule for multiple conditions, smth alike for_each
+
+    For automatically generating next_conds, see NextCondition documentation
+
+    Arguments:
+        next_vals: next values for rule, previous if omitted
+        direction: direction
+        suppose_vals: suppose values for next move
+        next_conds: next conditions for move, previous by default
+    Returns:
+        MacroStick object containing values, conditions iterables of this move
+    &#34;&#34;&#34;
+    self.is_up_to_date()
+    assert self.val_cond.is_sin_val_mul_cond(), \
+        &#34;Single value and multiple conditions should be passed&#34;
+
+    length = len(self.val_cond.get_conds())
+
+    if next_vals is None:
+        next_vals = [self.val_cond.get_values()] * length
+
+    try:
+        assert not isinstance(suppose_vals, str)
+        len(suppose_vals)
+        firstly_supposed = suppose_vals
+    except:  # catches all
+        firstly_supposed = suppose_vals
+        suppose_vals = [suppose_vals] * length
+
+    assert len(next_vals) == len(self.val_cond.get_conds()) == len(suppose_vals), \
+        &#34;Lengths of next_vals, suppose_vals, and last move val-cond pairs should be equal&#34;
+
+    next_conds = NextCondition.get_condition(self, next_conds, amount=length)
+
+    conditions = self.val_cond.get_conds()
+    value = self.val_cond.get_values()
+    for i in range(length):
+        try:
+            self.manual_rule(value, conditions[i], next_vals[i],
+                             next_conds[i], direction)
+        except machine.RuleExistsError:
+            pass
+
+    return self.val_cond.set(firstly_supposed, next_conds)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.parallelise_by_vals"><code class="name flex">
+<span>def <span class="ident">parallelise_by_vals</span></span>(<span>self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>val_cond:
+(value1, condition1) -&gt; (values2, condition2)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelise_by_vals(self, direction, suppose_vals=None, next_val=None, next_cond=NextCondition.prev):
+    &#34;&#34;&#34;
+    val_cond:
+        (value1, condition1) -&gt; (values2, condition2)
+    &#34;&#34;&#34;
+    _, cond = self.single_move(direction, next_val=next_val, next_cond=next_cond)
+    return self.val_cond.set(suppose_vals, cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.reserve_name"><code class="name flex">
+<span>def <span class="ident">reserve_name</span></span>(<span>self, valset=None, condset=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def reserve_name(self, valset=None, condset=None):
+    if valset is not None:
+        self.val_alpha.reserved = self.val_alpha.reserved.union(valset)
+
+    if condset is not None:
+        self.cond_alpha.reserved = self.cond_alpha.reserved.union(condset)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.set_rule"><code class="name flex">
+<span>def <span class="ident">set_rule</span></span>(<span>self, direction, next_val=None, suppose_val=None, join=False, next_cond=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Separates decisions of how to set the rule depending on the value-condition case:</p>
+<ol>
+<li>if join is true and if it ended in one value and multiple conditions,
+they are joined to one condition and value</li>
+<li>if it ended in multiple value-condition pairs, they are continuing moving each</li>
+<li>if it ended in one value and multiple conditions, they are continuing moving each,
+like in previous case</li>
+<li>if it ended in determined single value-condition pair, it is moved from one pair ot other</li>
+</ol>
+<p>!!! 5. if it ended in multiple value-condition pairs, then exception raised
+(there are no simple rule for this kind of situation, please modify tape to
+use one of the above cases)</p>
+<p>Next condition will be generated automatically</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>next_val</code></strong></dt>
+<dd>next value for rule</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>suppose_val</code></strong></dt>
+<dd>suppose_value for next position</dd>
+<dt><strong><code>join</code></strong></dt>
+<dd>explicit join(equivalent to self.join call)</dd>
+<dt><strong><code>next_cond</code></strong></dt>
+<dd>next desirable condition for this move.</dd>
+</dl>
+<p>If settled to None, than
+if join is true it will be passed to join settled to
+NextCondition.auto
+else it will be settled to
+NextCondition.prev</p>
+<p>Also you could specify it, for example:
+obj.set_rule( &hellip; , next_cond=NextCondition.auto)
+&hellip;
+onj.set_rule( &hellip; , next_cond='q5')</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>MacroStick</code> <code>object</code> <code>containing</code> <code>current</code> <code>case</code> (<code>value</code>, <code>condition</code>)</dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_rule(self, direction, next_val=None, suppose_val=None, join=False, next_cond=None):
+    &#34;&#34;&#34;
+        Separates decisions of how to set the rule depending on the value-condition case:
+
+        1. if join is true and if it ended in one value and multiple conditions,
+            they are joined to one condition and value
+        2. if it ended in multiple value-condition pairs, they are continuing moving each
+        3. if it ended in one value and multiple conditions, they are continuing moving each,
+        like in previous case
+        4. if it ended in determined single value-condition pair, it is moved from one pair ot other
+
+        !!! 5. if it ended in multiple value-condition pairs, then exception raised
+        (there are no simple rule for this kind of situation, please modify tape to
+        use one of the above cases)
+
+        Next condition will be generated automatically
+
+        Arguments:
+            next_val: next value for rule
+            direction: direction
+            suppose_val: suppose_value for next position
+            join: explicit join(equivalent to self.join call)
+            next_cond: next desirable condition for this move.
+
+            If settled to None, than
+            if join is true it will be passed to join settled to
+            NextCondition.auto
+            else it will be settled to
+            NextCondition.prev
+
+            Also you could specify it, for example:
+                obj.set_rule( ... , next_cond=NextCondition.auto)
+                ...
+                onj.set_rule( ... , next_cond=&#39;q5&#39;)
+
+        Returns:
+            MacroStick object containing current case (value, condition)
+    &#34;&#34;&#34;
+
+    def consists_of_one_value(lst):
+        return isinstance(lst, str)
+
+    if self.val_cond.is_mul_val_cond():
+        if not consists_of_one_value(self.val_cond.get_values()):
+            raise self.UndeterminedConditionError(self.val_cond)
+
+    if join is True:
+        next_cond = NextCondition.auto if next_cond is None else next_cond
+        return self.join(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+
+    next_cond = NextCondition.prev if next_cond is None else next_cond
+    if self.val_cond.is_sin_val_cond():
+        return self.single_move(direction, next_val=next_val, suppose_val=suppose_val, next_cond=next_cond)
+    else:
+        return self.parallel_cond_move(direction, next_vals=next_val, suppose_vals=suppose_val, next_conds=next_cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.single_move"><code class="name flex">
+<span>def <span class="ident">single_move</span></span>(<span>self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Set the rule for movement, suppose_val could be omitted if
+next tape value would be equal to next_val</p>
+<p>For automatically generating next_cond, see NextCondition documentation</p>
+<p>Use only if tm is in determined condition</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>next_val</code></strong></dt>
+<dd>next value for current sel, previous by default</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>suppose_val</code></strong></dt>
+<dd>suppose_value for next position</dd>
+<dt><strong><code>next_cond</code></strong></dt>
+<dd>next condition for movement, previous by default</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>MacroStick</code> <code>object</code> <code>containing</code> <code>value</code>, <code>condition</code> <code>pair</code> of <code>this</code> <code>move</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def single_move(self, direction, suppose_val=None, next_val=None, next_cond=NextCondition.prev):
+    &#34;&#34;&#34;
+    Set the rule for movement, suppose_val could be omitted if
+    next tape value would be equal to next_val
+
+    For automatically generating next_cond, see NextCondition documentation
+
+    Use only if tm is in determined condition
+    Arguments:
+        next_val: next value for current sel, previous by default
+        direction: direction
+        suppose_val: suppose_value for next position
+        next_cond: next condition for movement, previous by default
+    Returns:
+        MacroStick object containing value, condition pair of this move
+    &#34;&#34;&#34;
+    self.is_up_to_date()
+    assert self.val_cond.is_sin_val_cond(), \
+        &#34;There are join for joining multiple conditions, and parallelise for continuing multiple conditions&#34;
+
+    next_cond = NextCondition.get_condition(self, next_cond)
+    next_val = self.val_cond.get_values() if next_val is None else next_val
+
+    if suppose_val is None:
+        suppose_val = next_val
+    try:
+        self.manual_rule(
+            *self.val_cond.get(),
+            next_val, next_cond, direction
+        )
+    except machine.RuleExistsError:
+        pass
+
+    return self.val_cond.set(suppose_val, next_cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Basic.stop"><code class="name flex">
+<span>def <span class="ident">stop</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Finish macro machine execution, every command after this function
+will be useless.</p>
+<p>Should be called only in determined condition and value.</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>MacroStick</code> <code>object</code> <code>containing</code> <code>value</code>, <code>condition</code> <code>pair</code> of <code>the</code> <code>last</code> <code>move</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stop(self):
+    &#34;&#34;&#34;
+    Finish macro machine execution, every command after this function
+    will be useless.
+
+    Should be called only in determined condition and value.
+
+    Returns:
+        MacroStick object containing value, condition pair of the last move
+    &#34;&#34;&#34;
+    self.is_up_to_date()
+
+    if self.val_cond.is_sin_val_cond():
+        return self.single_move(&#34;STOP&#34;)
+    elif self.val_cond.is_mul_val_sin_cond():
+        vals, cond = self.val_cond.get()
+        for value in vals:
+            self.val_cond.set(value, cond)
+            self.single_move(&#34;STOP&#34;)
+
+        return self.val_cond.set(vals, cond)
+    elif self.val_cond.is_sin_val_mul_cond():
+        val, conds = self.val_cond.get()
+        for condition in conds:
+            self.val_cond.set(val, condition)
+            self.single_move(&#34;STOP&#34;)
+
+        return self.val_cond.set(val, conds)
+    else:
+        raise self.UndeterminedConditionError(self.val_cond)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="turingmachine.macro.CleanRange"><code class="flex name class">
+<span>class <span class="ident">CleanRange</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class for clearing the range on the tape</p>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CleanRange(GoToConcept):
+    &#34;&#34;&#34;Main class for clearing the range on the tape&#34;&#34;&#34;
+    def move_modifier(self, move_val):
+        return self.obj.tm.default
+
+    def start_modifier(self, start_val):
+        return self.obj.tm.default
+
+    def end_modifier(self, end_val):
+        return self.obj.tm.default
+
+    def parallel_move(self, *args, **kwargs):
+        &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.CleanRange.parallel_move"><code class="name flex">
+<span>def <span class="ident">parallel_move</span></span>(<span>self, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Not needed in this class</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallel_move(self, *args, **kwargs):
+    &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.CleanRange.parallelise"><code class="name flex">
+<span>def <span class="ident">parallelise</span></span>(<span>self, *args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Not needed in this class</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelise(self, *args, **kwargs):
+    &#34;&#34;&#34;Not needed in this class&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.GoToConcept.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.single_move" href="#turingmachine.macro.GoToConceptABC.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.GoToConcept"><code class="flex name class">
+<span>class <span class="ident">GoToConcept</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class to implement a common algorithm. Of moving on tape,
+with flexible changing of starting, moving and ending values
+functionality.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>instance of Basic</dd>
+</dl>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GoToConcept(GoToConceptABC):
+    def move_modifier(self, move_val):
+        return move_val
+
+    def start_modifier(self, start_val):
+        return start_val
+
+    def end_modifier(self, end_val):
+        return end_val</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.MoveByVal" href="#turingmachine.macro.MoveByVal">MoveByVal</a></li>
+<li><a title="turingmachine.macro.CleanRange" href="#turingmachine.macro.CleanRange">CleanRange</a></li>
+<li><a title="turingmachine.macro.SetAllOnWay" href="#turingmachine.macro.SetAllOnWay">SetAllOnWay</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.GoToConceptABC.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.parallelise" href="#turingmachine.macro.GoToConceptABC.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.single_move" href="#turingmachine.macro.GoToConceptABC.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC"><code class="flex name class">
+<span>class <span class="ident">GoToConceptABC</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class to implement a common algorithm. Of moving on tape,
+with flexible changing of starting, moving and ending values
+functionality.</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>obj</code></strong></dt>
+<dd>instance of Basic</dd>
+</dl>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class GoToConceptABC(metaclass=abc.ABCMeta):
+    &#34;&#34;&#34;
+    Class to implement a common algorithm. Of moving on tape,
+    with flexible changing of starting, moving and ending values
+    functionality.
+
+    Attributes:
+        obj: instance of Basic
+    &#34;&#34;&#34;
+    def __init__(self, obj: Basic):
+        &#34;&#34;&#34;Set Basic object to work with&#34;&#34;&#34;
+        self.obj = obj
+
+    def _set_includes(self, include_start: bool, include_end: bool):
+        &#34;&#34;&#34;
+        Common operation of setting arguments.
+
+        Arguments:
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        &#34;&#34;&#34;
+        self._include_start = include_start
+        self._include_end = include_end
+
+    def single_move(self,
+                    move_vals: Iterable,
+                    end_vals: Iterable or str,
+                    direction: str,
+                    include_start=True, include_end=False
+                    ):
+        &#34;&#34;&#34;
+        Move on tape.
+
+        (value, condition) -&gt; (value[s]1, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        # preparation
+        self._set_includes(include_start, include_end)
+        end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
+        end_vals = OrderedSet(end_vals)
+        move_vals = OrderedSet(move_vals) - end_vals
+
+        # start move
+        new_start_value = self._start_modifier(self.obj.val_cond.get_values())
+        _, move_cond = self.obj.single_move(direction, next_val=new_start_value, next_cond=NextCondition.auto)
+
+        # main move
+        for value in move_vals:
+            self.obj.manual_rule(value, move_cond, self._move_modifier(value), move_cond, direction)
+
+        # end move
+        new_end_vals = [self._end_modifier(value) for value in end_vals]
+        end_cond = self.obj.cond_alpha.pop()
+
+        for i in range(len(end_vals)):
+            self.obj.manual_rule(end_vals[i], move_cond, new_end_vals[i], end_cond, &#34;S&#34;)
+
+        return self.obj.val_cond.set(new_end_vals[0] if len(new_end_vals) == 1
+                                     else new_end_vals, end_cond)
+
+    def parallelise(self,
+                    move_vals: Iterable,
+                    end_val: str,
+                    direction: str,
+                    start_vals=None,
+                    include_start=True, include_end=False
+                    ):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        if start_vals is None:
+            start_vals, _ = self.obj.val_cond.get()
+        start_vals = OrderedSet(start_vals)
+
+        move_vals -= OrderedSet(end_val) | start_vals
+        start_value, start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
+
+        assert self.obj.val_cond.is_mul_val_sin_cond(), \
+            &#34;Multiple values and single condition should be passed&#34;
+
+        end_conds = []
+        for start_value in start_vals:
+            move_cond = self.obj.cond_alpha.pop()
+            self.obj.manual_rule(start_value, start_cond, start_value, move_cond, &#34;S&#34;)
+
+            self.obj.val_cond.set(start_value, move_cond)
+            end_conds.append(
+                self.single_move(move_vals.union(start_vals), end_val, direction,
+                                 include_start=include_start, include_end=include_end)[1]
+            )
+
+        return self.obj.val_cond.set(end_val, end_conds)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
+                      include_start=True, include_end=False
+                      ):
+        &#34;&#34;&#34;
+        Move for each cond in self.obj.val_cond.get_conds()
+        move for each to end_val.
+
+        (value, conditions) -&gt; (value1, conditions)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        assert self.obj.val_cond.is_sin_val_mul_cond(), \
+            &#34;Single value and multiple conditions should be passed&#34;
+
+        start_val, start_conds = self.obj.val_cond.get()
+
+        end_conds = []
+        for condition in start_conds:
+            self.obj.val_cond.set(start_val, condition)
+            end_conds.append(
+                self.single_move(move_vals, end_val, direction,
+                                 include_end=include_end, include_start=include_start)[1]
+            )
+
+        return self.obj.val_cond.set(end_val, end_conds)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=True, include_end=False):
+        &#34;&#34;&#34;
+        Main function for calling as __call__
+
+        Basically the same as self.single_move
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        self.single_move(move_vals, end_vals, direction, include_end, include_start)
+
+    __call__ = main
+
+    def _move_modifier(self, move_val):
+        &#34;&#34;&#34;Internal function for modifying move values&#34;&#34;&#34;
+        return self.move_modifier(move_val)
+
+    def _start_modifier(self, start_val):
+        &#34;&#34;&#34;Internal function for modifying start values&#34;&#34;&#34;
+        return self.start_modifier(start_val) if self._include_start else start_val
+
+    def _end_modifier(self, end_val):
+        &#34;&#34;&#34;Internal function for modifying end values&#34;&#34;&#34;
+        return self.end_modifier(end_val) if self._include_end else end_val
+
+    @abc.abstractmethod
+    def move_modifier(self, move_val):
+        &#34;&#34;&#34;
+        External function for modifying move values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass
+
+    @abc.abstractmethod
+    def start_modifier(self, start_val):
+        &#34;&#34;&#34;
+        External function for modifying start values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass
+
+    @abc.abstractmethod
+    def end_modifier(self, end_val):
+        &#34;&#34;&#34;
+        External function for modifying end values
+        Should be redefined in child classes for different behaviour
+        &#34;&#34;&#34;
+        pass</code></pre>
+</details>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.GoToConceptABC.end_modifier"><code class="name flex">
+<span>def <span class="ident">end_modifier</span></span>(<span>self, end_val)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>External function for modifying end values
+Should be redefined in child classes for different behaviour</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def end_modifier(self, end_val):
+    &#34;&#34;&#34;
+    External function for modifying end values
+    Should be redefined in child classes for different behaviour
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.main"><code class="name flex">
+<span>def <span class="ident">main</span></span>(<span>self, move_vals, end_vals, direction, include_start=True, include_end=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main function for calling as <strong>call</strong></p>
+<p>Basically the same as self.single_move</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_vals</code></strong></dt>
+<dd>values to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>condition</code> <code>in</code> <code>case</code> of <code>single</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+<dt>or <code>value</code> <code>and</code> <code>multiple</code> <code>conditions</code> <code>in</code> <code>case</code> of <code>multiple</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def main(self, move_vals: Iterable, end_vals: Iterable or str,
+         direction: str, include_start=True, include_end=False):
+    &#34;&#34;&#34;
+    Main function for calling as __call__
+
+    Basically the same as self.single_move
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_vals: values to stop with
+        direction: direction
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, condition in case of single end_vals
+        or value and multiple conditions in case of multiple end_vals
+    &#34;&#34;&#34;
+    self.single_move(move_vals, end_vals, direction, include_end, include_start)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.move_modifier"><code class="name flex">
+<span>def <span class="ident">move_modifier</span></span>(<span>self, move_val)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>External function for modifying move values
+Should be redefined in child classes for different behaviour</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def move_modifier(self, move_val):
+    &#34;&#34;&#34;
+    External function for modifying move values
+    Should be redefined in child classes for different behaviour
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.parallel_move"><code class="name flex">
+<span>def <span class="ident">parallel_move</span></span>(<span>self, move_vals, end_val, direction, include_start=True, include_end=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Move for each cond in self.obj.val_cond.get_conds()
+move for each to end_val.</p>
+<p>(value, conditions) -&gt; (value1, conditions)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_val</code></strong></dt>
+<dd>value(single) to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt>self.val_cond.get_values() is used to get them</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>multiple</code> <code>conditions</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallel_move(self, move_vals: Iterable, end_val: str, direction: str,
+                  include_start=True, include_end=False
+                  ):
+    &#34;&#34;&#34;
+    Move for each cond in self.obj.val_cond.get_conds()
+    move for each to end_val.
+
+    (value, conditions) -&gt; (value1, conditions)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_val: value(single) to stop with
+        direction: direction
+        self.val_cond.get_values() is used to get them
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, multiple conditions
+    &#34;&#34;&#34;
+    assert self.obj.val_cond.is_sin_val_mul_cond(), \
+        &#34;Single value and multiple conditions should be passed&#34;
+
+    start_val, start_conds = self.obj.val_cond.get()
+
+    end_conds = []
+    for condition in start_conds:
+        self.obj.val_cond.set(start_val, condition)
+        end_conds.append(
+            self.single_move(move_vals, end_val, direction,
+                             include_end=include_end, include_start=include_start)[1]
+        )
+
+    return self.obj.val_cond.set(end_val, end_conds)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.parallelise"><code class="name flex">
+<span>def <span class="ident">parallelise</span></span>(<span>self, move_vals, end_val, direction, start_vals=None, include_start=True, include_end=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Parallelise by conds for each value in start_vals and
+move for each to end_val.</p>
+<p>(values, condition) -&gt; (value1, conditions1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_val</code></strong></dt>
+<dd>value(single) to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>start_vals</code></strong></dt>
+<dd>values to parallelise, if omitted,</dd>
+<dt>self.val_cond.get_values() is used to get them</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>multiple</code> <code>conditions</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelise(self,
+                move_vals: Iterable,
+                end_val: str,
+                direction: str,
+                start_vals=None,
+                include_start=True, include_end=False
+                ):
+    &#34;&#34;&#34;
+    Parallelise by conds for each value in start_vals and
+    move for each to end_val.
+
+    (values, condition) -&gt; (value1, conditions1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_val: value(single) to stop with
+        direction: direction
+        start_vals: values to parallelise, if omitted,
+        self.val_cond.get_values() is used to get them
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, multiple conditions
+    &#34;&#34;&#34;
+    if start_vals is None:
+        start_vals, _ = self.obj.val_cond.get()
+    start_vals = OrderedSet(start_vals)
+
+    move_vals -= OrderedSet(end_val) | start_vals
+    start_value, start_cond = self.obj.val_cond.set(start_vals, self.obj.val_cond.get_conds())
+
+    assert self.obj.val_cond.is_mul_val_sin_cond(), \
+        &#34;Multiple values and single condition should be passed&#34;
+
+    end_conds = []
+    for start_value in start_vals:
+        move_cond = self.obj.cond_alpha.pop()
+        self.obj.manual_rule(start_value, start_cond, start_value, move_cond, &#34;S&#34;)
+
+        self.obj.val_cond.set(start_value, move_cond)
+        end_conds.append(
+            self.single_move(move_vals.union(start_vals), end_val, direction,
+                             include_start=include_start, include_end=include_end)[1]
+        )
+
+    return self.obj.val_cond.set(end_val, end_conds)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.single_move"><code class="name flex">
+<span>def <span class="ident">single_move</span></span>(<span>self, move_vals, end_vals, direction, include_start=True, include_end=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Move on tape.</p>
+<p>(value, condition) -&gt; (value[s]1, condition1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_vals</code></strong></dt>
+<dd>values to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>condition</code> <code>in</code> <code>case</code> of <code>single</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+<dt>or <code>value</code> <code>and</code> <code>multiple</code> <code>conditions</code> <code>in</code> <code>case</code> of <code>multiple</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def single_move(self,
+                move_vals: Iterable,
+                end_vals: Iterable or str,
+                direction: str,
+                include_start=True, include_end=False
+                ):
+    &#34;&#34;&#34;
+    Move on tape.
+
+    (value, condition) -&gt; (value[s]1, condition1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_vals: values to stop with
+        direction: direction
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, condition in case of single end_vals
+        or value and multiple conditions in case of multiple end_vals
+    &#34;&#34;&#34;
+    # preparation
+    self._set_includes(include_start, include_end)
+    end_vals = [end_vals] if isinstance(end_vals, str) else end_vals
+    end_vals = OrderedSet(end_vals)
+    move_vals = OrderedSet(move_vals) - end_vals
+
+    # start move
+    new_start_value = self._start_modifier(self.obj.val_cond.get_values())
+    _, move_cond = self.obj.single_move(direction, next_val=new_start_value, next_cond=NextCondition.auto)
+
+    # main move
+    for value in move_vals:
+        self.obj.manual_rule(value, move_cond, self._move_modifier(value), move_cond, direction)
+
+    # end move
+    new_end_vals = [self._end_modifier(value) for value in end_vals]
+    end_cond = self.obj.cond_alpha.pop()
+
+    for i in range(len(end_vals)):
+        self.obj.manual_rule(end_vals[i], move_cond, new_end_vals[i], end_cond, &#34;S&#34;)
+
+    return self.obj.val_cond.set(new_end_vals[0] if len(new_end_vals) == 1
+                                 else new_end_vals, end_cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.GoToConceptABC.start_modifier"><code class="name flex">
+<span>def <span class="ident">start_modifier</span></span>(<span>self, start_val)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>External function for modifying start values
+Should be redefined in child classes for different behaviour</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@abc.abstractmethod
+def start_modifier(self, start_val):
+    &#34;&#34;&#34;
+    External function for modifying start values
+    Should be redefined in child classes for different behaviour
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="turingmachine.macro.IgnoreThis"><code class="flex name class">
+<span>class <span class="ident">IgnoreThis</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class for signaling that this
+keyword parameter should be ignored</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class IgnoreThis:
+    &#34;&#34;&#34;
+    Class for signaling that this
+    keyword parameter should be ignored
+    &#34;&#34;&#34;
+    pass</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Macro"><code class="flex name class">
+<span>class <span class="ident">Macro</span></span>
+<span>(</span><span>tm)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Full basic macro class</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Macro(Basic):
+    &#34;&#34;&#34;
+    Full basic macro class
+    &#34;&#34;&#34;
+
+    def __init__(self, tm: machine.TuringMachine):
+        super().__init__(tm)
+
+        self.move_by_val = MoveByVal(self)
+        self.clean_range = CleanRange(self)
+        self.set_all_on_way = SetAllOnWay(self)
+        self.put_by_val = PutByVal(self)
+        self.move_from_to = MoveFromTo(self)
+
+    def copy_range(self, values, end1, between12,
+                   start2, after2, direction, clear_values=False):
+        &#34;&#34;&#34;
+        Copy &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        clear_values: clears initial values
+        &#34;&#34;&#34;
+        # preparation
+        values = OrderedSet(values)
+        between12 = OrderedSet(between12)
+        after2 = OrderedSet(after2)
+
+        start_val = self.val_cond.get_values()
+
+        values -= OrderedSet([end1, start_val])
+        between12 -= OrderedSet([end1, start2])
+        after2 -= OrderedSet(start2)
+
+        end2 = self.val_alpha.pop()
+        move_set = values | between12 | after2 | OrderedSet([start_val, end1, start2])
+        opdirection = &#34;R&#34; if direction == &#34;L&#34; else &#34;L&#34;
+
+        # put end2 at the end and return
+        self.move_by_val.single_move(values, end1, direction)
+        self.move_by_val.single_move(between12, start2, direction)
+        self.put_by_val.single_move([start2], after2, direction, end2)
+
+        self.single_move(opdirection, suppose_val=start2)
+        self.move_by_val.single_move(between12, end1, opdirection)
+        self.move_by_val.single_move(values, start_val, opdirection)
+        self.single_move(direction)
+
+        # start copying
+        replace_with = OrderedSet(self.val_alpha.pop() for _ in range(len(values)))
+        copy_cond = self.val_cond.get_conds()  # !!!
+        self.move_from_to.parallelise(move_set, end2, direction, start_vals=values, replace_with=replace_with)
+
+        # restore end2 delimiter
+        restore_conds = []
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(stick_val=value, stick_cond=capture_cond)
+            restore_conds.append(self.put_by_val.single_move([value], after2, direction, put_val=end2)[1])
+        self.val_cond.set(stick_val=end2, stick_cond=restore_conds)
+        self.join(&#34;S&#34;)
+
+        # return back and start again
+        self.move_by_val.single_move(move_set, replace_with, opdirection)
+        capture_cond = self.val_cond.get_conds()
+        for value in self.val_cond.get_values():
+            self.val_cond.set(value, capture_cond)
+            self.single_move(direction, next_cond=copy_cond)
+
+        # ending the loop and cleaning
+        clean_cond = self.cond_alpha.pop()
+        self.manual_rule(end1, copy_cond, end1, clean_cond, opdirection)
+        self.val_cond.set(end1, clean_cond)
+
+        if clear_values is False:
+            for replace, restore in zip(replace_with, values):
+                self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+        else:
+            for replace in replace_with:
+                self.manual_rule(replace, clean_cond, self.tm.default, clean_cond, opdirection)
+
+        end_cond = self.cond_alpha.pop()
+        self.manual_rule(start_val, clean_cond, start_val, end_cond, &#34;S&#34;)
+        return self.val_cond.set(start_val, end_cond)
+
+    def move_range(self, values, end1, between12,
+                   start2, after2, direction):
+        &#34;&#34;&#34;
+        Move &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+        Layout for this function
+        [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+        &#34;&#34;&#34;
+        return self.copy_range(values, end1, between12, start2,
+                               after2, direction, clear_values=True)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.Basic" href="#turingmachine.macro.Basic">Basic</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.Macro.copy_range"><code class="name flex">
+<span>def <span class="ident">copy_range</span></span>(<span>self, values, end1, between12, start2, after2, direction, clear_values=False)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Copy 'values' from range [start_val &hellip; end1] to range [start2 &hellip;]
+Layout for this function
+[self.val_cond.get_values(), <em>values, end1, </em>between12, start2, *after2]
+clear_values: clears initial values</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def copy_range(self, values, end1, between12,
+               start2, after2, direction, clear_values=False):
+    &#34;&#34;&#34;
+    Copy &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+    Layout for this function
+    [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+    clear_values: clears initial values
+    &#34;&#34;&#34;
+    # preparation
+    values = OrderedSet(values)
+    between12 = OrderedSet(between12)
+    after2 = OrderedSet(after2)
+
+    start_val = self.val_cond.get_values()
+
+    values -= OrderedSet([end1, start_val])
+    between12 -= OrderedSet([end1, start2])
+    after2 -= OrderedSet(start2)
+
+    end2 = self.val_alpha.pop()
+    move_set = values | between12 | after2 | OrderedSet([start_val, end1, start2])
+    opdirection = &#34;R&#34; if direction == &#34;L&#34; else &#34;L&#34;
+
+    # put end2 at the end and return
+    self.move_by_val.single_move(values, end1, direction)
+    self.move_by_val.single_move(between12, start2, direction)
+    self.put_by_val.single_move([start2], after2, direction, end2)
+
+    self.single_move(opdirection, suppose_val=start2)
+    self.move_by_val.single_move(between12, end1, opdirection)
+    self.move_by_val.single_move(values, start_val, opdirection)
+    self.single_move(direction)
+
+    # start copying
+    replace_with = OrderedSet(self.val_alpha.pop() for _ in range(len(values)))
+    copy_cond = self.val_cond.get_conds()  # !!!
+    self.move_from_to.parallelise(move_set, end2, direction, start_vals=values, replace_with=replace_with)
+
+    # restore end2 delimiter
+    restore_conds = []
+    capture_cond = self.val_cond.get_conds()
+    for value in self.val_cond.get_values():
+        self.val_cond.set(stick_val=value, stick_cond=capture_cond)
+        restore_conds.append(self.put_by_val.single_move([value], after2, direction, put_val=end2)[1])
+    self.val_cond.set(stick_val=end2, stick_cond=restore_conds)
+    self.join(&#34;S&#34;)
+
+    # return back and start again
+    self.move_by_val.single_move(move_set, replace_with, opdirection)
+    capture_cond = self.val_cond.get_conds()
+    for value in self.val_cond.get_values():
+        self.val_cond.set(value, capture_cond)
+        self.single_move(direction, next_cond=copy_cond)
+
+    # ending the loop and cleaning
+    clean_cond = self.cond_alpha.pop()
+    self.manual_rule(end1, copy_cond, end1, clean_cond, opdirection)
+    self.val_cond.set(end1, clean_cond)
+
+    if clear_values is False:
+        for replace, restore in zip(replace_with, values):
+            self.manual_rule(replace, clean_cond, restore, clean_cond, opdirection)
+    else:
+        for replace in replace_with:
+            self.manual_rule(replace, clean_cond, self.tm.default, clean_cond, opdirection)
+
+    end_cond = self.cond_alpha.pop()
+    self.manual_rule(start_val, clean_cond, start_val, end_cond, &#34;S&#34;)
+    return self.val_cond.set(start_val, end_cond)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.Macro.move_range"><code class="name flex">
+<span>def <span class="ident">move_range</span></span>(<span>self, values, end1, between12, start2, after2, direction)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Move 'values' from range [start_val &hellip; end1] to range [start2 &hellip;]
+Layout for this function
+[self.val_cond.get_values(), <em>values, end1, </em>between12, start2, *after2]</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move_range(self, values, end1, between12,
+               start2, after2, direction):
+    &#34;&#34;&#34;
+    Move &#39;values&#39; from range [start_val ... end1] to range [start2 ...]
+    Layout for this function
+    [self.val_cond.get_values(), *values, end1, *between12, start2, *after2]
+    &#34;&#34;&#34;
+    return self.copy_range(values, end1, between12, start2,
+                           after2, direction, clear_values=True)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.Basic" href="#turingmachine.macro.Basic">Basic</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.Basic.UndeterminedConditionError" href="#turingmachine.macro.Basic.UndeterminedConditionError">UndeterminedConditionError</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.join" href="#turingmachine.macro.Basic.join">join</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.manual_rule" href="#turingmachine.macro.Basic.manual_rule">manual_rule</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.parallel_cond_move" href="#turingmachine.macro.Basic.parallel_cond_move">parallel_cond_move</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.parallelise_by_vals" href="#turingmachine.macro.Basic.parallelise_by_vals">parallelise_by_vals</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.set_rule" href="#turingmachine.macro.Basic.set_rule">set_rule</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.single_move" href="#turingmachine.macro.Basic.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.stop" href="#turingmachine.macro.Basic.stop">stop</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.MacroError"><code class="flex name class">
+<span>class <span class="ident">MacroError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main exception class for this module</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MacroError(Exception):
+    &#34;&#34;&#34;Main exception class for this module&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.MacroSticks.StickError" href="#turingmachine.macro.MacroSticks.StickError">MacroSticks.StickError</a></li>
+<li><a title="turingmachine.macro.Basic.UndeterminedConditionError" href="#turingmachine.macro.Basic.UndeterminedConditionError">Basic.UndeterminedConditionError</a></li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.MacroSticks"><code class="flex name class">
+<span>class <span class="ident">MacroSticks</span></span>
+<span>(</span><span>stick_val, stick_cond)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class that handles stick values for Basic class.</p>
+<p>Invariant: exactly one of this is true in every time point:
+1. is_mul_val_cond
+2. is_sin_val_cond
+3. is_sin_val_mul_cond</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>_sin_val_cond</code></strong></dt>
+<dd>val_cond contains single value and single condition</dd>
+<dt><strong><code>_mul_val_cond</code></strong></dt>
+<dd>val_cond contains multiple values and multiple conditions</dd>
+<dt><strong><code>_sin_val_mul_cond</code></strong></dt>
+<dd>val_cond contains single value and multiple conditions</dd>
+<dt><strong><code>contains</code></strong></dt>
+<dd>container of different types determined by some of (look upper) parameters,
+contains value(s) and condition(s)</dd>
+<dt><strong><code>updated</code></strong></dt>
+<dd>are the sticks true for now?</dd>
+</dl>
+<p>Set stick values depending on passed arguments.</p>
+<h2 id="pass">Pass</h2>
+<p>two iterables - multiple values and conditions
+one value and multiple conditions
+one value and one condition</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MacroSticks:
+    &#34;&#34;&#34;
+    Class that handles stick values for Basic class.
+
+    Invariant: exactly one of this is true in every time point:
+    1. is_mul_val_cond
+    2. is_sin_val_cond
+    3. is_sin_val_mul_cond
+
+    Attributes:
+        _sin_val_cond: val_cond contains single value and single condition
+        _mul_val_cond: val_cond contains multiple values and multiple conditions
+        _sin_val_mul_cond: val_cond contains single value and multiple conditions
+
+        contains: container of different types determined by some of (look upper) parameters,
+                  contains value(s) and condition(s)
+        updated: are the sticks true for now?
+    &#34;&#34;&#34;
+
+    class StickError(MacroError):
+        &#34;&#34;&#34;
+        Error class for signalizing invalid input of stick value(s) and condition(s)
+        &#34;&#34;&#34;
+
+        def __init__(self, val, cond):
+            msg = &#34;Enter value-condition, two iterables of value and &#34; \
+                  &#34;condition or value-condition dictionary, not val: {} and cond: {}&#34;
+            super().__init__(msg.format(val, cond))
+
+    def __init__(self, stick_val, stick_cond):
+        &#34;&#34;&#34;
+        Set stick values depending on passed arguments.
+
+        Pass:
+            two iterables - multiple values and conditions
+            one value and multiple conditions
+            one value and one condition
+        &#34;&#34;&#34;
+        self.updated = True
+
+        self._sin_val_cond = False
+        self._mul_val_cond = False
+        self._sin_val_mul_cond = False
+        self._mul_val_sin_cond = False
+
+        if isinstance(stick_val, str) and isinstance(stick_cond, str):
+            # two parameters and it is ordinary string value, condition
+            self._set_ordinary(stick_val, stick_cond)
+        elif isinstance(stick_val, Iterable) and isinstance(stick_cond, Iterable):
+            if isinstance(stick_val, str):
+                # two parameters and it is condition iterable, and ordinary string value
+                self._set_single_value_multiple_conditions(stick_val, stick_cond)
+            elif isinstance(stick_cond, str):
+                # two parameters and it is value iterable, and ordinary string condition
+                self._set_multiple_value_single_conditions(stick_val, stick_cond)
+            else:
+                # two parameters and it is two iterables of values and conditions
+                self._set_two_iterables(stick_val, stick_cond)
+        else:
+            # nothing of the above
+            raise self.StickError(stick_val, stick_cond)
+
+    def set(self, stick_val=None, stick_cond=None):
+        if stick_val is None and stick_cond is None:
+            self.updated = True
+
+        if stick_cond is None:
+            stick_cond = self.contains[1]
+        if stick_val is None:
+            stick_val = self.contains[0]
+
+        self.__init__(stick_val, stick_cond=stick_cond)
+        return self.contains
+
+    def get(self):
+        return self.contains
+
+    def _set_two_iterables(self, values: Iterable, conditions: Iterable):
+        self.contains = list(values), list(conditions)
+        self._mul_val_cond = True
+
+    def _set_single_value_multiple_conditions(self, value: Iterable, conditions: Iterable):
+        self.contains = value, list(conditions)
+        self._sin_val_mul_cond = True
+
+    def _set_multiple_value_single_conditions(self, values: Iterable, condition: Iterable):
+        self.contains = list(values), condition
+        self._mul_val_sin_cond = True
+
+    def _set_ordinary(self, value: str, condition: str):
+        self.contains = value, condition
+        self._sin_val_cond = True
+
+    def get_values(self):
+        &#34;&#34;&#34;
+        Returns list of values, or single value
+        &#34;&#34;&#34;
+        return self.contains[0]
+
+    def get_conds(self):
+        &#34;&#34;&#34;
+        Returns list of conditions, or single condition
+        &#34;&#34;&#34;
+        return self.contains[1]
+
+    def is_mul_val_cond(self):
+        return self._mul_val_cond
+
+    def is_sin_val_cond(self):
+        return self._sin_val_cond
+
+    def is_sin_val_mul_cond(self):
+        return self._sin_val_mul_cond
+
+    def is_mul_val_sin_cond(self):
+        return self._mul_val_sin_cond</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="turingmachine.macro.MacroSticks.StickError"><code class="name">var <span class="ident">StickError</span></code></dt>
+<dd>
+<section class="desc"><p>Error class for signalizing invalid input of stick value(s) and condition(s)</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class StickError(MacroError):
+    &#34;&#34;&#34;
+    Error class for signalizing invalid input of stick value(s) and condition(s)
+    &#34;&#34;&#34;
+
+    def __init__(self, val, cond):
+        msg = &#34;Enter value-condition, two iterables of value and &#34; \
+              &#34;condition or value-condition dictionary, not val: {} and cond: {}&#34;
+        super().__init__(msg.format(val, cond))</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.MacroSticks.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self):
+    return self.contains</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.get_conds"><code class="name flex">
+<span>def <span class="ident">get_conds</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns list of conditions, or single condition</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_conds(self):
+    &#34;&#34;&#34;
+    Returns list of conditions, or single condition
+    &#34;&#34;&#34;
+    return self.contains[1]</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.get_values"><code class="name flex">
+<span>def <span class="ident">get_values</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Returns list of values, or single value</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get_values(self):
+    &#34;&#34;&#34;
+    Returns list of values, or single value
+    &#34;&#34;&#34;
+    return self.contains[0]</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.is_mul_val_cond"><code class="name flex">
+<span>def <span class="ident">is_mul_val_cond</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_mul_val_cond(self):
+    return self._mul_val_cond</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.is_mul_val_sin_cond"><code class="name flex">
+<span>def <span class="ident">is_mul_val_sin_cond</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_mul_val_sin_cond(self):
+    return self._mul_val_sin_cond</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.is_sin_val_cond"><code class="name flex">
+<span>def <span class="ident">is_sin_val_cond</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_sin_val_cond(self):
+    return self._sin_val_cond</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.is_sin_val_mul_cond"><code class="name flex">
+<span>def <span class="ident">is_sin_val_mul_cond</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def is_sin_val_mul_cond(self):
+    return self._sin_val_mul_cond</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MacroSticks.set"><code class="name flex">
+<span>def <span class="ident">set</span></span>(<span>self, stick_val=None, stick_cond=None)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set(self, stick_val=None, stick_cond=None):
+    if stick_val is None and stick_cond is None:
+        self.updated = True
+
+    if stick_cond is None:
+        stick_cond = self.contains[1]
+    if stick_val is None:
+        stick_val = self.contains[0]
+
+    self.__init__(stick_val, stick_cond=stick_cond)
+    return self.contains</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="turingmachine.macro.MoveByVal"><code class="flex name class">
+<span>class <span class="ident">MoveByVal</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class for moving to value on the tape</p>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MoveByVal(GoToConcept):
+    &#34;&#34;&#34; Main class for moving to value on the tape&#34;&#34;&#34;
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().single_move(move_vals, end_vals, direction)
+
+    def parallelise(self, move_vals: Iterable, end_val: str, direction: str,
+                    start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallelise(move_vals, end_val, direction, start_vals=start_vals)
+
+    def parallel_move(self, move_vals: Iterable, end_val: str,
+                      direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().parallel_move(move_vals, end_val, direction)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction)
+
+    __call__ = main</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.PutByVal" href="#turingmachine.macro.PutByVal">PutByVal</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.GoToConcept.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.parallelise" href="#turingmachine.macro.GoToConceptABC.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.single_move" href="#turingmachine.macro.GoToConceptABC.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.MoveFromTo"><code class="flex name class">
+<span>class <span class="ident">MoveFromTo</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class for moving from to end_val and
+replacing starting value with replace_with</p>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class MoveFromTo(PutByVal):
+    &#34;&#34;&#34;
+    Main class for moving from to end_val and
+    replacing starting value with replace_with
+    &#34;&#34;&#34;
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -&gt; (start_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            replace_with: value to put instead of start_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+
+        put_val = None
+        if replace_with is not None:
+            put_val = self.obj.val_cond.get_values()
+            self.obj.single_move(&#34;S&#34;, next_val=replace_with)
+
+        return super().single_move(move_vals, end_vals, direction, put_val=put_val)
+
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, replace_with=None, start_vals=None, include_start=IgnoreThis,
+                    include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and repalce tham with
+        replace_with move for each to end_val and put start_vals to them.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            replace_with: values to put instead of start_vals, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        put_vals = None
+        if replace_with is not None:
+            if start_vals is None:
+                start_vals = self.obj.val_cond.get_values()
+            put_vals = start_vals
+
+            start_cond = self.obj.val_cond.get_conds()
+            move_cond = self.obj.cond_alpha.pop()
+            for start, replace in zip(start_vals, replace_with):
+                self.obj.manual_rule(start, start_cond, replace, move_cond, &#34;S&#34;)
+
+            self.obj.val_cond.set(replace_with, move_cond)
+            start_vals = replace_with
+
+        return super().parallelise(move_vals, end_val, direction, put_vals=put_vals, start_vals=start_vals)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return self.single_move(move_vals, end_vals, direction, replace_with=replace_with)
+
+    __call__ = main</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.PutByVal" href="#turingmachine.macro.PutByVal">PutByVal</a></li>
+<li><a title="turingmachine.macro.MoveByVal" href="#turingmachine.macro.MoveByVal">MoveByVal</a></li>
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.MoveFromTo.parallelise"><code class="name flex">
+<span>def <span class="ident">parallelise</span></span>(<span>self, move_vals, end_val, direction, replace_with=None, start_vals=None, include_start=turingmachine.macro.IgnoreThis, include_end=turingmachine.macro.IgnoreThis)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Parallelise by conds for each value in start_vals and repalce tham with
+replace_with move for each to end_val and put start_vals to them.</p>
+<p>(values, condition) -&gt; (value1, conditions1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_val</code></strong></dt>
+<dd>value(single) to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>replace_with</code></strong></dt>
+<dd>values to put instead of start_vals, if omitted</dd>
+<dt>this function would be equal to parallelise in MoveByVal,</dt>
+<dt>not changing anything</dt>
+<dt><strong><code>start_vals</code></strong></dt>
+<dd>values to parallelise, if omitted,</dd>
+<dt>self.val_cond.get_values() is used to get them</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>multiple</code> <code>conditions</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelise(self, move_vals: Iterable, end_val: str,
+                direction: str, replace_with=None, start_vals=None, include_start=IgnoreThis,
+                include_end=IgnoreThis):
+    &#34;&#34;&#34;
+    Parallelise by conds for each value in start_vals and repalce tham with
+    replace_with move for each to end_val and put start_vals to them.
+
+    (values, condition) -&gt; (value1, conditions1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_val: value(single) to stop with
+        direction: direction
+        replace_with: values to put instead of start_vals, if omitted
+        this function would be equal to parallelise in MoveByVal,
+        not changing anything
+        start_vals: values to parallelise, if omitted,
+        self.val_cond.get_values() is used to get them
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, multiple conditions
+    &#34;&#34;&#34;
+    put_vals = None
+    if replace_with is not None:
+        if start_vals is None:
+            start_vals = self.obj.val_cond.get_values()
+        put_vals = start_vals
+
+        start_cond = self.obj.val_cond.get_conds()
+        move_cond = self.obj.cond_alpha.pop()
+        for start, replace in zip(start_vals, replace_with):
+            self.obj.manual_rule(start, start_cond, replace, move_cond, &#34;S&#34;)
+
+        self.obj.val_cond.set(replace_with, move_cond)
+        start_vals = replace_with
+
+    return super().parallelise(move_vals, end_val, direction, put_vals=put_vals, start_vals=start_vals)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.MoveFromTo.single_move"><code class="name flex">
+<span>def <span class="ident">single_move</span></span>(<span>self, move_vals, end_vals, direction, replace_with=None, include_start=turingmachine.macro.IgnoreThis, include_end=turingmachine.macro.IgnoreThis)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Move on tape and put_val instead of end_vals.</p>
+<p>(value, condition) -&gt; (start_val, condition1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_vals</code></strong></dt>
+<dd>values to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>replace_with</code></strong></dt>
+<dd>value to put instead of start_val, if omitted</dd>
+<dt>this function would be equal to moving by value,</dt>
+<dt>not changing anything</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>unused, needed for inheritance compatibility</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>unused, needed for inheritance compatibility</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>condition</code> <code>in</code> <code>case</code> of <code>single</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+<dt>or <code>value</code> <code>and</code> <code>multiple</code> <code>conditions</code> <code>in</code> <code>case</code> of <code>multiple</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                direction: str, replace_with=None, include_start=IgnoreThis, include_end=IgnoreThis):
+    &#34;&#34;&#34;
+    Move on tape and put_val instead of end_vals.
+
+    (value, condition) -&gt; (start_val, condition1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_vals: values to stop with
+        direction: direction
+        replace_with: value to put instead of start_val, if omitted
+        this function would be equal to moving by value,
+        not changing anything
+        include_start: unused, needed for inheritance compatibility
+        include_end: unused, needed for inheritance compatibility
+    Returns:
+        tuple of value, condition in case of single end_vals
+        or value and multiple conditions in case of multiple end_vals
+    &#34;&#34;&#34;
+
+    put_val = None
+    if replace_with is not None:
+        put_val = self.obj.val_cond.get_values()
+        self.obj.single_move(&#34;S&#34;, next_val=replace_with)
+
+    return super().single_move(move_vals, end_vals, direction, put_val=put_val)</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.PutByVal" href="#turingmachine.macro.PutByVal">PutByVal</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.PutByVal.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.set_appropriate" href="#turingmachine.macro.PutByVal.set_appropriate">set_appropriate</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.NextCondition"><code class="flex name class">
+<span>class <span class="ident">NextCondition</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Class that chooses what next condition to create depending
+on the argument passed using function set_condition</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>prev</code></strong></dt>
+<dd>select previous condition</dd>
+<dt><strong><code>auto</code></strong></dt>
+<dd>generate new condition by condition alphabetgenerator</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NextCondition(enum.Enum):
+    &#34;&#34;&#34;
+    Class that chooses what next condition to create depending
+    on the argument passed using function set_condition
+
+    Attributes:
+        prev: select previous condition
+        auto: generate new condition by condition alphabetgenerator
+    &#34;&#34;&#34;
+    prev = enum.auto()
+    auto = enum.auto()
+
+    @staticmethod
+    def get_condition(basic_obj, next_cond, amount=1):
+        &#34;&#34;&#34;
+        Get condition depending on the arguments passed
+
+        Arguments:
+            basic_obj: object that are using this class to set conditions
+
+            next_cond: condition. Could be of type NextCondition, than
+            appropriate condition is settled automatically.
+            Could be just a desirable next condition for the move, than
+            it is simply returned.
+
+            amount: amount of conditions for next move to be
+            checked for or generated
+        &#34;&#34;&#34;
+        cls = NextCondition
+
+        if not isinstance(next_cond, cls):
+            return next_cond
+
+        elif next_cond == cls.prev:
+            return basic_obj.val_cond.get_conds()
+
+        elif next_cond == cls.auto:
+            if amount != 1:
+                return [basic_obj.cond_alpha.pop() for _ in range(amount)]
+            return basic_obj.cond_alpha.pop()</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>enum.Enum</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="turingmachine.macro.NextCondition.auto"><code class="name">var <span class="ident">auto</span></code></dt>
+<dd>
+<section class="desc"><p>Class that chooses what next condition to create depending
+on the argument passed using function set_condition</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>prev</code></strong></dt>
+<dd>select previous condition</dd>
+<dt><strong><code>auto</code></strong></dt>
+<dd>generate new condition by condition alphabetgenerator</dd>
+</dl></section>
+</dd>
+<dt id="turingmachine.macro.NextCondition.prev"><code class="name">var <span class="ident">prev</span></code></dt>
+<dd>
+<section class="desc"><p>Class that chooses what next condition to create depending
+on the argument passed using function set_condition</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>prev</code></strong></dt>
+<dd>select previous condition</dd>
+<dt><strong><code>auto</code></strong></dt>
+<dd>generate new condition by condition alphabetgenerator</dd>
+</dl></section>
+</dd>
+</dl>
+</dd>
+<dt id="turingmachine.macro.PutByVal"><code class="flex name class">
+<span>class <span class="ident">PutByVal</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class for moving to end_val and putting put_val instead</p>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class PutByVal(MoveByVal):
+    &#34;&#34;&#34;Main class for moving to end_val and putting put_val instead&#34;&#34;&#34;
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Move on tape and put_val instead of end_vals.
+
+        (value, condition) -&gt; (put_val, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_vals: values to stop with
+            direction: direction
+            put_val: value to put instead of end_val, if omitted
+            this function would be equal to moving by value,
+            not changing anything
+            include_start: unused, needed for inheritance compatibility
+            include_end: unused, needed for inheritance compatibility
+        Returns:
+            tuple of value, condition in case of single end_vals
+            or value and multiple conditions in case of multiple end_vals
+        &#34;&#34;&#34;
+        val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+        if put_val is not None:
+            try:
+                if self.obj.val_cond.is_sin_val_cond():
+                    val_cond = self.obj.single_move(&#34;S&#34;, next_val=put_val)
+                else:
+                    cur_cond = self.obj.val_cond.get_conds()
+                    end_cond = self.obj.cond_alpha.pop()
+                    for value in self.obj.val_cond.get_values():
+                        self.obj.val_cond.set(value, cur_cond)
+                        self.obj.single_move(&#34;S&#34;, next_val=put_val, next_cond=end_cond)
+                    val_cond = self.obj.val_cond.set(put_val, end_cond)
+            except AssertionError:
+                raise Basic.UndeterminedConditionError(self.obj.val_cond)
+
+        return val_cond
+
+    def parallelise(self, move_vals: Iterable, end_val: str,
+                    direction: str, put_vals=None, start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        &#34;&#34;&#34;
+        Parallelise by conds for each value in start_vals and
+        move for each to end_val.
+
+        (values, condition) -&gt; (value1, conditions1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+
+        Arguments:
+            move_vals: values to move through
+            end_val: value(single) to stop with
+            direction: direction
+            put_vals: values to put instead of end_val, if omitted
+            this function would be equal to parallelise in MoveByVal,
+            not changing anything
+            start_vals: values to parallelise, if omitted,
+            self.val_cond.get_values() is used to get them
+            include_start: should we use start_modifier function?
+            include_end: should we use end_modifier function?
+        Returns:
+            tuple of value, multiple conditions
+        &#34;&#34;&#34;
+        val_cond = super().parallelise(move_vals, end_val, direction, start_vals, include_start=True, include_end=True)
+        if put_vals is not None:
+            val_cond = self.set_appropriate(put_vals, conditions=val_cond[1])
+
+        return val_cond
+
+    def set_appropriate(self, put_vals, conditions=None):
+        &#34;&#34;&#34;
+        Set value from self.val_cond.get_values() in appropriate
+        condition from conditions. To value from put_vals and
+        final condition.
+
+        (values, conditions) -&gt; (put_vals, condition1)
+
+        self.obj.val_cond should be settled to determined single
+        value-condition pair condition. After work this function
+        sets self.obj.val_cond appropriate.
+        &#34;&#34;&#34;
+        cur_val = self.obj.val_cond.get_values()
+        if conditions is None:
+            conditions = self.obj.val_cond.get_conds()
+
+        finita_condition = self.obj.cond_alpha.pop()
+        for i in range(len(put_vals)):
+            self.obj.manual_rule(cur_val, conditions[i], put_vals[i], finita_condition, &#34;S&#34;)
+
+        return self.obj.val_cond.set(put_vals, finita_condition)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+        return super().main(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+    __call__ = main</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.MoveByVal" href="#turingmachine.macro.MoveByVal">MoveByVal</a></li>
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.MoveFromTo" href="#turingmachine.macro.MoveFromTo">MoveFromTo</a></li>
+</ul>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.macro.PutByVal.parallelise"><code class="name flex">
+<span>def <span class="ident">parallelise</span></span>(<span>self, move_vals, end_val, direction, put_vals=None, start_vals=None, include_start=turingmachine.macro.IgnoreThis, include_end=turingmachine.macro.IgnoreThis)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Parallelise by conds for each value in start_vals and
+move for each to end_val.</p>
+<p>(values, condition) -&gt; (value1, conditions1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_val</code></strong></dt>
+<dd>value(single) to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>put_vals</code></strong></dt>
+<dd>values to put instead of end_val, if omitted</dd>
+<dt>this function would be equal to parallelise in MoveByVal,</dt>
+<dt>not changing anything</dt>
+<dt><strong><code>start_vals</code></strong></dt>
+<dd>values to parallelise, if omitted,</dd>
+<dt>self.val_cond.get_values() is used to get them</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>should we use start_modifier function?</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>should we use end_modifier function?</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>multiple</code> <code>conditions</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def parallelise(self, move_vals: Iterable, end_val: str,
+                direction: str, put_vals=None, start_vals=None, include_start=IgnoreThis, include_end=IgnoreThis):
+    &#34;&#34;&#34;
+    Parallelise by conds for each value in start_vals and
+    move for each to end_val.
+
+    (values, condition) -&gt; (value1, conditions1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_val: value(single) to stop with
+        direction: direction
+        put_vals: values to put instead of end_val, if omitted
+        this function would be equal to parallelise in MoveByVal,
+        not changing anything
+        start_vals: values to parallelise, if omitted,
+        self.val_cond.get_values() is used to get them
+        include_start: should we use start_modifier function?
+        include_end: should we use end_modifier function?
+    Returns:
+        tuple of value, multiple conditions
+    &#34;&#34;&#34;
+    val_cond = super().parallelise(move_vals, end_val, direction, start_vals, include_start=True, include_end=True)
+    if put_vals is not None:
+        val_cond = self.set_appropriate(put_vals, conditions=val_cond[1])
+
+    return val_cond</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.PutByVal.set_appropriate"><code class="name flex">
+<span>def <span class="ident">set_appropriate</span></span>(<span>self, put_vals, conditions=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Set value from self.val_cond.get_values() in appropriate
+condition from conditions. To value from put_vals and
+final condition.</p>
+<p>(values, conditions) -&gt; (put_vals, condition1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_appropriate(self, put_vals, conditions=None):
+    &#34;&#34;&#34;
+    Set value from self.val_cond.get_values() in appropriate
+    condition from conditions. To value from put_vals and
+    final condition.
+
+    (values, conditions) -&gt; (put_vals, condition1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+    &#34;&#34;&#34;
+    cur_val = self.obj.val_cond.get_values()
+    if conditions is None:
+        conditions = self.obj.val_cond.get_conds()
+
+    finita_condition = self.obj.cond_alpha.pop()
+    for i in range(len(put_vals)):
+        self.obj.manual_rule(cur_val, conditions[i], put_vals[i], finita_condition, &#34;S&#34;)
+
+    return self.obj.val_cond.set(put_vals, finita_condition)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.macro.PutByVal.single_move"><code class="name flex">
+<span>def <span class="ident">single_move</span></span>(<span>self, move_vals, end_vals, direction, put_val=None, include_start=turingmachine.macro.IgnoreThis, include_end=turingmachine.macro.IgnoreThis)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Move on tape and put_val instead of end_vals.</p>
+<p>(value, condition) -&gt; (put_val, condition1)</p>
+<p>self.obj.val_cond should be settled to determined single
+value-condition pair condition. After work this function
+sets self.obj.val_cond appropriate.</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>move_vals</code></strong></dt>
+<dd>values to move through</dd>
+<dt><strong><code>end_vals</code></strong></dt>
+<dd>values to stop with</dd>
+<dt><strong><code>direction</code></strong></dt>
+<dd>direction</dd>
+<dt><strong><code>put_val</code></strong></dt>
+<dd>value to put instead of end_val, if omitted</dd>
+<dt>this function would be equal to moving by value,</dt>
+<dt>not changing anything</dt>
+<dt><strong><code>include_start</code></strong></dt>
+<dd>unused, needed for inheritance compatibility</dd>
+<dt><strong><code>include_end</code></strong></dt>
+<dd>unused, needed for inheritance compatibility</dd>
+</dl>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>tuple</code> of <code>value</code>, <code>condition</code> <code>in</code> <code>case</code> of <code>single</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+<dt>or <code>value</code> <code>and</code> <code>multiple</code> <code>conditions</code> <code>in</code> <code>case</code> of <code>multiple</code> <code>end_vals</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                direction: str, put_val=None, include_start=IgnoreThis, include_end=IgnoreThis):
+    &#34;&#34;&#34;
+    Move on tape and put_val instead of end_vals.
+
+    (value, condition) -&gt; (put_val, condition1)
+
+    self.obj.val_cond should be settled to determined single
+    value-condition pair condition. After work this function
+    sets self.obj.val_cond appropriate.
+
+    Arguments:
+        move_vals: values to move through
+        end_vals: values to stop with
+        direction: direction
+        put_val: value to put instead of end_val, if omitted
+        this function would be equal to moving by value,
+        not changing anything
+        include_start: unused, needed for inheritance compatibility
+        include_end: unused, needed for inheritance compatibility
+    Returns:
+        tuple of value, condition in case of single end_vals
+        or value and multiple conditions in case of multiple end_vals
+    &#34;&#34;&#34;
+    val_cond = super().single_move(move_vals, end_vals, direction, include_start=True, include_end=True)
+
+    if put_val is not None:
+        try:
+            if self.obj.val_cond.is_sin_val_cond():
+                val_cond = self.obj.single_move(&#34;S&#34;, next_val=put_val)
+            else:
+                cur_cond = self.obj.val_cond.get_conds()
+                end_cond = self.obj.cond_alpha.pop()
+                for value in self.obj.val_cond.get_values():
+                    self.obj.val_cond.set(value, cur_cond)
+                    self.obj.single_move(&#34;S&#34;, next_val=put_val, next_cond=end_cond)
+                val_cond = self.obj.val_cond.set(put_val, end_cond)
+        except AssertionError:
+            raise Basic.UndeterminedConditionError(self.obj.val_cond)
+
+    return val_cond</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.MoveByVal" href="#turingmachine.macro.MoveByVal">MoveByVal</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.MoveByVal.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.MoveByVal.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.MoveByVal.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.MoveByVal.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.MoveByVal.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+<dt id="turingmachine.macro.SetAllOnWay"><code class="flex name class">
+<span>class <span class="ident">SetAllOnWay</span></span>
+<span>(</span><span>obj)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class for setting all values on way to end_val with to_val</p>
+<p>Set Basic object to work with</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class SetAllOnWay(GoToConcept):
+    &#34;&#34;&#34;Main class for setting all values on way to end_val with to_val&#34;&#34;&#34;
+    def move_modifier(self, move_val):
+        return self.to_val
+
+    def start_modifier(self, start_val):
+        return self.to_val
+
+    def end_modifier(self, end_val):
+        return self.to_val
+
+    def __init__(self, obj):
+        self._default = obj.tm.default
+        super().__init__(obj)
+
+    def single_move(self, move_vals: Iterable, end_vals: Iterable or str,
+                    direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self._default
+        return super().single_move(move_vals, end_vals, direction, include_start, include_end)
+
+    def main(self, move_vals: Iterable, end_vals: Iterable or str,
+             direction: str, to_val=None, include_start=True, include_end=False):
+        self.to_val = to_val if to_val is not None else self._default
+        return super().main(move_vals, end_vals, direction, include_start, include_end)
+
+    def parallel_move(self, *args, **kwargs):
+        pass
+
+    def parallelise(self, *args, **kwargs):
+        pass
+
+    __call__ = main</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></li>
+<li><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></li>
+</ul>
+<h3>Inherited members</h3>
+<ul class="hlist">
+<li><code><b><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></b></code>:
+<ul class="hlist">
+<li><code><a title="turingmachine.macro.GoToConcept.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.parallelise" href="#turingmachine.macro.GoToConceptABC.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.single_move" href="#turingmachine.macro.GoToConceptABC.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConcept.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul>
+<li><a href="#10101b10otc1-expected">"1,0,1,0,1,b,1,0,o,t,c:1::-:" expected</a></li>
+<li><a href="#a1011b2322c1011-expected">"a,1,0,1,1,b,2,3,2,2,c,1,0,1,1:::-:" expected</a></li>
+<li><a href="#1000110b10ottc13-expected">"1,0,0,0,1,1,0,b,1,0,o,t,t,c:13::-:" expected</a></li>
+<li><a href="#d000110b10ott1-expected">"d,0,0,0,1,1,0,b,1,0,o,t,t,1:::-:" expected</a></li>
+</ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="turingmachine" href="index.html">turingmachine</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="turingmachine.macro.Basic" href="#turingmachine.macro.Basic">Basic</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.Basic.UndeterminedConditionError" href="#turingmachine.macro.Basic.UndeterminedConditionError">UndeterminedConditionError</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.is_up_to_date" href="#turingmachine.macro.Basic.is_up_to_date">is_up_to_date</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.join" href="#turingmachine.macro.Basic.join">join</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.manual_rule" href="#turingmachine.macro.Basic.manual_rule">manual_rule</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.parallel_cond_move" href="#turingmachine.macro.Basic.parallel_cond_move">parallel_cond_move</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.parallelise_by_vals" href="#turingmachine.macro.Basic.parallelise_by_vals">parallelise_by_vals</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.reserve_name" href="#turingmachine.macro.Basic.reserve_name">reserve_name</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.set_rule" href="#turingmachine.macro.Basic.set_rule">set_rule</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.single_move" href="#turingmachine.macro.Basic.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.Basic.stop" href="#turingmachine.macro.Basic.stop">stop</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.CleanRange" href="#turingmachine.macro.CleanRange">CleanRange</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.CleanRange.parallel_move" href="#turingmachine.macro.CleanRange.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.CleanRange.parallelise" href="#turingmachine.macro.CleanRange.parallelise">parallelise</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.GoToConcept" href="#turingmachine.macro.GoToConcept">GoToConcept</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.GoToConceptABC" href="#turingmachine.macro.GoToConceptABC">GoToConceptABC</a></code></h4>
+<ul class="two-column">
+<li><code><a title="turingmachine.macro.GoToConceptABC.end_modifier" href="#turingmachine.macro.GoToConceptABC.end_modifier">end_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.main" href="#turingmachine.macro.GoToConceptABC.main">main</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.move_modifier" href="#turingmachine.macro.GoToConceptABC.move_modifier">move_modifier</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.parallel_move" href="#turingmachine.macro.GoToConceptABC.parallel_move">parallel_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.parallelise" href="#turingmachine.macro.GoToConceptABC.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.single_move" href="#turingmachine.macro.GoToConceptABC.single_move">single_move</a></code></li>
+<li><code><a title="turingmachine.macro.GoToConceptABC.start_modifier" href="#turingmachine.macro.GoToConceptABC.start_modifier">start_modifier</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.IgnoreThis" href="#turingmachine.macro.IgnoreThis">IgnoreThis</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.Macro" href="#turingmachine.macro.Macro">Macro</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.Macro.copy_range" href="#turingmachine.macro.Macro.copy_range">copy_range</a></code></li>
+<li><code><a title="turingmachine.macro.Macro.move_range" href="#turingmachine.macro.Macro.move_range">move_range</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.MacroError" href="#turingmachine.macro.MacroError">MacroError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.MacroSticks" href="#turingmachine.macro.MacroSticks">MacroSticks</a></code></h4>
+<ul class="two-column">
+<li><code><a title="turingmachine.macro.MacroSticks.StickError" href="#turingmachine.macro.MacroSticks.StickError">StickError</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.get" href="#turingmachine.macro.MacroSticks.get">get</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.get_conds" href="#turingmachine.macro.MacroSticks.get_conds">get_conds</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.get_values" href="#turingmachine.macro.MacroSticks.get_values">get_values</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.is_mul_val_cond" href="#turingmachine.macro.MacroSticks.is_mul_val_cond">is_mul_val_cond</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.is_mul_val_sin_cond" href="#turingmachine.macro.MacroSticks.is_mul_val_sin_cond">is_mul_val_sin_cond</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.is_sin_val_cond" href="#turingmachine.macro.MacroSticks.is_sin_val_cond">is_sin_val_cond</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.is_sin_val_mul_cond" href="#turingmachine.macro.MacroSticks.is_sin_val_mul_cond">is_sin_val_mul_cond</a></code></li>
+<li><code><a title="turingmachine.macro.MacroSticks.set" href="#turingmachine.macro.MacroSticks.set">set</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.MoveByVal" href="#turingmachine.macro.MoveByVal">MoveByVal</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.MoveFromTo" href="#turingmachine.macro.MoveFromTo">MoveFromTo</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.MoveFromTo.parallelise" href="#turingmachine.macro.MoveFromTo.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.MoveFromTo.single_move" href="#turingmachine.macro.MoveFromTo.single_move">single_move</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.NextCondition" href="#turingmachine.macro.NextCondition">NextCondition</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.NextCondition.auto" href="#turingmachine.macro.NextCondition.auto">auto</a></code></li>
+<li><code><a title="turingmachine.macro.NextCondition.prev" href="#turingmachine.macro.NextCondition.prev">prev</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.PutByVal" href="#turingmachine.macro.PutByVal">PutByVal</a></code></h4>
+<ul class="">
+<li><code><a title="turingmachine.macro.PutByVal.parallelise" href="#turingmachine.macro.PutByVal.parallelise">parallelise</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.set_appropriate" href="#turingmachine.macro.PutByVal.set_appropriate">set_appropriate</a></code></li>
+<li><code><a title="turingmachine.macro.PutByVal.single_move" href="#turingmachine.macro.PutByVal.single_move">single_move</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.macro.SetAllOnWay" href="#turingmachine.macro.SetAllOnWay">SetAllOnWay</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>

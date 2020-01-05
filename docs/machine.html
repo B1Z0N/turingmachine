@@ -1,0 +1,1661 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.7.2" />
+<title>turingmachine.machine API documentation</title>
+<meta name="description" content="Module providing TuringMachine class …" />
+<link href='https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css' rel='stylesheet'>
+<link href='https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/8.0.0/sanitize.min.css' rel='stylesheet'>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" rel="stylesheet">
+<style>.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{font-weight:bold}#index h4 + ul{margin-bottom:.6em}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>turingmachine.machine</code></h1>
+</header>
+<section id="section-intro">
+<p>Module providing TuringMachine class</p>
+<h2 id="usage">Usage</h2>
+<pre><code>&gt;&gt;&gt; tm = machine.TuringMachine(['1', '2', '3'], 'q1')
+&gt;&gt;&gt; tm.set_rule('1', 'q1', '0', 'q1', tm.forward)
+&gt;&gt;&gt; tm.rule_str('2 q1 -&gt; 1 q2 L')
+&gt;&gt;&gt; tm.rule_str('0 q2 -&gt; 0 q2 R')
+&gt;&gt;&gt; tm.rule_str('1 q2 -&gt; 1 q2 R')
+&gt;&gt;&gt; tm.rule_str('3 q2 -&gt; 1 q2 S')
+&gt;&gt;&gt; print(tm)
+TuringMachine(
+</code></pre>
+<dl>
+<dt><strong><code>Index</code></strong></dt>
+<dd>0</dd>
+<dt><strong><code>Condition</code></strong></dt>
+<dd>q1</dd>
+<dt>Default:</dt>
+<dt><strong><code>Tape</code></strong></dt>
+<dd>['1', '2', '3']</dd>
+</dl>
+<p>Rules:
+1 q1 &ndash;&gt; 0 q1 R
+2 q1 &ndash;&gt; 1 q2 L
+0 q2 &ndash;&gt; 0 q2 R
+1 q2 &ndash;&gt; 1 q2 R
+3 q2 &ndash;&gt; 1 q2 S
+)</p>
+<pre><code>&gt;&gt;&gt; tm.move()
+'2'
+&gt;&gt;&gt; tm
+TuringMachine(
+</code></pre>
+<dl>
+<dt><strong><code>Index</code></strong></dt>
+<dd>1</dd>
+<dt><strong><code>Condition</code></strong></dt>
+<dd>q1</dd>
+<dt>Default:</dt>
+<dt><strong><code>Tape</code></strong></dt>
+<dd>['0', '2', '3']</dd>
+</dl>
+<p>Rules:
+1 q1 &ndash;&gt; 0 q1 R
+2 q1 &ndash;&gt; 1 q2 L
+0 q2 &ndash;&gt; 0 q2 R
+1 q2 &ndash;&gt; 1 q2 R
+3 q2 &ndash;&gt; 1 q2 S
+)</p>
+<pre><code>&gt;&gt;&gt; tm.run()
+&gt;&gt;&gt; tm
+TuringMachine(
+</code></pre>
+<dl>
+<dt><strong><code>Index</code></strong></dt>
+<dd>2</dd>
+<dt><strong><code>Condition</code></strong></dt>
+<dd>q2</dd>
+<dt>Default:</dt>
+<dt><strong><code>Tape</code></strong></dt>
+<dd>['0', '1', '1']</dd>
+</dl>
+<p>Rules:
+1 q1 &ndash;&gt; 0 q1 R
+2 q1 &ndash;&gt; 1 q2 L
+0 q2 &ndash;&gt; 0 q2 R
+1 q2 &ndash;&gt; 1 q2 R
+3 q2 &ndash;&gt; 1 q2 S
+)</p>
+<pre><code>&gt;&gt;&gt; print(tm.log)
+1 q1 --&gt; 0 q1 R
+</code></pre>
+<p>2 q1 &ndash;&gt; 1 q2 L
+0 q2 &ndash;&gt; 0 q2 R
+1 q2 &ndash;&gt; 1 q2 R
+3 q2 &ndash;&gt; 1 q2 S</p>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">&#34;&#34;&#34;
+Module providing TuringMachine class
+
+Usage:
+    &gt;&gt;&gt; tm = machine.TuringMachine([&#39;1&#39;, &#39;2&#39;, &#39;3&#39;], &#39;q1&#39;)
+    &gt;&gt;&gt; tm.set_rule(&#39;1&#39;, &#39;q1&#39;, &#39;0&#39;, &#39;q1&#39;, tm.forward)
+    &gt;&gt;&gt; tm.rule_str(&#39;2 q1 -&gt; 1 q2 L&#39;)
+    &gt;&gt;&gt; tm.rule_str(&#39;0 q2 -&gt; 0 q2 R&#39;)
+    &gt;&gt;&gt; tm.rule_str(&#39;1 q2 -&gt; 1 q2 R&#39;)
+    &gt;&gt;&gt; tm.rule_str(&#39;3 q2 -&gt; 1 q2 S&#39;)
+    &gt;&gt;&gt; print(tm)
+    TuringMachine(
+    Index: 0
+    Condition: q1
+    Default:
+    Tape: [&#39;1&#39;, &#39;2&#39;, &#39;3&#39;]
+    Rules:
+    1 q1 --&gt; 0 q1 R
+    2 q1 --&gt; 1 q2 L
+    0 q2 --&gt; 0 q2 R
+    1 q2 --&gt; 1 q2 R
+    3 q2 --&gt; 1 q2 S
+    )
+    &gt;&gt;&gt; tm.move()
+    &#39;2&#39;
+    &gt;&gt;&gt; tm
+    TuringMachine(
+    Index: 1
+    Condition: q1
+    Default:
+    Tape: [&#39;0&#39;, &#39;2&#39;, &#39;3&#39;]
+    Rules:
+    1 q1 --&gt; 0 q1 R
+    2 q1 --&gt; 1 q2 L
+    0 q2 --&gt; 0 q2 R
+    1 q2 --&gt; 1 q2 R
+    3 q2 --&gt; 1 q2 S
+    )
+    &gt;&gt;&gt; tm.run()
+    &gt;&gt;&gt; tm
+    TuringMachine(
+    Index: 2
+    Condition: q2
+    Default:
+    Tape: [&#39;0&#39;, &#39;1&#39;, &#39;1&#39;]
+    Rules:
+    1 q1 --&gt; 0 q1 R
+    2 q1 --&gt; 1 q2 L
+    0 q2 --&gt; 0 q2 R
+    1 q2 --&gt; 1 q2 R
+    3 q2 --&gt; 1 q2 S
+    )
+    &gt;&gt;&gt; print(tm.log)
+    1 q1 --&gt; 0 q1 R
+    2 q1 --&gt; 1 q2 L
+    0 q2 --&gt; 0 q2 R
+    1 q2 --&gt; 1 q2 R
+    3 q2 --&gt; 1 q2 S
+&#34;&#34;&#34;
+
+import itertools
+import sys
+from collections import deque, defaultdict
+
+
+class TuringMachineError(Exception):
+    &#34;&#34;&#34;Main exception class for this module&#34;&#34;&#34;
+    pass
+
+
+class RuleNotFoundError(TuringMachineError):
+    &#34;&#34;&#34;Invokes when there is no rule for moving&#34;&#34;&#34;
+
+    def __init__(
+            self, val,
+            cond, turing_machine
+            ):
+        msg = &#34;Rule with {} is absent, in list of rules on this machine:\n{}\n&#34;
+        rule = &#34;value: &#39;{}&#39;, condition: &#39;{}&#39;&#34;
+
+        super().__init__(
+            msg.format(
+                rule.format(val, cond),
+                turing_machine
+                )
+            )
+
+
+class TuringMachineStop(TuringMachineError):
+    &#34;&#34;&#34;Raise when Turing machine is stopped&#34;&#34;&#34;
+
+    def __init__(self, msg=&#39;&#39;):
+        super().__init__(msg)
+
+
+class RuleExistsError(TuringMachineError):
+    &#34;&#34;&#34;Raise when trying to add rule that already exist&#34;&#34;&#34;
+
+    def __init__(self, val, cond):
+        msg = f&#39;Rule with value: \&#39;{val}\&#39; and condition: \&#39;{cond}\&#39; already exist&#39;
+        super().__init__(msg)
+
+
+class TuringMachine:
+    &#34;&#34;&#34;Main class implementing an interface for
+    programming Alan Turing Machine
+
+    Attributes:
+        current: current pointer position value
+        condition: start condition of the machine
+        log: log of all moves
+        _rules: all rules
+        tape: tape layout
+        index: current pointer position index
+        default: default value of empty cell
+        log_func: logging function(default provided)
+    &#34;&#34;&#34;
+
+    EMPTY_SIGN = &#39;B&#39;
+
+    MAIN_OUTPUT = sys.stdout
+
+    def __init__(
+            self, start_vals,
+            start_condition, index=0,
+            log_func=None, default=&#39;&#39;
+            ):
+        self.stopped = False
+        self._center = 0
+        self.condition = str(start_condition)
+        self._rules = defaultdict()
+        self.log = &#39;&#39;
+        self.tape = deque(str(val) for val in start_vals)
+        self.index = int(index)
+        self.default = default
+
+        if log_func is None:
+            self.log_func = self.default_log
+        else:
+            self.log_func = log_func
+
+        if not self.tape:
+            self.tape.append(self.default)
+
+    def set_rule(
+            self, val,
+            condition, next_val,
+            next_condition, move
+            ):
+        &#34;&#34;&#34;
+        Set a rule for moving according to it
+
+        Arguments:
+            val: tape cell value
+            condition: machine condition
+            next_val: next tape cell value
+            next_condition: next machine condition
+            move: direction R(right), L(left), S(stay) or STOP
+        &#34;&#34;&#34;
+        move_func = self._move_char_to_func(move)  # to check for right format character R, L or S
+        val, condition, next_val, next_condition = str(val), str(condition), str(next_val), str(next_condition)
+
+        check = self._rules.get((val, condition))
+        to = (
+            next_val, next_condition,
+            move_func
+            )
+
+        if check is None:
+            &#34;&#34;&#34;When this is a new rule we are adding&#34;&#34;&#34;
+            self._rules[(val, condition)] = to
+        elif check == to:
+            &#34;&#34;&#34;When there already are the same rule we are adding&#34;&#34;&#34;
+            pass
+        else:
+            &#34;&#34;&#34;When we are trying to rewrite the rule&#34;&#34;&#34;
+            raise RuleExistsError(val, condition)
+
+    def _move_char_to_func(self, move):
+        &#34;&#34;&#34;Converts moves R, L, S to functions in TuringMachine class&#34;&#34;&#34;
+        if move == &#39;R&#39;:
+            return self.forward
+        elif move == &#39;L&#39;:
+            return self.back
+        elif move == &#39;S&#39;:
+            return self.stay
+        elif move == &#39;STOP&#39;:
+            return self.stop
+        else:
+            raise ValueError(f&#34;wrong move character: &#39;{move}&#39;, must be either &#39;R&#39;,&#39;L&#39; or &#39;S&#39;&#34;)
+
+    def rule_str(
+            self, format_string,
+            delimiter=&#39; &#39;, rules_delimiter=&#39;,&#39;
+            ):
+        &#34;&#34;&#34;
+        Add a rule using str
+        Template:
+            &#39;val condition -&gt; next_val next_condition direction&#39;
+            where direction is either R(right), L(left) or S(stop)
+        Example:
+            &#39;1 q1 -&gt; 2 q3 R&#39;
+        &#34;&#34;&#34;
+        if rules_delimiter in format_string:
+            lst = format_string.split(rules_delimiter)
+        else:
+            lst = [format_string]
+
+        for elem in lst:
+            if elem.endswith(&#39;STOP&#39;):
+                val, cond, _, next_val, move = elem.split(delimiter)
+                next_cond = cond
+            else:
+                val, cond, _, next_val, next_cond, move = elem.split(delimiter)
+            if val == self.EMPTY_SIGN:
+                val = self.default
+
+            self.set_rule(
+                val, cond,
+                next_val, next_cond,
+                move
+                )
+
+    def rule_file(self, name, delimiter=&#39; &#39;):
+        with open(name) as file:
+            s = file.read()
+        s = s.strip().replace(&#39;\n&#39;, &#39;,&#39;)
+        if s:
+            self.rule_str(s, delimiter=delimiter)
+
+    def move(self):
+        &#34;&#34;&#34;Make a move according to the rules
+        Returns:
+            current value of the new cell&#34;&#34;&#34;
+        if self.stopped:
+            return
+
+        try:
+            next_val, next_cond, move_func = self._rules[(self.current, self.condition)]
+        except KeyError:
+            raise RuleNotFoundError(
+                self.current, self.condition,
+                self
+                )
+
+        self.log += self.log_func(
+            self.current, self.condition,
+            next_val, next_cond, move_func
+            ) + &#39;\n&#39;
+        self.condition = next_cond
+
+        try:
+            return move_func(next_val)
+        except TuringMachineStop:
+            self.stopped = True
+
+    def run(self):
+        &#34;&#34;&#34;Make all available moves unless it is stopped or
+        an exception is raised&#34;&#34;&#34;
+
+        while not self.stopped:
+            &#34;&#34;&#34;until stop function called or paused&#34;&#34;&#34;
+            self.move()
+
+    def default_log(
+            self, val,
+            condition, next_val,
+            next_condition, move_func,
+            delimiter=&#39; &#39;, file=None,
+            step_sign=&#39;-&gt;&#39;
+            ):
+        &#34;&#34;&#34;Default logging function
+        Returns:
+            move log string&#34;&#34;&#34;
+        if move_func == self.forward:
+            move = &#39;R&#39;
+        elif move_func == self.back:
+            move = &#39;L&#39;
+        elif move_func == self.stay:
+            move = &#39;S&#39;
+        elif move_func == self.stop:
+            move = &#39;STOP&#39;
+        else:
+            move = &#39;&#34;{}&#34;&#39;.format(move_func.__name__)
+
+        s = delimiter.join([
+            val, condition,
+            step_sign, next_val,
+            next_condition, move
+            ])
+
+        if file is not None:
+            print(s, file=file)
+
+        return s
+
+    @classmethod
+    def from_str(
+            cls, _str, tape_delimiter=&#39;,&#39;,
+            rules_delimiter=&#39;,&#39;,
+            section_delimiter=&#39;:&#39;,
+            log_func=None
+            ):
+        # TODO: make form_str more convenient in :::::
+        &#34;&#34;&#34;
+        Alternative constructor, for creating cls from a string
+
+        Template:
+            &#39;tape_elements_separated_by_comma:start_index:default:start_condition:rules_separated_by_comma&#39;
+        Example:
+            &#39;1,2,3:0:q1:1 q1 -&gt; 0 q2 R,2 q2 -&gt; 3 q2 S&#39;
+        Returns:
+            new object of this class
+        &#34;&#34;&#34;
+        tape, index, default, start_cond, rules = _str.split(section_delimiter)
+
+        tape = tape.split(tape_delimiter)
+
+        if not index:
+            index = 0
+
+        obj = cls(tape, start_cond, index=index, default=default, log_func=log_func)
+        if rules:
+            obj.rule_str(rules, rules_delimiter=rules_delimiter)
+
+        return obj
+
+    @classmethod
+    def from_file(
+            cls, file_name, tape_delimiter=&#39;,&#39;,
+            section_delimiter=&#39;:&#39;, log_func=None
+            ):
+        &#34;&#34;&#34;
+        Alternative constructor, for creating cls from a file
+
+        Template:
+            tape_elements_separated_by_comma:start_index:default:start_condition
+            rule
+            rule
+            ...
+            rule
+        Example:
+            1,2,3:0:q1
+            1 q1 -&gt; 0 q2 R
+            2 q2 -&gt; 3 q2 S&#39;
+        Returns:
+            new object of this class
+        &#34;&#34;&#34;
+        with open(file_name) as file:
+            head = file.readline()
+            tail = file.read()
+
+        if tail:
+            head = head.replace(&#39;\n&#39;, section_delimiter)
+            tail = tail.strip()
+            tail = tail.replace(&#39;\n&#39;, &#39;,&#39;)
+        else:
+            head = head.strip()
+
+        init_str = head + tail
+
+        return cls.from_str(
+            init_str, tape_delimiter=tape_delimiter, log_func=log_func
+            )
+
+    def forward(self, value):
+        &#34;&#34;&#34;Put a value to the current position and move right on the tape
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+        self.index += 1
+        cur = self[self.index]
+
+        return cur
+
+    def back(self, value):
+        &#34;&#34;&#34;Put a value to the current position and move left on the tape
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+        self.index -= 1
+        cur = self[self.index]
+
+        return cur
+
+    def stay(self, value):
+        &#34;&#34;&#34;Put a value to the current position and stay here
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+
+        return self.current
+
+    def stop(self, value):
+        self.stay(value)
+        raise TuringMachineStop
+
+    def _prepare_index(self, index):
+        length = len(self.tape)
+        center = self._center
+
+        if index &gt; 0:
+            append_times = index - (length - center) + 1
+            for i in range(append_times):
+                self.tape.append(self.default)
+        elif index &lt; 0:
+            append_times = - (index + center)
+            for i in range(append_times):
+                self.tape.appendleft(self.default)
+
+            if append_times &gt; 0:
+                self._center += append_times
+
+        return self._center + index
+
+    def __getitem__(self, index):
+        if isinstance(index, slice):
+            start = self._prepare_index(index.start)
+            stop = self._prepare_index(index.stop)
+            return list(
+                itertools.islice(
+                    self.tape,
+                    start, stop
+                    )
+                )
+        index = self._prepare_index(index)
+        return self.tape[index]
+
+    def __setitem__(self, index, value):
+        index = self._prepare_index(index)
+        self.tape[index] = value
+
+    def view(self):
+        string = str(self)
+        for line in string.splitlines()[0:6]:
+            print(line)
+
+    def __repr__(self):
+        center = self[0]
+        self[0] = &#39;{{{}}}&#39;.format(center)
+        index = self[self.index]
+        self[self.index] = &#39;[{}]&#39;.format(index)
+        tape = str(self.tape)
+        self[self.index] = index  #
+        self[0] = center  # Order is very important
+
+        s = &#39;Index[]: {}\nCondition: {}\nDefault: {}\nCenter({{}}): {}\nTape: {}\nRules:\n&#39;.format(
+            str(self.index), self.condition, self.default, str(self._center), tape[tape.find(&#39;[&#39;):-1]
+            )
+
+        for key, val in self._rules.items():
+            s += self.default_log(key[0], key[1], val[0], val[1], val[2]) + &#39;\n&#39;
+
+        return &#34;TuringMachine(\n{})&#34;.format(s)
+
+    __str__ = __repr__
+
+    def _get_cur(self):
+        return self[self.index]
+
+    def _set_cur(self, val):
+        raise PermissionError(&#34;to set current item use back, forward, stay or stop functions&#34;)
+
+    current = property(_get_cur, _set_cur)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="turingmachine.machine.RuleExistsError"><code class="flex name class">
+<span>class <span class="ident">RuleExistsError</span></span>
+<span>(</span><span>val, cond)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Raise when trying to add rule that already exist</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RuleExistsError(TuringMachineError):
+    &#34;&#34;&#34;Raise when trying to add rule that already exist&#34;&#34;&#34;
+
+    def __init__(self, val, cond):
+        msg = f&#39;Rule with value: \&#39;{val}\&#39; and condition: \&#39;{cond}\&#39; already exist&#39;
+        super().__init__(msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.machine.TuringMachineError" href="#turingmachine.machine.TuringMachineError">TuringMachineError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="turingmachine.machine.RuleNotFoundError"><code class="flex name class">
+<span>class <span class="ident">RuleNotFoundError</span></span>
+<span>(</span><span>val, cond, turing_machine)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Invokes when there is no rule for moving</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class RuleNotFoundError(TuringMachineError):
+    &#34;&#34;&#34;Invokes when there is no rule for moving&#34;&#34;&#34;
+
+    def __init__(
+            self, val,
+            cond, turing_machine
+            ):
+        msg = &#34;Rule with {} is absent, in list of rules on this machine:\n{}\n&#34;
+        rule = &#34;value: &#39;{}&#39;, condition: &#39;{}&#39;&#34;
+
+        super().__init__(
+            msg.format(
+                rule.format(val, cond),
+                turing_machine
+                )
+            )</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.machine.TuringMachineError" href="#turingmachine.machine.TuringMachineError">TuringMachineError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+<dt id="turingmachine.machine.TuringMachine"><code class="flex name class">
+<span>class <span class="ident">TuringMachine</span></span>
+<span>(</span><span>start_vals, start_condition, index=0, log_func=None, default='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main class implementing an interface for
+programming Alan Turing Machine</p>
+<h2 id="attributes">Attributes</h2>
+<dl>
+<dt><strong><code>current</code></strong></dt>
+<dd>current pointer position value</dd>
+<dt><strong><code>condition</code></strong></dt>
+<dd>start condition of the machine</dd>
+<dt><strong><code>log</code></strong></dt>
+<dd>log of all moves</dd>
+<dt><strong><code>_rules</code></strong></dt>
+<dd>all rules</dd>
+<dt><strong><code>tape</code></strong></dt>
+<dd>tape layout</dd>
+<dt><strong><code>index</code></strong></dt>
+<dd>current pointer position index</dd>
+<dt><strong><code>default</code></strong></dt>
+<dd>default value of empty cell</dd>
+<dt><strong><code>log_func</code></strong></dt>
+<dd>logging function(default provided)</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TuringMachine:
+    &#34;&#34;&#34;Main class implementing an interface for
+    programming Alan Turing Machine
+
+    Attributes:
+        current: current pointer position value
+        condition: start condition of the machine
+        log: log of all moves
+        _rules: all rules
+        tape: tape layout
+        index: current pointer position index
+        default: default value of empty cell
+        log_func: logging function(default provided)
+    &#34;&#34;&#34;
+
+    EMPTY_SIGN = &#39;B&#39;
+
+    MAIN_OUTPUT = sys.stdout
+
+    def __init__(
+            self, start_vals,
+            start_condition, index=0,
+            log_func=None, default=&#39;&#39;
+            ):
+        self.stopped = False
+        self._center = 0
+        self.condition = str(start_condition)
+        self._rules = defaultdict()
+        self.log = &#39;&#39;
+        self.tape = deque(str(val) for val in start_vals)
+        self.index = int(index)
+        self.default = default
+
+        if log_func is None:
+            self.log_func = self.default_log
+        else:
+            self.log_func = log_func
+
+        if not self.tape:
+            self.tape.append(self.default)
+
+    def set_rule(
+            self, val,
+            condition, next_val,
+            next_condition, move
+            ):
+        &#34;&#34;&#34;
+        Set a rule for moving according to it
+
+        Arguments:
+            val: tape cell value
+            condition: machine condition
+            next_val: next tape cell value
+            next_condition: next machine condition
+            move: direction R(right), L(left), S(stay) or STOP
+        &#34;&#34;&#34;
+        move_func = self._move_char_to_func(move)  # to check for right format character R, L or S
+        val, condition, next_val, next_condition = str(val), str(condition), str(next_val), str(next_condition)
+
+        check = self._rules.get((val, condition))
+        to = (
+            next_val, next_condition,
+            move_func
+            )
+
+        if check is None:
+            &#34;&#34;&#34;When this is a new rule we are adding&#34;&#34;&#34;
+            self._rules[(val, condition)] = to
+        elif check == to:
+            &#34;&#34;&#34;When there already are the same rule we are adding&#34;&#34;&#34;
+            pass
+        else:
+            &#34;&#34;&#34;When we are trying to rewrite the rule&#34;&#34;&#34;
+            raise RuleExistsError(val, condition)
+
+    def _move_char_to_func(self, move):
+        &#34;&#34;&#34;Converts moves R, L, S to functions in TuringMachine class&#34;&#34;&#34;
+        if move == &#39;R&#39;:
+            return self.forward
+        elif move == &#39;L&#39;:
+            return self.back
+        elif move == &#39;S&#39;:
+            return self.stay
+        elif move == &#39;STOP&#39;:
+            return self.stop
+        else:
+            raise ValueError(f&#34;wrong move character: &#39;{move}&#39;, must be either &#39;R&#39;,&#39;L&#39; or &#39;S&#39;&#34;)
+
+    def rule_str(
+            self, format_string,
+            delimiter=&#39; &#39;, rules_delimiter=&#39;,&#39;
+            ):
+        &#34;&#34;&#34;
+        Add a rule using str
+        Template:
+            &#39;val condition -&gt; next_val next_condition direction&#39;
+            where direction is either R(right), L(left) or S(stop)
+        Example:
+            &#39;1 q1 -&gt; 2 q3 R&#39;
+        &#34;&#34;&#34;
+        if rules_delimiter in format_string:
+            lst = format_string.split(rules_delimiter)
+        else:
+            lst = [format_string]
+
+        for elem in lst:
+            if elem.endswith(&#39;STOP&#39;):
+                val, cond, _, next_val, move = elem.split(delimiter)
+                next_cond = cond
+            else:
+                val, cond, _, next_val, next_cond, move = elem.split(delimiter)
+            if val == self.EMPTY_SIGN:
+                val = self.default
+
+            self.set_rule(
+                val, cond,
+                next_val, next_cond,
+                move
+                )
+
+    def rule_file(self, name, delimiter=&#39; &#39;):
+        with open(name) as file:
+            s = file.read()
+        s = s.strip().replace(&#39;\n&#39;, &#39;,&#39;)
+        if s:
+            self.rule_str(s, delimiter=delimiter)
+
+    def move(self):
+        &#34;&#34;&#34;Make a move according to the rules
+        Returns:
+            current value of the new cell&#34;&#34;&#34;
+        if self.stopped:
+            return
+
+        try:
+            next_val, next_cond, move_func = self._rules[(self.current, self.condition)]
+        except KeyError:
+            raise RuleNotFoundError(
+                self.current, self.condition,
+                self
+                )
+
+        self.log += self.log_func(
+            self.current, self.condition,
+            next_val, next_cond, move_func
+            ) + &#39;\n&#39;
+        self.condition = next_cond
+
+        try:
+            return move_func(next_val)
+        except TuringMachineStop:
+            self.stopped = True
+
+    def run(self):
+        &#34;&#34;&#34;Make all available moves unless it is stopped or
+        an exception is raised&#34;&#34;&#34;
+
+        while not self.stopped:
+            &#34;&#34;&#34;until stop function called or paused&#34;&#34;&#34;
+            self.move()
+
+    def default_log(
+            self, val,
+            condition, next_val,
+            next_condition, move_func,
+            delimiter=&#39; &#39;, file=None,
+            step_sign=&#39;-&gt;&#39;
+            ):
+        &#34;&#34;&#34;Default logging function
+        Returns:
+            move log string&#34;&#34;&#34;
+        if move_func == self.forward:
+            move = &#39;R&#39;
+        elif move_func == self.back:
+            move = &#39;L&#39;
+        elif move_func == self.stay:
+            move = &#39;S&#39;
+        elif move_func == self.stop:
+            move = &#39;STOP&#39;
+        else:
+            move = &#39;&#34;{}&#34;&#39;.format(move_func.__name__)
+
+        s = delimiter.join([
+            val, condition,
+            step_sign, next_val,
+            next_condition, move
+            ])
+
+        if file is not None:
+            print(s, file=file)
+
+        return s
+
+    @classmethod
+    def from_str(
+            cls, _str, tape_delimiter=&#39;,&#39;,
+            rules_delimiter=&#39;,&#39;,
+            section_delimiter=&#39;:&#39;,
+            log_func=None
+            ):
+        # TODO: make form_str more convenient in :::::
+        &#34;&#34;&#34;
+        Alternative constructor, for creating cls from a string
+
+        Template:
+            &#39;tape_elements_separated_by_comma:start_index:default:start_condition:rules_separated_by_comma&#39;
+        Example:
+            &#39;1,2,3:0:q1:1 q1 -&gt; 0 q2 R,2 q2 -&gt; 3 q2 S&#39;
+        Returns:
+            new object of this class
+        &#34;&#34;&#34;
+        tape, index, default, start_cond, rules = _str.split(section_delimiter)
+
+        tape = tape.split(tape_delimiter)
+
+        if not index:
+            index = 0
+
+        obj = cls(tape, start_cond, index=index, default=default, log_func=log_func)
+        if rules:
+            obj.rule_str(rules, rules_delimiter=rules_delimiter)
+
+        return obj
+
+    @classmethod
+    def from_file(
+            cls, file_name, tape_delimiter=&#39;,&#39;,
+            section_delimiter=&#39;:&#39;, log_func=None
+            ):
+        &#34;&#34;&#34;
+        Alternative constructor, for creating cls from a file
+
+        Template:
+            tape_elements_separated_by_comma:start_index:default:start_condition
+            rule
+            rule
+            ...
+            rule
+        Example:
+            1,2,3:0:q1
+            1 q1 -&gt; 0 q2 R
+            2 q2 -&gt; 3 q2 S&#39;
+        Returns:
+            new object of this class
+        &#34;&#34;&#34;
+        with open(file_name) as file:
+            head = file.readline()
+            tail = file.read()
+
+        if tail:
+            head = head.replace(&#39;\n&#39;, section_delimiter)
+            tail = tail.strip()
+            tail = tail.replace(&#39;\n&#39;, &#39;,&#39;)
+        else:
+            head = head.strip()
+
+        init_str = head + tail
+
+        return cls.from_str(
+            init_str, tape_delimiter=tape_delimiter, log_func=log_func
+            )
+
+    def forward(self, value):
+        &#34;&#34;&#34;Put a value to the current position and move right on the tape
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+        self.index += 1
+        cur = self[self.index]
+
+        return cur
+
+    def back(self, value):
+        &#34;&#34;&#34;Put a value to the current position and move left on the tape
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+        self.index -= 1
+        cur = self[self.index]
+
+        return cur
+
+    def stay(self, value):
+        &#34;&#34;&#34;Put a value to the current position and stay here
+        Returns:
+            current value of the new cell
+        &#34;&#34;&#34;
+        self[self.index] = str(value)
+
+        return self.current
+
+    def stop(self, value):
+        self.stay(value)
+        raise TuringMachineStop
+
+    def _prepare_index(self, index):
+        length = len(self.tape)
+        center = self._center
+
+        if index &gt; 0:
+            append_times = index - (length - center) + 1
+            for i in range(append_times):
+                self.tape.append(self.default)
+        elif index &lt; 0:
+            append_times = - (index + center)
+            for i in range(append_times):
+                self.tape.appendleft(self.default)
+
+            if append_times &gt; 0:
+                self._center += append_times
+
+        return self._center + index
+
+    def __getitem__(self, index):
+        if isinstance(index, slice):
+            start = self._prepare_index(index.start)
+            stop = self._prepare_index(index.stop)
+            return list(
+                itertools.islice(
+                    self.tape,
+                    start, stop
+                    )
+                )
+        index = self._prepare_index(index)
+        return self.tape[index]
+
+    def __setitem__(self, index, value):
+        index = self._prepare_index(index)
+        self.tape[index] = value
+
+    def view(self):
+        string = str(self)
+        for line in string.splitlines()[0:6]:
+            print(line)
+
+    def __repr__(self):
+        center = self[0]
+        self[0] = &#39;{{{}}}&#39;.format(center)
+        index = self[self.index]
+        self[self.index] = &#39;[{}]&#39;.format(index)
+        tape = str(self.tape)
+        self[self.index] = index  #
+        self[0] = center  # Order is very important
+
+        s = &#39;Index[]: {}\nCondition: {}\nDefault: {}\nCenter({{}}): {}\nTape: {}\nRules:\n&#39;.format(
+            str(self.index), self.condition, self.default, str(self._center), tape[tape.find(&#39;[&#39;):-1]
+            )
+
+        for key, val in self._rules.items():
+            s += self.default_log(key[0], key[1], val[0], val[1], val[2]) + &#39;\n&#39;
+
+        return &#34;TuringMachine(\n{})&#34;.format(s)
+
+    __str__ = __repr__
+
+    def _get_cur(self):
+        return self[self.index]
+
+    def _set_cur(self, val):
+        raise PermissionError(&#34;to set current item use back, forward, stay or stop functions&#34;)
+
+    current = property(_get_cur, _set_cur)</code></pre>
+</details>
+<h3>Class variables</h3>
+<dl>
+<dt id="turingmachine.machine.TuringMachine.EMPTY_SIGN"><code class="name">var <span class="ident">EMPTY_SIGN</span></code></dt>
+<dd>
+<section class="desc"><p>str(object='') -&gt; str
+str(bytes_or_buffer[, encoding[, errors]]) -&gt; str</p>
+<p>Create a new string object from the given object. If encoding or
+errors is specified, then the object must expose a data buffer
+that will be decoded using the given encoding and error handler.
+Otherwise, returns the result of object.<strong>str</strong>() (if defined)
+or repr(object).
+encoding defaults to sys.getdefaultencoding().
+errors defaults to 'strict'.</p></section>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.MAIN_OUTPUT"><code class="name">var <span class="ident">MAIN_OUTPUT</span></code></dt>
+<dd>
+<section class="desc"><p>Character and line based layer over a BufferedIOBase object, buffer.</p>
+<p>encoding gives the name of the encoding that the stream will be
+decoded or encoded with. It defaults to locale.getpreferredencoding(False).</p>
+<p>errors determines the strictness of encoding and decoding (see
+help(codecs.Codec) or the documentation for codecs.register) and
+defaults to "strict".</p>
+<p>newline controls how line endings are handled. It can be None, '',
+'\n', '\r', and '\r\n'.
+It works as follows:</p>
+<ul>
+<li>
+<p>On input, if newline is None, universal newlines mode is
+enabled. Lines in the input can end in '\n', '\r', or '\r\n', and
+these are translated into '\n' before being returned to the
+caller. If it is '', universal newline mode is enabled, but line
+endings are returned to the caller untranslated. If it has any of
+the other legal values, input lines are only terminated by the given
+string, and the line ending is returned to the caller untranslated.</p>
+</li>
+<li>
+<p>On output, if newline is None, any '\n' characters written are
+translated to the system default line separator, os.linesep. If
+newline is '' or '\n', no translation takes place. If newline is any
+of the other legal values, any '\n' characters written are translated
+to the given string.</p>
+</li>
+</ul>
+<p>If line_buffering is True, a call to flush is implied when a call to
+write contains a newline character.</p></section>
+</dd>
+</dl>
+<h3>Static methods</h3>
+<dl>
+<dt id="turingmachine.machine.TuringMachine.from_file"><code class="name flex">
+<span>def <span class="ident">from_file</span></span>(<span>file_name, tape_delimiter=',', section_delimiter=':', log_func=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Alternative constructor, for creating cls from a file</p>
+<h2 id="template">Template</h2>
+<dl>
+<dt>tape_elements_separated_by_comma:start_index:default:start_condition</dt>
+<dt><strong><code>rule</code></strong></dt>
+<dd>&nbsp;</dd>
+<dt><strong><code>rule</code></strong></dt>
+<dd>&nbsp;</dd>
+<dt>&hellip;</dt>
+<dt><strong><code>rule</code></strong></dt>
+<dd>&nbsp;</dd>
+</dl>
+<h2 id="example">Example</h2>
+<p>1,2,3:0:q1
+1 q1 -&gt; 0 q2 R
+2 q2 -&gt; 3 q2 S'</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>new</code> <code>object</code> of <code>this</code> <code>class</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_file(
+        cls, file_name, tape_delimiter=&#39;,&#39;,
+        section_delimiter=&#39;:&#39;, log_func=None
+        ):
+    &#34;&#34;&#34;
+    Alternative constructor, for creating cls from a file
+
+    Template:
+        tape_elements_separated_by_comma:start_index:default:start_condition
+        rule
+        rule
+        ...
+        rule
+    Example:
+        1,2,3:0:q1
+        1 q1 -&gt; 0 q2 R
+        2 q2 -&gt; 3 q2 S&#39;
+    Returns:
+        new object of this class
+    &#34;&#34;&#34;
+    with open(file_name) as file:
+        head = file.readline()
+        tail = file.read()
+
+    if tail:
+        head = head.replace(&#39;\n&#39;, section_delimiter)
+        tail = tail.strip()
+        tail = tail.replace(&#39;\n&#39;, &#39;,&#39;)
+    else:
+        head = head.strip()
+
+    init_str = head + tail
+
+    return cls.from_str(
+        init_str, tape_delimiter=tape_delimiter, log_func=log_func
+        )</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.from_str"><code class="name flex">
+<span>def <span class="ident">from_str</span></span>(<span>_str, tape_delimiter=',', rules_delimiter=',', section_delimiter=':', log_func=None)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Alternative constructor, for creating cls from a string</p>
+<h2 id="template">Template</h2>
+<p>'tape_elements_separated_by_comma:start_index:default:start_condition:rules_separated_by_comma'</p>
+<h2 id="example">Example</h2>
+<p>'1,2,3:0:q1:1 q1 -&gt; 0 q2 R,2 q2 -&gt; 3 q2 S'</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>new</code> <code>object</code> of <code>this</code> <code>class</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">@classmethod
+def from_str(
+        cls, _str, tape_delimiter=&#39;,&#39;,
+        rules_delimiter=&#39;,&#39;,
+        section_delimiter=&#39;:&#39;,
+        log_func=None
+        ):
+    # TODO: make form_str more convenient in :::::
+    &#34;&#34;&#34;
+    Alternative constructor, for creating cls from a string
+
+    Template:
+        &#39;tape_elements_separated_by_comma:start_index:default:start_condition:rules_separated_by_comma&#39;
+    Example:
+        &#39;1,2,3:0:q1:1 q1 -&gt; 0 q2 R,2 q2 -&gt; 3 q2 S&#39;
+    Returns:
+        new object of this class
+    &#34;&#34;&#34;
+    tape, index, default, start_cond, rules = _str.split(section_delimiter)
+
+    tape = tape.split(tape_delimiter)
+
+    if not index:
+        index = 0
+
+    obj = cls(tape, start_cond, index=index, default=default, log_func=log_func)
+    if rules:
+        obj.rule_str(rules, rules_delimiter=rules_delimiter)
+
+    return obj</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Instance variables</h3>
+<dl>
+<dt id="turingmachine.machine.TuringMachine.current"><code class="name">var <span class="ident">current</span></code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def _get_cur(self):
+    return self[self.index]</code></pre>
+</details>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="turingmachine.machine.TuringMachine.back"><code class="name flex">
+<span>def <span class="ident">back</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Put a value to the current position and move left on the tape</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>current</code> <code>value</code> of <code>the</code> <code>new</code> <code>cell</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def back(self, value):
+    &#34;&#34;&#34;Put a value to the current position and move left on the tape
+    Returns:
+        current value of the new cell
+    &#34;&#34;&#34;
+    self[self.index] = str(value)
+    self.index -= 1
+    cur = self[self.index]
+
+    return cur</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.default_log"><code class="name flex">
+<span>def <span class="ident">default_log</span></span>(<span>self, val, condition, next_val, next_condition, move_func, delimiter=' ', file=None, step_sign=&#x27;-&gt;&#x27;)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Default logging function</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>move</code> <code>log</code> <code>string</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def default_log(
+        self, val,
+        condition, next_val,
+        next_condition, move_func,
+        delimiter=&#39; &#39;, file=None,
+        step_sign=&#39;-&gt;&#39;
+        ):
+    &#34;&#34;&#34;Default logging function
+    Returns:
+        move log string&#34;&#34;&#34;
+    if move_func == self.forward:
+        move = &#39;R&#39;
+    elif move_func == self.back:
+        move = &#39;L&#39;
+    elif move_func == self.stay:
+        move = &#39;S&#39;
+    elif move_func == self.stop:
+        move = &#39;STOP&#39;
+    else:
+        move = &#39;&#34;{}&#34;&#39;.format(move_func.__name__)
+
+    s = delimiter.join([
+        val, condition,
+        step_sign, next_val,
+        next_condition, move
+        ])
+
+    if file is not None:
+        print(s, file=file)
+
+    return s</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.forward"><code class="name flex">
+<span>def <span class="ident">forward</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Put a value to the current position and move right on the tape</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>current</code> <code>value</code> of <code>the</code> <code>new</code> <code>cell</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def forward(self, value):
+    &#34;&#34;&#34;Put a value to the current position and move right on the tape
+    Returns:
+        current value of the new cell
+    &#34;&#34;&#34;
+    self[self.index] = str(value)
+    self.index += 1
+    cur = self[self.index]
+
+    return cur</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.move"><code class="name flex">
+<span>def <span class="ident">move</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Make a move according to the rules</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>current</code> <code>value</code> of <code>the</code> <code>new</code> <code>cell</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def move(self):
+    &#34;&#34;&#34;Make a move according to the rules
+    Returns:
+        current value of the new cell&#34;&#34;&#34;
+    if self.stopped:
+        return
+
+    try:
+        next_val, next_cond, move_func = self._rules[(self.current, self.condition)]
+    except KeyError:
+        raise RuleNotFoundError(
+            self.current, self.condition,
+            self
+            )
+
+    self.log += self.log_func(
+        self.current, self.condition,
+        next_val, next_cond, move_func
+        ) + &#39;\n&#39;
+    self.condition = next_cond
+
+    try:
+        return move_func(next_val)
+    except TuringMachineStop:
+        self.stopped = True</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.rule_file"><code class="name flex">
+<span>def <span class="ident">rule_file</span></span>(<span>self, name, delimiter=' ')</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rule_file(self, name, delimiter=&#39; &#39;):
+    with open(name) as file:
+        s = file.read()
+    s = s.strip().replace(&#39;\n&#39;, &#39;,&#39;)
+    if s:
+        self.rule_str(s, delimiter=delimiter)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.rule_str"><code class="name flex">
+<span>def <span class="ident">rule_str</span></span>(<span>self, format_string, delimiter=' ', rules_delimiter=',')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Add a rule using str</p>
+<h2 id="template">Template</h2>
+<p>'val condition -&gt; next_val next_condition direction'
+where direction is either R(right), L(left) or S(stop)</p>
+<h2 id="example">Example</h2>
+<p>'1 q1 -&gt; 2 q3 R'</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def rule_str(
+        self, format_string,
+        delimiter=&#39; &#39;, rules_delimiter=&#39;,&#39;
+        ):
+    &#34;&#34;&#34;
+    Add a rule using str
+    Template:
+        &#39;val condition -&gt; next_val next_condition direction&#39;
+        where direction is either R(right), L(left) or S(stop)
+    Example:
+        &#39;1 q1 -&gt; 2 q3 R&#39;
+    &#34;&#34;&#34;
+    if rules_delimiter in format_string:
+        lst = format_string.split(rules_delimiter)
+    else:
+        lst = [format_string]
+
+    for elem in lst:
+        if elem.endswith(&#39;STOP&#39;):
+            val, cond, _, next_val, move = elem.split(delimiter)
+            next_cond = cond
+        else:
+            val, cond, _, next_val, next_cond, move = elem.split(delimiter)
+        if val == self.EMPTY_SIGN:
+            val = self.default
+
+        self.set_rule(
+            val, cond,
+            next_val, next_cond,
+            move
+            )</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.run"><code class="name flex">
+<span>def <span class="ident">run</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Make all available moves unless it is stopped or
+an exception is raised</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def run(self):
+    &#34;&#34;&#34;Make all available moves unless it is stopped or
+    an exception is raised&#34;&#34;&#34;
+
+    while not self.stopped:
+        &#34;&#34;&#34;until stop function called or paused&#34;&#34;&#34;
+        self.move()</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.set_rule"><code class="name flex">
+<span>def <span class="ident">set_rule</span></span>(<span>self, val, condition, next_val, next_condition, move)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Set a rule for moving according to it</p>
+<h2 id="arguments">Arguments</h2>
+<dl>
+<dt><strong><code>val</code></strong></dt>
+<dd>tape cell value</dd>
+<dt><strong><code>condition</code></strong></dt>
+<dd>machine condition</dd>
+<dt><strong><code>next_val</code></strong></dt>
+<dd>next tape cell value</dd>
+<dt><strong><code>next_condition</code></strong></dt>
+<dd>next machine condition</dd>
+<dt><strong><code>move</code></strong></dt>
+<dd>direction R(right), L(left), S(stay) or STOP</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def set_rule(
+        self, val,
+        condition, next_val,
+        next_condition, move
+        ):
+    &#34;&#34;&#34;
+    Set a rule for moving according to it
+
+    Arguments:
+        val: tape cell value
+        condition: machine condition
+        next_val: next tape cell value
+        next_condition: next machine condition
+        move: direction R(right), L(left), S(stay) or STOP
+    &#34;&#34;&#34;
+    move_func = self._move_char_to_func(move)  # to check for right format character R, L or S
+    val, condition, next_val, next_condition = str(val), str(condition), str(next_val), str(next_condition)
+
+    check = self._rules.get((val, condition))
+    to = (
+        next_val, next_condition,
+        move_func
+        )
+
+    if check is None:
+        &#34;&#34;&#34;When this is a new rule we are adding&#34;&#34;&#34;
+        self._rules[(val, condition)] = to
+    elif check == to:
+        &#34;&#34;&#34;When there already are the same rule we are adding&#34;&#34;&#34;
+        pass
+    else:
+        &#34;&#34;&#34;When we are trying to rewrite the rule&#34;&#34;&#34;
+        raise RuleExistsError(val, condition)</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.stay"><code class="name flex">
+<span>def <span class="ident">stay</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Put a value to the current position and stay here</p>
+<h2 id="returns">Returns</h2>
+<dl>
+<dt><code>current</code> <code>value</code> of <code>the</code> <code>new</code> <code>cell</code></dt>
+<dd>&nbsp;</dd>
+</dl></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stay(self, value):
+    &#34;&#34;&#34;Put a value to the current position and stay here
+    Returns:
+        current value of the new cell
+    &#34;&#34;&#34;
+    self[self.index] = str(value)
+
+    return self.current</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.stop"><code class="name flex">
+<span>def <span class="ident">stop</span></span>(<span>self, value)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def stop(self, value):
+    self.stay(value)
+    raise TuringMachineStop</code></pre>
+</details>
+</dd>
+<dt id="turingmachine.machine.TuringMachine.view"><code class="name flex">
+<span>def <span class="ident">view</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<section class="desc"></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def view(self):
+    string = str(self)
+    for line in string.splitlines()[0:6]:
+        print(line)</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="turingmachine.machine.TuringMachineError"><code class="flex name class">
+<span>class <span class="ident">TuringMachineError</span></span>
+<span>(</span><span>*args, **kwargs)</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Main exception class for this module</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TuringMachineError(Exception):
+    &#34;&#34;&#34;Main exception class for this module&#34;&#34;&#34;
+    pass</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+<h3>Subclasses</h3>
+<ul class="hlist">
+<li><a title="turingmachine.machine.RuleNotFoundError" href="#turingmachine.machine.RuleNotFoundError">RuleNotFoundError</a></li>
+<li><a title="turingmachine.machine.TuringMachineStop" href="#turingmachine.machine.TuringMachineStop">TuringMachineStop</a></li>
+<li><a title="turingmachine.machine.RuleExistsError" href="#turingmachine.machine.RuleExistsError">RuleExistsError</a></li>
+</ul>
+</dd>
+<dt id="turingmachine.machine.TuringMachineStop"><code class="flex name class">
+<span>class <span class="ident">TuringMachineStop</span></span>
+<span>(</span><span>msg='')</span>
+</code></dt>
+<dd>
+<section class="desc"><p>Raise when Turing machine is stopped</p></section>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class TuringMachineStop(TuringMachineError):
+    &#34;&#34;&#34;Raise when Turing machine is stopped&#34;&#34;&#34;
+
+    def __init__(self, msg=&#39;&#39;):
+        super().__init__(msg)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li><a title="turingmachine.machine.TuringMachineError" href="#turingmachine.machine.TuringMachineError">TuringMachineError</a></li>
+<li>builtins.Exception</li>
+<li>builtins.BaseException</li>
+</ul>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="turingmachine" href="index.html">turingmachine</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="turingmachine.machine.RuleExistsError" href="#turingmachine.machine.RuleExistsError">RuleExistsError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.machine.RuleNotFoundError" href="#turingmachine.machine.RuleNotFoundError">RuleNotFoundError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.machine.TuringMachine" href="#turingmachine.machine.TuringMachine">TuringMachine</a></code></h4>
+<ul class="two-column">
+<li><code><a title="turingmachine.machine.TuringMachine.EMPTY_SIGN" href="#turingmachine.machine.TuringMachine.EMPTY_SIGN">EMPTY_SIGN</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.MAIN_OUTPUT" href="#turingmachine.machine.TuringMachine.MAIN_OUTPUT">MAIN_OUTPUT</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.back" href="#turingmachine.machine.TuringMachine.back">back</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.current" href="#turingmachine.machine.TuringMachine.current">current</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.default_log" href="#turingmachine.machine.TuringMachine.default_log">default_log</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.forward" href="#turingmachine.machine.TuringMachine.forward">forward</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.from_file" href="#turingmachine.machine.TuringMachine.from_file">from_file</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.from_str" href="#turingmachine.machine.TuringMachine.from_str">from_str</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.move" href="#turingmachine.machine.TuringMachine.move">move</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.rule_file" href="#turingmachine.machine.TuringMachine.rule_file">rule_file</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.rule_str" href="#turingmachine.machine.TuringMachine.rule_str">rule_str</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.run" href="#turingmachine.machine.TuringMachine.run">run</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.set_rule" href="#turingmachine.machine.TuringMachine.set_rule">set_rule</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.stay" href="#turingmachine.machine.TuringMachine.stay">stay</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.stop" href="#turingmachine.machine.TuringMachine.stop">stop</a></code></li>
+<li><code><a title="turingmachine.machine.TuringMachine.view" href="#turingmachine.machine.TuringMachine.view">view</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="turingmachine.machine.TuringMachineError" href="#turingmachine.machine.TuringMachineError">TuringMachineError</a></code></h4>
+</li>
+<li>
+<h4><code><a title="turingmachine.machine.TuringMachineStop" href="#turingmachine.machine.TuringMachineStop">TuringMachineStop</a></code></h4>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.7.2</a>.</p>
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+<script>hljs.initHighlightingOnLoad()</script>
+</body>
+</html>
